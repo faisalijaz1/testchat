@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath.tsx";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
@@ -20,7 +20,7 @@ const AllChat = () => {
   const routes = all_routes
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 992);
   const [showContent, setShowContent] = useState(false);
-
+  const buttonRef = useRef(null); // Create a ref for the button
   // const [messages, setMessages] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
   const [messageId, setMessageId] = useState(''); // Unique ID for the message
@@ -29,7 +29,16 @@ const AllChat = () => {
   const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   const [socketClient, setSocketClient] = useState<any>(null);
   const recipientPhoneNumber = '923008881409'; // Set the actual recipient's phone number
-    
+
+  
+  const handleEnterPress = (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent default form submission behavior
+        if (buttonRef.current) {
+            buttonRef.current.click(); // Trigger button click event
+        }
+    }
+};
   const handleSendMessage = async (event) => {
     event.preventDefault();
     if (inputText.trim()) {
@@ -551,19 +560,19 @@ const AllChat = () => {
                         </div>
                         <div className="users-list-body">
                           <div>
-                            <h5>Mark Villiams</h5>
-                            <p>Have you called them?</p>
+                            <h5>Muhammad Faisal Ijaz</h5>
+                            {/* <p>Have you called them?</p> */}
                           </div>
                           <div className="last-chat-time">
                             <small className="text-muted">10:20 PM</small>
-                            <div className="chat-pin">
+                            {/* <div className="chat-pin">
                               <i className="bx bx-pin me-2" />
                               <i className="bx bx-check-double" />
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </Link>
-                      <div className="chat-hover ms-1">
+                      {/* <div className="chat-hover ms-1">
                         <div className="chat-action-col">
                           <span className="d-flex" data-bs-toggle="dropdown">
                             <i className="bx bx-dots-vertical-rounded" />
@@ -608,8 +617,11 @@ const AllChat = () => {
                               Mark as Unread
                             </span>
                           </div>
+
+
+                          
                         </div>
-                      </div>
+                      </div> */}
                     </li>
 
 
@@ -1489,13 +1501,13 @@ const AllChat = () => {
                 </div>
                 <figure className="avatar ms-1">
                   <ImageWithBasePath
-                    src="/assets/img/avatar/avatar-2.jpg"
+                    src="/assets/img/avatar/avatar-16.png"
                     className="rounded-circle"
                     alt="image"
                   />
                 </figure>
                 <div className="mt-1">
-                  <h5>Muhammad Faisal Ijaz</h5>
+                  <h5>TEST ACCOUNT</h5>
                   <small className="last-seen">Last Seen at 07:15 PM</small>
                 </div>
               </div>
@@ -1671,7 +1683,7 @@ const AllChat = () => {
                   <div className="chat-content">
                     <div className="chat-profile-name">
                       <h6>
-                        Mark Villiams<span>8:16 PM</span>
+                        Test Account<span>8:16 PM</span>
                         <span className="check-star msg-star d-none">
                           <i className="bx bxs-star" />
                         </span>
@@ -3026,6 +3038,7 @@ const AllChat = () => {
           type="text" className="form-control chat_form"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
+          onKeyDown={handleEnterPress}
           placeholder="Type a message"
         />
               </div>
