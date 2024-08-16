@@ -14,7 +14,9 @@ interface Message {
   text: string;
   isDelivered: boolean;
   isRead: boolean;
+  fromClient: boolean; // New property to indicate if the message is from the client
 }
+
 
 const AllChat = () => {
   const routes = all_routes
@@ -65,6 +67,7 @@ const AllChat = () => {
             text: inputText.trim(),
             isDelivered: false,
             isRead: false,
+            fromClient: false
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
           setInputText(""); // Clear input field
@@ -127,7 +130,7 @@ const AllChat = () => {
           setMessages(prevMessages =>
             prevMessages.map(msg =>
               msg.id === status.messageId // Assuming status contains messageId
-                ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead }
+                ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead,fromClient:false }
                 : msg
             )
           );
@@ -140,6 +143,7 @@ const AllChat = () => {
         text: incomingMessage.text,
         isDelivered: false,
         isRead: false,
+        fromClient:true
       };
       setMessages(prevMessages => [...prevMessages, newMessage]);
     });
@@ -1775,27 +1779,37 @@ const AllChat = () => {
 
 
 
-                    {messages.map((message, index) => (
-                      <div key={index} className="chat-message">
-                        <div className="message-content">{message.text}</div>
-                        <div className="check-icon">
-                          {/* Check icon: you can use an image or icon library */}
-                          {/* <img src="/path-to-check-icon.png" alt="Delivered" /> */}
-                          {/* <i className="bx bx-check-double check" /> */}
-                          <i
-                            className={`bx ${message.isRead
-                                ? "bx-check-double check read"
-                                : message.isDelivered
-                                  ? "bx-check-double check"
-                                  : "bx-check"
-                              }`}
-                            style={{
-                              fontSize:'large',color: message.isRead ? "blue" : "inherit",
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+{messages.map((message, index) => (
+  <div
+    key={index}
+    className="chat-message"
+    style={{
+      backgroundColor: message.fromClient ? '#f8ecff' : 'inherit',
+      textAlign: message.fromClient ? 'right' : 'left',
+    }}
+  >
+    <div className="message-content">{message.text}</div>
+    
+    {/* Only show the check icon if the message is not from the client */}
+    {!message.fromClient && (
+      <div className="check-icon">
+        <i
+          className={`bx ${message.isRead
+              ? "bx-check-double check read"
+              : message.isDelivered
+                ? "bx-check-double check"
+                : "bx-check"
+            }`}
+          style={{
+            fontSize: 'large',
+            color: message.isRead ? "blue" : "inherit",
+          }}
+        />
+      </div>
+    )}
+  </div>
+))}
+
 
 
 
