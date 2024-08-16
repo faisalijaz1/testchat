@@ -48,9 +48,11 @@ const AllChat = () => {
 
         if (response.status === 200) {
           // Assuming response contains a unique messageId
-          const { data } = response;
+          // const { data } = response;
+          const messageId = response.data; // Get message ID from response
+     
           const newMessage: Message = {
-            id: '', // Set messageId from response
+            id: messageId, // Set messageId from response
             text: inputText.trim(),
             isDelivered: false,
             isRead: false,
