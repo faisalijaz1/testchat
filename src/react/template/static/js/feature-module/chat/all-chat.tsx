@@ -1501,7 +1501,7 @@ const AllChat = () => {
                 </div>
                 <figure className="avatar ms-1">
                   <ImageWithBasePath
-                    src="/assets/img/avatar/avatar-16.png"
+                    src="/assets/img/avatar/avatar-2.jpg"
                     className="rounded-circle"
                     alt="image"
                   />
@@ -1673,15 +1673,17 @@ const AllChat = () => {
             <div className="chat-body chat-page-group slimscroll">
               <div className="messages">
                 <div className="chats">
-                  <div className="chat-avatar">
+                  {/* <div className="chat-avatar">
                     <ImageWithBasePath
-                      src="/assets/img/avatar/avatar-2.jpg"
+                      src="/assets/img/avatar/avatar-13.jpg"
                       className="rounded-circle dreams_chat"
                       alt="image"
                     />
-                  </div>
+                  </div> */}
                   <div className="chat-content">
-                    <div className="chat-profile-name">
+
+
+                    {/* <div className="chat-profile-name">
                       <h6>
                         Test Account<span>8:16 PM</span>
                         <span className="check-star msg-star d-none">
@@ -1757,7 +1759,7 @@ const AllChat = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
 
 
