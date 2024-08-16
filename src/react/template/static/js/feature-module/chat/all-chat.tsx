@@ -28,7 +28,7 @@ const AllChat = () => {
 
   const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   const [socketClient, setSocketClient] = useState<any>(null);
-  const recipientPhoneNumber = '+923008881409'; // Set the actual recipient's phone number
+  const recipientPhoneNumber = '923008881409'; // Set the actual recipient's phone number
     
   const handleSendMessage = async (event) => {
     event.preventDefault();
