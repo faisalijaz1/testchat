@@ -319,8 +319,8 @@ const Index = () => {
                         </div>
                         <div className="users-list-body">
                           <div>
-                            <h5>Mark Villiams</h5>
-                            <p>Have you called them?</p>
+                            <h5>Muhammad Faisal Ijaz</h5>
+                            {/* <p>Have you called them?</p> */}
                           </div>
                           <div className="last-chat-time">
                             <small className="text-muted">10:20 PM</small>
@@ -331,7 +331,7 @@ const Index = () => {
                           </div>
                         </div>
                       </Link>
-                      <div className="chat-hover ms-1">
+                      {/* <div className="chat-hover ms-1">
                         <div className="chat-action-col">
                           <span className="d-flex" data-bs-toggle="dropdown">
                             <i className="bx bx-dots-vertical-rounded" />
@@ -377,7 +377,7 @@ const Index = () => {
                             </span>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </li>
                     <li className="user-list-item chat-user-list">
                       <Link to={routes.allChat}>
