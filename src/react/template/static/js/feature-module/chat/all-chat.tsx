@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath.tsx";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
@@ -30,15 +30,15 @@ const AllChat = () => {
   const [socketClient, setSocketClient] = useState<any>(null);
   const recipientPhoneNumber = '923008881409'; // Set the actual recipient's phone number
 
-  
+
   const handleEnterPress = (event) => {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent default form submission behavior
-        if (buttonRef.current) {
-            buttonRef.current.click(); // Trigger button click event
-        }
+      event.preventDefault(); // Prevent default form submission behavior
+      if (buttonRef.current) {
+        buttonRef.current.click(); // Trigger button click event
+      }
     }
-};
+  };
   const handleSendMessage = async (event) => {
     event.preventDefault();
     if (inputText.trim()) {
@@ -59,7 +59,7 @@ const AllChat = () => {
           // Assuming response contains a unique messageId
           // const { data } = response;
           const messageId = response.data; // Get message ID from response
-     
+
           const newMessage: Message = {
             id: messageId, // Set messageId from response
             text: inputText.trim(),
@@ -68,38 +68,38 @@ const AllChat = () => {
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
           setInputText(""); // Clear input field
-        // alert('Template message sent!');
-      
+          // alert('Template message sent!');
 
 
-      // Simulate message delivery
-      // setTimeout(() => {
-      //   setMessages(prevMessages =>
-      //     prevMessages.map(msg =>
-      //       msg.id === newMessage.id
-      //         ? { ...msg, isDelivered: true }
-      //         : msg
-      //     )
-      //   );
-      // }, 2000); // Simulate delivery after 2 seconds
 
-      // // Simulate message read
-      // setTimeout(() => {
-      //   setMessages(prevMessages =>
-      //     prevMessages.map(msg =>
-      //       msg.id === newMessage.id
-      //         ? { ...msg, isRead: true }
-      //         : msg
-      //     )
-      //   );
-      // }, 5000); // Simulate read after 5 seconds
+          // Simulate message delivery
+          // setTimeout(() => {
+          //   setMessages(prevMessages =>
+          //     prevMessages.map(msg =>
+          //       msg.id === newMessage.id
+          //         ? { ...msg, isDelivered: true }
+          //         : msg
+          //     )
+          //   );
+          // }, 2000); // Simulate delivery after 2 seconds
+
+          // // Simulate message read
+          // setTimeout(() => {
+          //   setMessages(prevMessages =>
+          //     prevMessages.map(msg =>
+          //       msg.id === newMessage.id
+          //         ? { ...msg, isRead: true }
+          //         : msg
+          //     )
+          //   );
+          // }, 5000); // Simulate read after 5 seconds
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Failed to send message.');
+      }
     }
-  } catch (error) {
-      console.error('Error sending message:', error);
-      alert('Failed to send message.');
-  }
-    } 
-    
+
   };
   const handleResize = () => {
     setIsSmallScreen(window.innerWidth < 992);
@@ -118,9 +118,9 @@ const AllChat = () => {
       heartbeatOutgoing: 4000,
       onConnect: () => {
         console.log('Connected to WebSocket');
-      // Replace '+recipientPhoneNumber' with the actual phone number or variable
-     stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
-        const status = JSON.parse(message.body); // Assuming status is a JSON string
+        // Replace '+recipientPhoneNumber' with the actual phone number or variable
+        stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
+          const status = JSON.parse(message.body); // Assuming status is a JSON string
           setDeliveryStatus(status);
           console.log('Received status:', status);
           // Update message status based on the delivery status
@@ -314,7 +314,7 @@ const AllChat = () => {
                         </span>
                         Settings
                       </Link>
-                      <Link to={routes.emailLogin}className="dropdown-item">
+                      <Link to={routes.emailLogin} className="dropdown-item">
                         <span>
                           <i className="bx bx-log-out" />
                         </span>
@@ -634,7 +634,7 @@ const AllChat = () => {
 
 
 
-{/* 
+                    {/* 
                     <li className="user-list-item chat-user-list">
                       <Link to="#">
                         <div>
@@ -1764,27 +1764,26 @@ const AllChat = () => {
 
 
                     {messages.map((message, index) => (
-          <div key={index} className="chat-message">
-              <div className="message-content">{message.text}</div>
-            <div className="check-icon">
-              {/* Check icon: you can use an image or icon library */}
-              {/* <img src="/path-to-check-icon.png" alt="Delivered" /> */}
-              {/* <i className="bx bx-check-double check" /> */}
-              <i
-                className={`bx ${
-                  message.isRead
-                    ? "bx-check-double check read"
-                    : message.isDelivered
-                    ? "bx-check-double check"
-                    : "bx-check"
-                }`}
-                style={{
-                  color: message.isRead ? "blue" : "inherit",
-                }}
-              />
-            </div>
-          </div>
-        ))}
+                      <div key={index} className="chat-message">
+                        <div className="message-content">{message.text}</div>
+                        <div className="check-icon">
+                          {/* Check icon: you can use an image or icon library */}
+                          {/* <img src="/path-to-check-icon.png" alt="Delivered" /> */}
+                          {/* <i className="bx bx-check-double check" /> */}
+                          <i
+                            className={`bx ${message.isRead
+                                ? "bx-check-double check read"
+                                : message.isDelivered
+                                  ? "bx-check-double check"
+                                  : "bx-check"
+                              }`}
+                            style={{
+                              fontSize:'large',color: message.isRead ? "blue" : "inherit",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
 
 
 
@@ -2436,7 +2435,7 @@ const AllChat = () => {
                   </div>
                 </div> */}
 
-{/* 
+                {/* 
                 <div className="chats">
                   <div className="chat-avatar">
                     <ImageWithBasePath
@@ -2882,7 +2881,7 @@ const AllChat = () => {
               </div>
               <div className="smile-foot emoj-action-foot">
                 <Link to="#" className="action-circle">
-                  <i className="bx bx-smile" onClick={() => setShowContent(!showContent)}/>
+                  <i className="bx bx-smile" onClick={() => setShowContent(!showContent)} />
                 </Link>
                 <div className="emoj-group-list-foot down-emoji-circle" style={{ display: showContent ? 'block' : 'none' }}>
                   <ul>
@@ -3036,16 +3035,16 @@ const AllChat = () => {
                   className="form-control chat_form"
                   placeholder="Type your message here..."
                 /> */}
-                  <input
-          type="text" className="form-control chat_form"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          onKeyDown={handleEnterPress}
-          placeholder="Type a message"
-        />
+                <input
+                  type="text" className="form-control chat_form"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  onKeyDown={handleEnterPress}
+                  placeholder="Type a message"
+                />
               </div>
               <div className="form-buttons">
-                <button type="button"   ref={buttonRef} className="btn send-btn" onClick={handleSendMessage}>
+                <button type="button" ref={buttonRef} className="btn send-btn" onClick={handleSendMessage}>
                   <i className="bx bx-paper-plane" />
                 </button>
               </div>
