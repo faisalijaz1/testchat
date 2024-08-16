@@ -96,7 +96,7 @@ const AllChat = () => {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    const socket = new SockJS('ws://testchat-production.up.railway.app/ws');
+    const socket = new SockJS('https://testchat-production.up.railway.app/ws');
     const stompClient = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {
@@ -131,7 +131,7 @@ const AllChat = () => {
     });
 
     stompClient.activate();
-    setSocketClient(stompClient);
+    // setSocketClient(stompClient);
 
     // Cleanup function to disconnect the WebSocket
     return () => {
