@@ -132,6 +132,18 @@ const AllChat = () => {
             )
           );
         });
+        // Subscribe to incoming messages
+        stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+      const incomingMessage = JSON.parse(message.body);
+      const newMessage = {
+        id: incomingMessage.messageId,
+        text: incomingMessage.text,
+        isDelivered: false,
+        isRead: false,
+      };
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+    });
+
       },
       onDisconnect: () => {
         console.log('Disconnected');
