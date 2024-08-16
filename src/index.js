@@ -22,19 +22,25 @@ if (window.location.pathname.includes('/admin')) {
 } else {
   import('../src/react/template/static/css/style/css/app.css');
 }
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <BrowserRouter basename={base_path}>
-          {/* <AppSection /> */}
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </React.StrictMode>
-  );
-} else {
-  console.error("Element with id 'root' not found.");
-}
+// if (rootElement) {
+//   const root = ReactDOM.createRoot(rootElement);
+//   root.render(
+//     <React.StrictMode>
+//       <Provider store={store}>
+//         <BrowserRouter basename={base_path}>
+//           {/* <AppSection /> */}
+//           <App />
+//         </BrowserRouter>
+//       </Provider>
+//     </React.StrictMode>
+//   );
+// } else {
+//   console.error("Element with id 'root' not found.");
+// }
