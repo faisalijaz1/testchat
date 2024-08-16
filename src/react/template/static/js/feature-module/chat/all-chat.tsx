@@ -1507,7 +1507,7 @@ const AllChat = () => {
                   />
                 </figure>
                 <div className="mt-1">
-                  <h5>TEST ACCOUNT</h5>
+                  <h5>Muhammad Faisal Ijaz</h5>
                   <small className="last-seen">Last Seen at 07:15 PM</small>
                 </div>
               </div>
@@ -3043,7 +3043,7 @@ const AllChat = () => {
         />
               </div>
               <div className="form-buttons">
-                <button type="button" className="btn send-btn" onClick={handleSendMessage}>
+                <button type="button"   ref={buttonRef} className="btn send-btn" onClick={handleSendMessage}>
                   <i className="bx bx-paper-plane" />
                 </button>
               </div>
