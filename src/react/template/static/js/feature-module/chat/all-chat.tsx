@@ -59,7 +59,7 @@ const AllChat = () => {
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
           setInputText(""); // Clear input field
-        alert('Template message sent!');
+        // alert('Template message sent!');
       
 
 
