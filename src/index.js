@@ -13,7 +13,7 @@ import '../src/react/template/static/css/index.css'; // Customised style
 import { Provider } from 'react-redux';
 import store from '../src/react/template/static/js/core/data/redux/store.tsx';
 import AppSection from '../src/react/template/static/js/feature-module/appSection.js';
-
+import App from './App';
 const rootElement = document.getElementById('root');
 
 // Conditional import for styles based on pathname
@@ -29,7 +29,8 @@ if (rootElement) {
     <React.StrictMode>
       <Provider store={store}>
         <BrowserRouter basename={base_path}>
-          <AppSection />
+          {/* <AppSection /> */}
+          <App />
         </BrowserRouter>
       </Provider>
     </React.StrictMode>
