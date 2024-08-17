@@ -1795,6 +1795,7 @@ const AllChat = () => {
                       } : {
                         backgroundColor: '#fff',
                         borderRadius: '20px 20px 20px 0',
+                        border:'2px solid whitesmoke',
                         color: '#424242',
                         padding: '15px',
                       }}

@@ -492,8 +492,10 @@ const MobileIndex = () => {
                       } : {
                         backgroundColor: '#fff',
                         borderRadius: '20px 20px 20px 0',
+                        border:'2px solid whitesmoke',
                         color: '#424242',
                         padding: '15px',
+                        marginBottom:'2px'
                       }}
                     >
                       {message.text}
@@ -510,7 +512,7 @@ const MobileIndex = () => {
                               : "bx-check"
                             }`}
                           style={{
-                            fontSize: 'large',marginTop:'27px',
+                            fontSize: 'large',marginTop:'=7px',
                             color: message.isRead ? "blue" : "inherit",
                           }}
                         />
