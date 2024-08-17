@@ -130,23 +130,23 @@ const AllChat = () => {
           setMessages(prevMessages =>
             prevMessages.map(msg =>
               msg.id === status.messageId // Assuming status contains messageId
-                ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead,fromClient:false }
+                ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
                 : msg
             )
           );
         });
         // Subscribe to incoming messages
         stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
-      const incomingMessage = JSON.parse(message.body);
-      const newMessage = {
-        id: incomingMessage.messageId,
-        text: incomingMessage.text,
-        isDelivered: false,
-        isRead: false,
-        fromClient:true
-      };
-      setMessages(prevMessages => [...prevMessages, newMessage]);
-    });
+          const incomingMessage = JSON.parse(message.body);
+          const newMessage = {
+            id: incomingMessage.messageId,
+            text: incomingMessage.text,
+            isDelivered: false,
+            isRead: false,
+            fromClient: true
+          };
+          setMessages(prevMessages => [...prevMessages, newMessage]);
+        });
 
       },
       onDisconnect: () => {
@@ -1688,18 +1688,18 @@ const AllChat = () => {
             </div>
             <div className="chat-body chat-page-group slimscroll">
               <div className="messages">
-                <div className="chats">
-                  {/* <div className="chat-avatar">
+                {/* <div className="chats">
+                  <div className="chat-avatar">
                     <ImageWithBasePath
                       src="/assets/img/avatar/avatar-13.jpg"
                       className="rounded-circle dreams_chat"
                       alt="image"
                     />
-                  </div> */}
-                  <div className="chat-content">
+                  </div>
+                  <div className="chat-content"> */}
 
 
-                    {/* <div className="chat-profile-name">
+                {/* <div className="chat-profile-name">
                       <h6>
                         Test Account<span>8:16 PM</span>
                         <span className="check-star msg-star d-none">
@@ -1779,42 +1779,55 @@ const AllChat = () => {
 
 
 
-{messages.map((message, index) => (
-  <div
-    key={index}
-    className="chat-message"
-    style={{
-      backgroundColor: message.fromClient ? '#f8ecff' : 'inherit',
-      textAlign: message.fromClient ? 'right' : 'left',
-    }}
-  >
-    <div className="message-content">{message.text}</div>
-    
-    {/* Only show the check icon if the message is not from the client */}
-    {!message.fromClient && (
-      <div className="check-icon">
-        <i
-          className={`bx ${message.isRead
-              ? "bx-check-double check read"
-              : message.isDelivered
-                ? "bx-check-double check"
-                : "bx-check"
-            }`}
-          style={{
-            fontSize: 'large',
-            color: message.isRead ? "blue" : "inherit",
-          }}
-        />
-      </div>
-    )}
-  </div>
-))}
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`chats ${message.fromClient ? 'chats-right' : ''}`}
+                  >
+                    <div
+                      className="chat-content"
+                      style={message.fromClient ? {
+                        backgroundColor: '#f8ecff',
+                        borderRadius: '15px 0 15px 15px',
+                        color: '#232323',
+                        padding: '15px',
+                        textAlign: 'right',
+                      } : {
+                        backgroundColor: '#fff',
+                        borderRadius: '20px 20px 20px 0',
+                        color: '#424242',
+                        padding: '15px',
+                      }}
+                    >
+                      {message.text}
+                    </div>
+
+                    {/* Only show the check icon if the message is not from the client */}
+                    {!message.fromClient && (
+                      <div className="check-icon">
+                        <i
+                          className={`bx ${message.isRead
+                            ? "bx-check-double check read"
+                            : message.isDelivered
+                              ? "bx-check-double check"
+                              : "bx-check"
+                            }`}
+                          style={{
+                            fontSize: 'large',
+                            color: message.isRead ? "blue" : "inherit",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
 
 
 
 
 
-                    {/* <div className="message-content">
+
+                {/* <div className="message-content">
                       Hello <Link to="#">@Alex</Link> Thank you for
                       the beautiful web design ahead schedule.
                       <div className="emoj-group">
@@ -1888,8 +1901,8 @@ const AllChat = () => {
 
 
 
-                  </div>
-                </div>
+                {/* </div>
+                </div> */}
 
 
                 {/* <div className="chat-line">
