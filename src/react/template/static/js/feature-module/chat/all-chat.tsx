@@ -1813,7 +1813,7 @@ const AllChat = () => {
                               : "bx-check"
                             }`}
                           style={{
-                            fontSize: 'large',
+                            fontSize: 'large',marginTop:'27px',
                             color: message.isRead ? "blue" : "inherit",
                           }}
                         />

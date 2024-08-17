@@ -70,20 +70,20 @@ const MobileIndex = () => {
           setMessages(prevMessages =>
             prevMessages.map(msg =>
               msg.id === status.messageId // Assuming status contains messageId
-                ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead,fromClient:false }
+                ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
                 : msg
             )
           );
         });
-         // Subscribe to incoming messages
-         stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+        // Subscribe to incoming messages
+        stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
           const incomingMessage = JSON.parse(message.body);
           const newMessage = {
             id: incomingMessage.messageId,
             text: incomingMessage.text,
             isDelivered: false,
             isRead: false,
-            fromClient:true
+            fromClient: true
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
         });
@@ -443,7 +443,7 @@ const MobileIndex = () => {
             {selectedUser ? (
               <div className="chat-screen">
                 <div style={{ display: 'flex' }}>
-                  <button className="back-button d-md-none" onClick={handleBackClick} style={{ marginLeft: '10px',border:'none',color:'darkslategray',background:'transparent' }}>
+                  <button className="back-button d-md-none" onClick={handleBackClick} style={{ marginLeft: '10px', border: 'none', color: 'darkslategray', background: 'transparent' }}>
                     <i className="bx bx-arrow-back"></i>
                   </button>
 
@@ -475,264 +475,277 @@ const MobileIndex = () => {
                   {/* <div className="chat-message">
                     <p>This is a message</p>
                   </div> */}
-                   {messages.map((message, index) => (
-  <div
-    key={index}
-    className="chat-message"
-    style={{
-      backgroundColor: message.fromClient ? '#f8ecff' : 'inherit',
-      textAlign: message.fromClient ? 'right' : 'left',
-    }}
-  >
-    <div className="message-content">{message.text}</div>
-    
-    {/* Only show the check icon if the message is not from the client */}
-    {!message.fromClient && (
-      <div className="check-icon">
-        <i
-          className={`bx ${message.isRead
-              ? "bx-check-double check read"
-              : message.isDelivered
-                ? "bx-check-double check"
-                : "bx-check"
-            }`}
-          style={{
-            fontSize: 'large',
-            color: message.isRead ? "blue" : "inherit",
-          }}
-        />
-      </div>
-    )}
-  </div>
-))}
-
-                </div>
-
-
-                <div className="chat-footer" style={{marginBottom:'50px',position:'fixed'}}>
-            <form>
-              <div className="smile-foot">
-                <div className="chat-action-btns">
-                  <div className="chat-action-col">
-                    <Link
-                      className="action-circle"
-                      to="#"
-                      data-bs-toggle="dropdown"
+                
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`chats ${message.fromClient ? 'chats-right' : ''}`}
+                  >
+                    <div
+                      className="chat-content"
+                      style={message.fromClient ? {
+                        backgroundColor: '#f8ecff',
+                        borderRadius: '15px 0 15px 15px',
+                        color: '#232323',
+                        padding: '15px',
+                        textAlign: 'right',
+                      } : {
+                        backgroundColor: '#fff',
+                        borderRadius: '20px 20px 20px 0',
+                        color: '#424242',
+                        padding: '15px',
+                      }}
                     >
-                      <i className="bx bx-dots-vertical-rounded" />
-                    </Link>
-                    <div className="dropdown-menu dropdown-menu-end">
-                      <Link to="#" className="dropdown-item ">
-                        <span>
-                          <i className="bx bx-file" />
-                        </span>
-                        Document
-                      </Link>
-                      <Link to="#" className="dropdown-item">
-                        <span>
-                          <i className="bx bx-camera" />
-                        </span>
-                        Camera
-                      </Link>
-                      <Link to="#" className="dropdown-item">
-                        <span>
-                          <i className="bx bx-image" />
-                        </span>
-                        Gallery
-                      </Link>
-                      <Link to="#" className="dropdown-item">
-                        <span>
-                          <i className="bx bx-volume-full" />
-                        </span>
-                        Audio
-                      </Link>
-                      <Link to="#" className="dropdown-item">
-                        <span>
-                          <i className="bx bx-map" />
-                        </span>
-                        Location
-                      </Link>
-                      <Link to="#" className="dropdown-item">
-                        <span>
-                          <i className="bx bx-user-pin" />
-                        </span>
-                        Contact
-                      </Link>
+                      {message.text}
                     </div>
+
+                    {/* Only show the check icon if the message is not from the client */}
+                    {!message.fromClient && (
+                      <div className="check-icon">
+                        <i
+                          className={`bx ${message.isRead
+                            ? "bx-check-double check read"
+                            : message.isDelivered
+                              ? "bx-check-double check"
+                              : "bx-check"
+                            }`}
+                          style={{
+                            fontSize: 'large',marginTop:'27px',
+                            color: message.isRead ? "blue" : "inherit",
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
+                ))}
+
                 </div>
-              </div>
-              <div className="smile-foot emoj-action-foot">
-                <Link to="#" className="action-circle">
-                  <i className="bx bx-smile" onClick={() => setShowContent(!showContent)} />
-                </Link>
-                <div className="emoj-group-list-foot down-emoji-circle" style={{ display: showContent ? 'block' : 'none' }}>
-                  <ul>
-                    <li>
-                      <Link to="#">
-                        <ImageWithBasePath
-                          src="/assets/img/icon/emoj-icon-01.svg"
-                          alt="Icon"
-                        />
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#">
-                        <ImageWithBasePath
-                          src="assets/img/icon/emoj-icon-02.svg"
-                          alt="Icon"
-                        />
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#">
-                        <ImageWithBasePath
-                          src="/assets/img/icon/emoj-icon-03.svg"
-                          alt="Icon"
-                        />
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#">
-                        <ImageWithBasePath
-                          src="/assets/img/icon/emoj-icon-04.svg"
-                          alt="Icon"
-                        />
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#">
-                        <ImageWithBasePath
-                          src="/assets/img/icon/emoj-icon-05.svg"
-                          alt="Icon"
-                        />
-                      </Link>
-                    </li>
-                    <li className="add-emoj">
-                      <Link to="#">
-                        <i className="feather-plus" />
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="smile-foot">
-                <Link to="#" className="action-circle">
-                  <i className="bx bx-microphone-off" />
-                </Link>
-              </div>
-              <div className="replay-forms">
-                <div className="chats forward-chat-msg reply-div d-none">
-                  <div className="contact-close_call text-end">
-                    <Link to="#" className="close-replay">
-                      <i className="bx bx-x" />
-                    </Link>
-                  </div>
-                  <div className="chat-avatar">
-                    <ImageWithBasePath
-                      src="/assets/img/avatar/avatar-2.jpg"
-                      className="rounded-circle dreams_chat"
-                      alt="image"
-                    />
-                  </div>
-                  <div className="chat-content">
-                    <div className="chat-profile-name">
-                      <h6>
-                        Mark Villiams<span>8:16 PM</span>
-                      </h6>
-                      <div className="chat-action-btns ms-2">
+
+
+                <div className="chat-footer" style={{ marginBottom: '50px', position: 'fixed' }}>
+                  <form>
+                    <div className="smile-foot">
+                      <div className="chat-action-btns">
                         <div className="chat-action-col">
-                          <Link className="#" to="#" data-bs-toggle="dropdown">
-                            <i className="bx bx-dots-horizontal-rounded" />
+                          <Link
+                            className="action-circle"
+                            to="#"
+                            data-bs-toggle="dropdown"
+                          >
+                            <i className="bx bx-dots-vertical-rounded" />
                           </Link>
-                          <div className="dropdown-menu chat-drop-menu dropdown-menu-end">
-                            <Link
-                              to="#"
-                              className="dropdown-item message-info-left"
-                            >
+                          <div className="dropdown-menu dropdown-menu-end">
+                            <Link to="#" className="dropdown-item ">
                               <span>
-                                <i className="bx bx-info-circle" />
+                                <i className="bx bx-file" />
                               </span>
-                              Message Info{" "}
-                            </Link>
-                            <Link to="#" className="dropdown-item reply-button">
-                              <span>
-                                <i className="bx bx-share" />
-                              </span>
-                              Reply
+                              Document
                             </Link>
                             <Link to="#" className="dropdown-item">
                               <span>
-                                <i className="bx bx-smile" />
+                                <i className="bx bx-camera" />
                               </span>
-                              React
-                            </Link>
-                            <Link
-                              to="#"
-                              className="dropdown-item"
-                              data-bs-toggle="modal"
-                              data-bs-target="#forward-message"
-                            >
-                              <span>
-                                <i className="bx bx-reply" />
-                              </span>
-                              Forward
+                              Camera
                             </Link>
                             <Link to="#" className="dropdown-item">
                               <span>
-                                <i className="bx bx-star" />
+                                <i className="bx bx-image" />
                               </span>
-                              Star Message
+                              Gallery
                             </Link>
-                            <Link
-                              to="#"
-                              className="dropdown-item"
-                              data-bs-toggle="modal"
-                              data-bs-target="#report-user"
-                            >
+                            <Link to="#" className="dropdown-item">
                               <span>
-                                <i className="bx bx-dislike" />
+                                <i className="bx bx-volume-full" />
                               </span>
-                              Report
+                              Audio
                             </Link>
-                            <Link
-                              to="#"
-                              className="dropdown-item"
-                              data-bs-toggle="modal"
-                              data-bs-target="#delete-message"
-                            >
+                            <Link to="#" className="dropdown-item">
                               <span>
-                                <i className="bx bx-trash" />
+                                <i className="bx bx-map" />
                               </span>
-                              Delete
+                              Location
+                            </Link>
+                            <Link to="#" className="dropdown-item">
+                              <span>
+                                <i className="bx bx-user-pin" />
+                              </span>
+                              Contact
                             </Link>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="message-content reply-content"></div>
-                  </div>
-                </div>
-                {/* <input
+                    <div className="smile-foot emoj-action-foot">
+                      <Link to="#" className="action-circle">
+                        <i className="bx bx-smile" onClick={() => setShowContent(!showContent)} />
+                      </Link>
+                      <div className="emoj-group-list-foot down-emoji-circle" style={{ display: showContent ? 'block' : 'none' }}>
+                        <ul>
+                          <li>
+                            <Link to="#">
+                              <ImageWithBasePath
+                                src="/assets/img/icon/emoj-icon-01.svg"
+                                alt="Icon"
+                              />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="#">
+                              <ImageWithBasePath
+                                src="assets/img/icon/emoj-icon-02.svg"
+                                alt="Icon"
+                              />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="#">
+                              <ImageWithBasePath
+                                src="/assets/img/icon/emoj-icon-03.svg"
+                                alt="Icon"
+                              />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="#">
+                              <ImageWithBasePath
+                                src="/assets/img/icon/emoj-icon-04.svg"
+                                alt="Icon"
+                              />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="#">
+                              <ImageWithBasePath
+                                src="/assets/img/icon/emoj-icon-05.svg"
+                                alt="Icon"
+                              />
+                            </Link>
+                          </li>
+                          <li className="add-emoj">
+                            <Link to="#">
+                              <i className="feather-plus" />
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="smile-foot">
+                      <Link to="#" className="action-circle">
+                        <i className="bx bx-microphone-off" />
+                      </Link>
+                    </div>
+                    <div className="replay-forms">
+                      <div className="chats forward-chat-msg reply-div d-none">
+                        <div className="contact-close_call text-end">
+                          <Link to="#" className="close-replay">
+                            <i className="bx bx-x" />
+                          </Link>
+                        </div>
+                        <div className="chat-avatar">
+                          <ImageWithBasePath
+                            src="/assets/img/avatar/avatar-2.jpg"
+                            className="rounded-circle dreams_chat"
+                            alt="image"
+                          />
+                        </div>
+                        <div className="chat-content">
+                          <div className="chat-profile-name">
+                            <h6>
+                              Mark Villiams<span>8:16 PM</span>
+                            </h6>
+                            <div className="chat-action-btns ms-2">
+                              <div className="chat-action-col">
+                                <Link className="#" to="#" data-bs-toggle="dropdown">
+                                  <i className="bx bx-dots-horizontal-rounded" />
+                                </Link>
+                                <div className="dropdown-menu chat-drop-menu dropdown-menu-end">
+                                  <Link
+                                    to="#"
+                                    className="dropdown-item message-info-left"
+                                  >
+                                    <span>
+                                      <i className="bx bx-info-circle" />
+                                    </span>
+                                    Message Info{" "}
+                                  </Link>
+                                  <Link to="#" className="dropdown-item reply-button">
+                                    <span>
+                                      <i className="bx bx-share" />
+                                    </span>
+                                    Reply
+                                  </Link>
+                                  <Link to="#" className="dropdown-item">
+                                    <span>
+                                      <i className="bx bx-smile" />
+                                    </span>
+                                    React
+                                  </Link>
+                                  <Link
+                                    to="#"
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#forward-message"
+                                  >
+                                    <span>
+                                      <i className="bx bx-reply" />
+                                    </span>
+                                    Forward
+                                  </Link>
+                                  <Link to="#" className="dropdown-item">
+                                    <span>
+                                      <i className="bx bx-star" />
+                                    </span>
+                                    Star Message
+                                  </Link>
+                                  <Link
+                                    to="#"
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#report-user"
+                                  >
+                                    <span>
+                                      <i className="bx bx-dislike" />
+                                    </span>
+                                    Report
+                                  </Link>
+                                  <Link
+                                    to="#"
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#delete-message"
+                                  >
+                                    <span>
+                                      <i className="bx bx-trash" />
+                                    </span>
+                                    Delete
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="message-content reply-content"></div>
+                        </div>
+                      </div>
+                      {/* <input
                   type="text" 
                   className="form-control chat_form"
                   placeholder="Type your message here..."
                 /> */}
-             <input
-                  type="text" className="form-control chat_form"
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  onKeyDown={handleEnterPress}
-                  placeholder="Type a message"
-                />
-              </div>
-              <div className="form-buttons">
-              <button type="button" ref={buttonRef} className="btn send-btn" onClick={handleSendMessage}>
-                  <i className="bx bx-paper-plane" />
-                </button>
-              </div>
-            </form>
-          </div>
+                      <input
+                        type="text" className="form-control chat_form"
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                        onKeyDown={handleEnterPress}
+                        placeholder="Type a message"
+                      />
+                    </div>
+                    <div className="form-buttons">
+                      <button type="button" ref={buttonRef} className="btn send-btn" onClick={handleSendMessage}>
+                        <i className="bx bx-paper-plane" />
+                      </button>
+                    </div>
+                  </form>
+                </div>
 
 
 
