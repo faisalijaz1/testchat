@@ -49,7 +49,7 @@ const WebIndex = (props) => {
   const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   const [socketClient, setSocketClient] = useState<any>(null);
   // const recipientPhoneNumber = ''; // Set the actual recipient's phone number
-  const [recipientPhoneNumber, setrecipientPhoneNumber] = useState('923008881409'); // Unique ID for the message
+  const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
   
 
   const [selectedChatId, setSelectedChatId] = useState(null);
