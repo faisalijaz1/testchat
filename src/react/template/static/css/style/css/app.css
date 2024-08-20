@@ -2412,8 +2412,8 @@ input[type=password]::-ms-clear {
 .chat .chat-header {
     display: flex;
     display: -webkit-flex;
-    justify-content: space-between;
-    -webkit-justify-content: space-between;
+    justify-content: space-between !important;
+    -webkit-justify-content: space-between !important;
     padding: 13px 24px;
     align-items: center;
     background: #FFFFFF;
@@ -2642,6 +2642,14 @@ input[type=password]::-ms-clear {
     -webkit-flex-direction: column;
     align-items: flex-start;
     -webkit-align-items: flex-start;
+}
+.contactdetail{
+    flex-shrink: 0 !important;
+    margin-top: var(--bs-gutter-y) !important;
+    max-width: 100% !important;
+    padding-left: calc(var(--bs-gutter-x)* .5) !important;
+    padding-right: calc(var(--bs-gutter-x)* .5) !important;
+    width: 100% !important;
 }
 
 .chat .chat-body .messages .chats {

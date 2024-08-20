@@ -7,7 +7,7 @@ import { all_routes } from '../../feature-module/router/all_routes.tsx';
 import {useDispatch, useSelector} from 'react-redux';
 import { setDarkMode } from '../data/redux/commonSlice.tsx';
 import loginlogo from '../../../../../../react/template/assets/img/logo.png'
-import AVATAR2 from '../../../../../../react/template/assets/img/avatar/avatar-2.jpg'
+import AVATAR2 from '../../../../../../react/template/assets/img/avatar/avatar-17.png'
 const Sidebar = () => {
 
   const location =useLocation();

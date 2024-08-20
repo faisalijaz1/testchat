@@ -213,7 +213,7 @@ const AllChat = () => {
         <div className="sidebar-menu">
           <div className="logo-col">
             <Link to={routes.index}>
-              <ImageWithBasePath src="/assets/img/logo.png" alt="Logo" />
+              <ImageWithBasePath src="/assets/img/skm-transparent1.png" alt="Logo" />
             </Link>
           </div>
           <div className="menus-col">
@@ -231,7 +231,7 @@ const AllChat = () => {
                     <i className="bx bx-message-square-dots" />
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to={routes.group}
                     className="chat-unread"
@@ -242,7 +242,7 @@ const AllChat = () => {
                   >
                     <i className="bx bx-group" />
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to={routes.emptyStatus}
@@ -255,7 +255,7 @@ const AllChat = () => {
                     <i className="bx bx-stop-circle" />
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to={routes.call}
                     className="chat-unread"
@@ -266,7 +266,7 @@ const AllChat = () => {
                   >
                     <i className="bx bx-phone" />
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to={routes.contact}
@@ -469,7 +469,9 @@ const AllChat = () => {
                 </div>
                 {/* /Left Chat Title */}
                 {/* Top Online Contacts */}
-                <div className="top-online-contacts">
+
+
+                {/* <div className="top-online-contacts">
                   <div className="fav-title">
                     <h6>Online Now</h6>
                   </div>
@@ -551,7 +553,7 @@ const AllChat = () => {
                       </Slider>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* /Top Online Contacts */}
                 <div className="sidebar-body chat-body" id="chatsidebar">
                   {/* Left Chat Title */}
@@ -569,7 +571,7 @@ const AllChat = () => {
                       <Link to="#" className="status-active">
                         <div className="avatar avatar-online">
                           <ImageWithBasePath
-                            src="/assets/img/avatar/avatar-2.jpg"
+                            src="/assets/img/avatar/avatar-17.png"
                             className="rounded-circle"
                             alt="image"
                           />
@@ -820,19 +822,21 @@ const AllChat = () => {
                     </div>
                   </div>
                   {/* /Left Chat Title */}
-                  {/* <ul className="user-list">
+
+                  
+                  <ul className="user-list">
                     <li className="user-list-item chat-user-list">
                       <Link to="#">
                         <div className="avatar avatar-online">
                           <ImageWithBasePath
-                            src="/assets/img/avatar/avatar-1.jpg"
+                            src="/assets/img/avatar/avatar-17.png"
                             className="rounded-circle"
                             alt="image"
                           />
                         </div>
                         <div className="users-list-body">
                           <div>
-                            <h5>Horace Keene</h5>
+                            <h5>Muhammad Nadeem</h5>
                             <p>Have you called them?</p>
                           </div>
                           <div className="last-chat-time">
@@ -901,7 +905,9 @@ const AllChat = () => {
                         </div>
                       </div>
                     </li>
-                    <li className="user-list-item chat-user-list">
+
+
+                    {/* <li className="user-list-item chat-user-list">
                       <Link to="#">
                         <div>
                           <div className="avatar avatar-online">
@@ -1478,8 +1484,8 @@ const AllChat = () => {
                           </div>
                         </div>
                       </div>
-                    </li>
-                  </ul> */}
+                    </li> */}
+                  </ul>
 
 
 
@@ -1517,7 +1523,7 @@ const AllChat = () => {
                 </div>
                 <figure className="avatar ms-1">
                   <ImageWithBasePath
-                    src="/assets/img/avatar/avatar-2.jpg"
+                    src="/assets/img/avatar/avatar-17.png"
                     className="rounded-circle"
                     alt="image"
                   />
