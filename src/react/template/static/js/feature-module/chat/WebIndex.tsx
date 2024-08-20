@@ -353,11 +353,44 @@ return () => {
       },
     ],
   };
+  const loadMessages = async (callnumber) => {
+    try {
+      // Construct the URL with the query parameter
+      const url = `https://testchat-production.up.railway.app/messages/${callnumber}`;
+  
+      // Send the GET request to the API
+      const response = await axios.get(url);
+  
+      if (response.status === 200) {
+        // Assuming the response is an array of message objects
+        const messagesData = response.data;
+  
+        // Map the received messages to your state structure
+        const newMessages = messagesData.map(message => ({
+          id: message.messageId,
+          text: message.text, // Extract the text from the message object
+          isDelivered: message.status === 'delivered',
+          isRead: message.status === 'read',
+          fromClient: message.from !== callnumber, // Determine if the message is from the client
+          timestamp: message.timestamp
+        }));
+  
+        // Update the state with the new messages
+        setMessages(prevMessages => [...newMessages, ...prevMessages]);
+      }
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      alert('Failed to load messages.');
+    }
+  };
+  
+  
   const handleSelectpinChat = (pinchat) => {
     setrecipientPhoneNumber(pinchat.phone)
     setselectedpinChat(pinchat);
     setSelectedChatId(pinchat.id);
-    setMessages([])
+    loadMessages(pinchat.phone)
+    // setMessages([])
     // if (isSmallScreen) {
     //   // Scroll to the contact details section on mobile
     //   document.getElementById('middle').scrollIntoView({ behavior: 'smooth' });
