@@ -389,6 +389,7 @@ return () => {
     setrecipientPhoneNumber(pinchat.phone)
     setselectedpinChat(pinchat);
     setSelectedChatId(pinchat.id);
+    setMessages([])
     loadMessages(pinchat.phone)
     // setMessages([])
     // if (isSmallScreen) {
