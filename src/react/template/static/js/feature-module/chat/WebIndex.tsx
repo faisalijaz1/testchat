@@ -269,7 +269,7 @@ return () => {
     stompClient.deactivate();
   }
 };
-  }, [recipientPhoneNumber]);
+  }, []);
 
   const settings = {
     dots: false,
