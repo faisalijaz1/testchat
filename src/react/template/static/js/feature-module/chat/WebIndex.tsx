@@ -145,6 +145,54 @@ const WebIndex = (props) => {
         //   recipientPhoneNumber: '+923008881409',
         //   parameter: inputText.trim(), // Single string parameter
         // });
+        const socket = new SockJS('https://testchat-production.up.railway.app/ws');
+const stompClient = new Client({
+  webSocketFactory: () => socket,
+  debug: (str) => {
+    console.log(str);
+  },
+  reconnectDelay: 5000,
+  heartbeatIncoming: 4000,
+  heartbeatOutgoing: 4000,
+  onConnect: () => {
+    console.log('Connected to WebSocket');
+    // Replace '+recipientPhoneNumber' with the actual phone number or variable
+    stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
+      const status = JSON.parse(message.body); // Assuming status is a JSON string
+      setDeliveryStatus(status);
+      console.log('Received status:', status);
+      // Update message status based on the delivery status
+      setMessages(prevMessages =>
+        prevMessages.map(msg =>
+          msg.id === status.messageId // Assuming status contains messageId
+            ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
+            : msg
+        )
+      );
+    });
+    // Subscribe to incoming messages
+    stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+      const incomingMessage = JSON.parse(message.body);
+      const newMessage = {
+        id: incomingMessage.messageId,
+        text: incomingMessage.text,
+        isDelivered: false,
+        isRead: false,
+        fromClient: true
+      };
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+    });
+
+  },
+  onDisconnect: () => {
+    console.log('Disconnected');
+  },
+  onStompError: (error) => {
+    console.error('STOMP Error:', error);
+  }
+});
+
+stompClient.activate();
 
         // Construct the URL with query parameters
         const url = `https://testchat-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(inputText.trim())}`;
@@ -212,62 +260,62 @@ const WebIndex = (props) => {
 //       setrecipientPhoneNumber(props.contactinfo.phone)
 // setselectedpinChat(props.contactinfo)    }
 
-const socket = new SockJS('https://testchat-production.up.railway.app/ws');
-const stompClient = new Client({
-  webSocketFactory: () => socket,
-  debug: (str) => {
-    console.log(str);
-  },
-  reconnectDelay: 5000,
-  heartbeatIncoming: 4000,
-  heartbeatOutgoing: 4000,
-  onConnect: () => {
-    console.log('Connected to WebSocket');
-    // Replace '+recipientPhoneNumber' with the actual phone number or variable
-    stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
-      const status = JSON.parse(message.body); // Assuming status is a JSON string
-      setDeliveryStatus(status);
-      console.log('Received status:', status);
-      // Update message status based on the delivery status
-      setMessages(prevMessages =>
-        prevMessages.map(msg =>
-          msg.id === status.messageId // Assuming status contains messageId
-            ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
-            : msg
-        )
-      );
-    });
-    // Subscribe to incoming messages
-    stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
-      const incomingMessage = JSON.parse(message.body);
-      const newMessage = {
-        id: incomingMessage.messageId,
-        text: incomingMessage.text,
-        isDelivered: false,
-        isRead: false,
-        fromClient: true
-      };
-      setMessages(prevMessages => [...prevMessages, newMessage]);
-    });
+// const socket = new SockJS('https://testchat-production.up.railway.app/ws');
+// const stompClient = new Client({
+//   webSocketFactory: () => socket,
+//   debug: (str) => {
+//     console.log(str);
+//   },
+//   reconnectDelay: 5000,
+//   heartbeatIncoming: 4000,
+//   heartbeatOutgoing: 4000,
+//   onConnect: () => {
+//     console.log('Connected to WebSocket');
+//     // Replace '+recipientPhoneNumber' with the actual phone number or variable
+//     stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
+//       const status = JSON.parse(message.body); // Assuming status is a JSON string
+//       setDeliveryStatus(status);
+//       console.log('Received status:', status);
+//       // Update message status based on the delivery status
+//       setMessages(prevMessages =>
+//         prevMessages.map(msg =>
+//           msg.id === status.messageId // Assuming status contains messageId
+//             ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
+//             : msg
+//         )
+//       );
+//     });
+//     // Subscribe to incoming messages
+//     stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+//       const incomingMessage = JSON.parse(message.body);
+//       const newMessage = {
+//         id: incomingMessage.messageId,
+//         text: incomingMessage.text,
+//         isDelivered: false,
+//         isRead: false,
+//         fromClient: true
+//       };
+//       setMessages(prevMessages => [...prevMessages, newMessage]);
+//     });
 
-  },
-  onDisconnect: () => {
-    console.log('Disconnected');
-  },
-  onStompError: (error) => {
-    console.error('STOMP Error:', error);
-  }
-});
+//   },
+//   onDisconnect: () => {
+//     console.log('Disconnected');
+//   },
+//   onStompError: (error) => {
+//     console.error('STOMP Error:', error);
+//   }
+// });
 
-stompClient.activate();
+// stompClient.activate();
 // setSocketClient(stompClient);
 
 // Cleanup function to disconnect the WebSocket
 return () => {
   window.removeEventListener("resize", handleResize);
-  if (stompClient) {
-    stompClient.deactivate();
-  }
+  // if (stompClient) {
+  //   stompClient.deactivate();
+  // }
 };
   }, []);
 
