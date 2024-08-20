@@ -138,6 +138,7 @@ const WebIndex = (props) => {
   };
   const handleSendMessage = async (event) => {
     event.preventDefault();
+  
     if (inputText.trim()) {
       try {
         // const response = await axios.post('https://testchat-production.up.railway.app/api/whatsapp/send-template-message', {
@@ -356,6 +357,7 @@ return () => {
     setrecipientPhoneNumber(pinchat.phone)
     setselectedpinChat(pinchat);
     setSelectedChatId(pinchat.id);
+    setMessages([])
     // if (isSmallScreen) {
     //   // Scroll to the contact details section on mobile
     //   document.getElementById('middle').scrollIntoView({ behavior: 'smooth' });
