@@ -68,8 +68,8 @@ const WebIndex = (props) => {
       lastText: 'Have you called them?',
       lastTextTime: '10:20 PM',
       image: '/assets/img/avatar/avatar-17.png',
-      email: 'nadeem@skm.org.pk',
-      phone: '923234877174',
+      email: 'faiaalijaz@skm.org.pk',
+      phone: '923008881409',
       address: 'skm.org.pk'
     },
 
@@ -80,7 +80,7 @@ const WebIndex = (props) => {
       lastTextTime: '',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'faisalijaz@skm.org.pk',
-      phone: '923008881409',
+      phone: '923234877174',
       address: 'skm.org.pk'
     },
     {
