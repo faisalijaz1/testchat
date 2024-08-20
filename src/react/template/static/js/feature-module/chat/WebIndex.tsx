@@ -146,7 +146,7 @@ const WebIndex = (props) => {
     const gmtPlus5Date = new Date(date.getTime() + 5 * 60 * 60 * 1000);
   
     // Format the time to 12-hour format with AM/PM
-    const formattedTime = gmtPlus5Date.toLocaleTimeString('en-US', {
+    const formattedTime = date.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: true,
@@ -240,7 +240,7 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
             isRead: false,
             status:"sent",
             fromClient: false,
-            timestamp:currentTimestampInSeconds.toString()
+            timestamp:convertTimestampToGMTPlus5(currentTimestampInSeconds)
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
           setInputText(""); // Clear input field
