@@ -79,7 +79,7 @@ const WebIndex = (props) => {
       lastText: '',
       lastTextTime: '',
       image: '/assets/img/avatar/avatar-17.png',
-      email: 'faisalijaz@skm.org.pk',
+      email: 'nadeem@skm.org.pk',
       phone: '923234877174',
       address: 'skm.org.pk'
     },

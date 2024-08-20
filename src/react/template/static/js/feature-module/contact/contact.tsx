@@ -15,36 +15,36 @@ const Contact = () => {
       name: 'Muhammad Nadeem',
       location: 'MIS-SIC',
       image: '/assets/img/avatar/avatar-17.png',
-      email: 'nadeem@example.com',
-      phone: '555-123-4567',
-      address: 'Wadhat Road, Lhr'
+      email: 'nadeem@skm.org.pk',
+      phone: '923234877174',
+      address: 'skm.org.pk'
     },
     {
       id: 2,
       name: 'Faisal Ijaz',
       location: 'MIS-SIC',
       image: '/assets/img/avatar/avatar-17.png',
-      email: 'faisal@example.com',
-      phone: '555-987-6543',
-      address: 'Wapda Town, Lhr'
+      email: 'faiaalijaz@skm.org.pk',
+      phone: '923008881409',
+     address: 'skm.org.pk'
     },
     {
       id: 3,
       name: 'Ghulam Mehmood',
       location: 'MIS-SIC',
       image: '/assets/img/avatar/avatar-17.png',
-      email: 'ghulam@example.com',
-      phone: '555-654-3210',
-      address: 'Dream Garden, Lhr'
+      email: 'gmehmood@skm.org.pk',
+      phone: '923025748598',
+      address: 'skm.org.pk'
     },
     {
       id: 4,
-      name: 'Waqas Mehmood',
+      name: 'Waqas Ali',
       location: 'MIS-QE',
       image: '/assets/img/avatar/avatar-17.png',
-      email: 'waqas@example.com',
-      phone: '555-654-5230',
-      address: 'Gulberg, Lhr'
+      email: 'waqasali@skm.org.pk',
+      phone: '923214872551',
+      address: 'skm.org.pk'
     },
     // Add more contacts as needed
     // your contacts data...
