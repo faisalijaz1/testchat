@@ -356,7 +356,7 @@ return () => {
   const loadMessages = async (callnumber) => {
     try {
       // Construct the URL with the query parameter
-      const url = `https://testchat-production.up.railway.app/messages/${callnumber}`;
+      const url = `https://testchat-production.up.railway.app/whatsapp/message-status/${callnumber}`;
   
       // Send the GET request to the API
       const response = await axios.get(url);
