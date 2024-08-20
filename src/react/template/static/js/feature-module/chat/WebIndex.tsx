@@ -33,9 +33,11 @@ import { Client } from '@stomp/stompjs';
 interface Message {
   id: string;
   text: string;
+  status:string;
   isDelivered: boolean;
   isRead: boolean;
   fromClient: boolean; // New property to indicate if the message is from the client
+  timestamp:string
 }
 const WebIndex = (props) => {
 
@@ -136,6 +138,23 @@ const WebIndex = (props) => {
       }
     }
   };
+  const convertTimestampToGMTPlus5= (unixTimestamp) => {
+    // Convert the timestamp to milliseconds
+    const date = new Date(unixTimestamp * 1000);
+  
+    // Convert to GMT+5 by adding 5 hours (5 * 60 * 60 * 1000 milliseconds)
+    const gmtPlus5Date = new Date(date.getTime() + 5 * 60 * 60 * 1000);
+  
+    // Format the time to 12-hour format with AM/PM
+    const formattedTime = gmtPlus5Date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+  
+    return formattedTime.toString();
+  }
+  
   const handleSendMessage = async (event) => {
     event.preventDefault();
 
@@ -166,7 +185,7 @@ const WebIndex = (props) => {
               setMessages(prevMessages =>
                 prevMessages.map(msg =>
                   msg.id === status.messageId // Assuming status contains messageId
-                    ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
+                    ? { ...msg,status:status.status,timestamp:convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
                     : msg
                 )
               );
@@ -179,7 +198,8 @@ const WebIndex = (props) => {
                 text: incomingMessage.text,
                 isDelivered: false,
                 isRead: false,
-                fromClient: true
+                fromClient: true,
+                timestamp:convertTimestampToGMTPlus5(incomingMessage.timestamp)
               };
               setMessages(prevMessages => [...prevMessages, newMessage]);
             });
@@ -194,6 +214,13 @@ const WebIndex = (props) => {
         });
 
         stompClient.activate();
+
+        // Get the current timestamp in milliseconds
+const currentTimestampInMilliseconds = Date.now();
+
+// Convert to seconds (Unix timestamp)
+const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
+
 
         // Construct the URL with query parameters
         const url = `https://testchat-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(inputText.trim())}`;
@@ -211,7 +238,9 @@ const WebIndex = (props) => {
             text: inputText.trim(),
             isDelivered: false,
             isRead: false,
-            fromClient: false
+            status:"sent",
+            fromClient: false,
+            timestamp:currentTimestampInSeconds.toString()
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
           setInputText(""); // Clear input field
@@ -288,15 +317,35 @@ const WebIndex = (props) => {
       if (response.status === 200) {
         // Assuming the response is an array of message objects
         const messagesData = response.data;
-
+  //  const messagesData=[
+  //   {
+  //       "id": 1,
+  //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAERgSNTQ2QzQwMzQ0ODBDODNEQTM0AA==",
+  //       "recipientPhoneNumber": "923008881409",
+  //       "status": "read",
+  //       "timestamp": "1724162235",
+  //       "sender": "15556082595",
+  //       "text": "hello are you there?"
+  //   },
+  //   {
+  //       "id": 2,
+  //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAEhgWM0VCMEI1NTIzRjdGMUZFQ0JGQ0JBMwA=",
+  //       "recipientPhoneNumber": "923008881409",
+  //       "status": "sent",
+  //       "timestamp": "1724162235",
+  //       "sender": "923008881409",
+  //       "text": "yes i am here"
+  //   }
+// ];
         // Map the received messages to your state structure
         const newMessages = messagesData.map(message => ({
           id: message.messageId,
           text: message.text, // Extract the text from the message object
           isDelivered: message.status === 'delivered',
+          status:message.status,
           isRead: message.status === 'read',
           fromClient: message.sender === callnumber, // Determine if the message is from the client
-          timestamp: message.timestamp
+          timestamp: convertTimestampToGMTPlus5(message.timestamp)
         }));
 
         // Update the state with the new messages
@@ -701,7 +750,16 @@ const WebIndex = (props) => {
                         }}
                       >
                         {message.text}
+                                              {/* Show status below the message text if the message is from the client */}
+                                              {message.fromClient && (
+        <small className="text-muted" style={{ display: 'block', marginTop: '5px', textAlign: 'right' }}>
+         {message.timestamp}
+        </small>
+      )} 
                       </div>
+
+ 
+    
 
                       {/* Only show the check icon if the message is not from the client */}
                       {!message.fromClient && (
@@ -718,8 +776,11 @@ const WebIndex = (props) => {
                               color: message.isRead ? "blue" : "inherit",
                             }}
                           />
+                           <small style={{marginLeft: '10px'}} className="text-muted">{message.status} at {message.timestamp}</small>
                         </div>
                       )}
+                          {/* <small  className="text-muted"> delivered at 10:24 PM</small> */}
+                               
                     </div>
                   ))}
 
