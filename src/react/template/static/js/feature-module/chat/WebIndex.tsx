@@ -295,7 +295,7 @@ const WebIndex = (props) => {
           text: message.text, // Extract the text from the message object
           isDelivered: message.status === 'delivered',
           isRead: message.status === 'read',
-          fromClient: message.from !== callnumber, // Determine if the message is from the client
+          fromClient: message.sender === callnumber, // Determine if the message is from the client
           timestamp: message.timestamp
         }));
 
