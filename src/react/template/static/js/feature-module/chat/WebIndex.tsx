@@ -266,6 +266,7 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
     if (selectedContact) {
       // Load chat messages for the selected contact
       loadMessages(selectedContact.phone);
+      setselectedpinChat(selectedContact);
     }
 
     // Cleanup function to disconnect the WebSocket
