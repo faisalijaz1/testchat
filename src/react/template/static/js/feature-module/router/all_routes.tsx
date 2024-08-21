@@ -2,6 +2,7 @@
 
 export const all_routes = {
   index: "/",
+  WebIndex:"/chat/WebIndex",
   contact: "/contact",
   group: '/group',
   settings:"/settings",

@@ -34,6 +34,7 @@ import ViewStatus from "../status/viewStatus.tsx";
 import Status from "../status/status.tsx";
 import StatusOther from "../status/statusOther.jsx";
 import AllChat from "../chat/all-chat.tsx";
+import WebIndex from "../chat/WebIndex.tsx";
 import LanguageAdmin from "../admin/settings/languageAdmin.tsx";
 import LanguageApp from "../admin/settings/languageApp.tsx";
 import LanguageTranslate from "../admin/settings/languageTranslate.tsx";
@@ -162,6 +163,11 @@ export const publicRoutes = [
   {
     path: routes.allChat,
     element: <AllChat />,
+    route: Route,
+  },
+  {
+    path: routes.WebIndex,
+    element: <WebIndex />,
     route: Route,
   },
   {

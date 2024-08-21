@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from 'react-router-dom';
 // import useEffect from "react";
 // import  useState  from "react";
 import { Link } from "react-router-dom";
@@ -39,7 +40,7 @@ interface Message {
   fromClient: boolean; // New property to indicate if the message is from the client
   timestamp:string
 }
-const WebIndex = (props) => {
+const WebIndex = () => {
 
   const [showContent, setShowContent] = useState(false);
   const buttonRef = useRef(null); // Create a ref for the button
@@ -56,8 +57,8 @@ const WebIndex = (props) => {
 
   const [selectedChatId, setSelectedChatId] = useState(null);
 
-
-
+  const location = useLocation();
+  const { selectedContact } = location.state || {};
 
 
 
@@ -262,7 +263,10 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-
+    if (selectedContact) {
+      // Load chat messages for the selected contact
+      loadMessages(selectedContact.phone);
+    }
 
     // Cleanup function to disconnect the WebSocket
     return () => {

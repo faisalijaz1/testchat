@@ -69,9 +69,10 @@ const Contact = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  const handleSelectContact1 = (contact) => {
-    
-    navigate(routes.index, { state: contact });
+  const handleSelectContact1 = (contact, e) => {
+    e.preventDefault(); // Prevents the default link behavior
+    navigate(routes.WebIndex, { state: { selectedContact: contact } });
+    // navigate(routes.index, { state: contact });
   };
   const handleSelectContact = (contact) => {
     setSelectedContact(contact);
@@ -172,7 +173,7 @@ const Contact = () => {
                       </Link>
                     </li> */}
                     <li className="list-inline-item ">
-                      <Link onClick={() => handleSelectContact1(selectedContact)}    className="btn btn-outline-light not-chat-user" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat">
+                      <Link  onClick={(e) => handleSelectContact1(selectedContact, e)}     className="btn btn-outline-light not-chat-user" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat">
                         <i className="bx bx-message-square-dots" />
                       </Link>
                     </li>
