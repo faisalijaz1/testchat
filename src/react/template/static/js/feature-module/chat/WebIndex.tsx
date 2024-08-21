@@ -66,7 +66,7 @@ const WebIndex = () => {
   const routes = all_routes;
   const [chats, setChats] = useState([
     {
-      id: 1,
+      id: 2,
       name: 'Faisal Ijaz',
       lastText: 'Have you called them?',
       lastTextTime: '10:20 PM',
@@ -77,7 +77,7 @@ const WebIndex = () => {
     },
 
     {
-      id: 2,
+      id: 1,
       name: 'Muhammad Nadeem',
       lastText: '',
       lastTextTime: '',
@@ -265,8 +265,10 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
     window.addEventListener('resize', handleResize);
     if (selectedContact) {
       // Load chat messages for the selected contact
-      loadMessages(selectedContact.phone);
+      setSelectedChatId(selectedContact.id);
       setselectedpinChat(selectedContact);
+      loadMessages(selectedContact.phone);
+     
     }
 
     // Cleanup function to disconnect the WebSocket
