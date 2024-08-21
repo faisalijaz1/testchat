@@ -87,7 +87,7 @@ const Settings = () => {
                       <label className="profile-cover-avatar">
                         <img
                           className="avatar-img"
-                          src="/assets/img/avatar/avatar-2.jpg"
+                          src="/assets/img/avatar/avatar-17.png"
                           alt="Profile Image"
                         />
                         <input type="file" id="avatar_upload_one" />
@@ -100,17 +100,18 @@ const Settings = () => {
                       <div className="profile-listout">
                         <p className="info-title mb-0">Your Name</p>
                         <span className="info-text">
-                          <img
+                          {/* <img
                             src="/assets/img/icon/smile-01.svg"
                             className="ms-1"
                             alt="Image"
-                          />{" "}
-                          Alex Smith{" "}
-                          <img
+                          /> */}
+                          {" "}
+                          Test Account{" "}
+                          {/* <img
                             src="/assets/img/icon/smile-01.svg"
                             className="me-1"
                             alt="Image"
-                          />
+                          /> */}
                         </span>
                       </div>
                       <div className="profile-listout">
@@ -127,7 +128,7 @@ const Settings = () => {
                       </div>
                       <div className="profile-listout mb-0">
                         <p className="info-title mb-0">Country</p>
-                        <span className="info-text">India</span>
+                        <span className="info-text">Pakistan</span>
                       </div>
                     </div>
                   </div>

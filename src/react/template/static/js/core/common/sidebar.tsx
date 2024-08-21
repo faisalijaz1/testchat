@@ -48,7 +48,7 @@ const Sidebar = () => {
                     </Link>
                   </OverlayTrigger>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to={routes.group}
                     className={`chat-unread ${location.pathname==routes.group ? " active":" "}`}
@@ -59,7 +59,7 @@ const Sidebar = () => {
                   >
                     <i className="bx bx-group" />
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to={routes.emptyStatus}
