@@ -225,7 +225,7 @@ const WebIndex = () => {
 
 
         // Construct the URL with query parameters
-        const url = `https://testchat-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(inputText.trim())}`;
+        const url = `https://testchat-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(messageText)}`;
 
         // Send the request with an empty body
         const response = await axios.post(url, {});
