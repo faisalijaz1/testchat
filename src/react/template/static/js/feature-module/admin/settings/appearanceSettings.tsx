@@ -20,7 +20,7 @@ const AppearanceSettings = () => {
   const handleColorClick = (color: React.SetStateAction<string>) => {
     setActiveColor(color);
   };
-  const [activeTheme, setActiveTheme] = useState('light');
+  const [activeTheme, setActiveTheme] = useState('dark');
 
   const handleThemeClick = (theme: React.SetStateAction<string>) => {
     setActiveTheme(theme);

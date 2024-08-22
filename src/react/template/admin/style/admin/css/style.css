@@ -1713,6 +1713,7 @@ button.bg-danger:hover {
 .sidebar .header-left .logo img {
     max-height: 36px;
 	margin-left: -10px;
+	margin-top: -5px;
     width: auto;
 }
 .header-left .logo.logo-small {
@@ -2070,6 +2071,7 @@ html.menu-opened body {
 
 .sidebar {
     background-color: #680A83;
+	/* background-color:#ededed; */
     bottom: 0;
     left: 0;
     margin-top: 0;

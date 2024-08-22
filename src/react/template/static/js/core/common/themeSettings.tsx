@@ -80,7 +80,7 @@ const [layoutBar, setTopbar]=useState(localStorage.getItem("topBar")
     document.documentElement.setAttribute("data-layout-style", layoutStyling);
     document.documentElement.setAttribute("data-layout-mode", layoutColor);
     document.documentElement.setAttribute("data-topbar", layoutBar);
-    
+    ColorGrey();
 
 
 
