@@ -13,7 +13,7 @@ const Contact = () => {
     {
       id: 1,
       name: 'Muhammad Nadeem',
-      location: 'MIS-SIC',
+      department: 'MIS',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'nadeem@skm.org.pk',
       phone: '923234877174',
@@ -22,7 +22,7 @@ const Contact = () => {
     {
       id: 2,
       name: 'Faisal Ijaz',
-      location: 'MIS-SIC',
+      department: 'MIS',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'faiaalijaz@skm.org.pk',
       phone: '923008881409',
@@ -31,7 +31,7 @@ const Contact = () => {
     {
       id: 3,
       name: 'Ghulam Mehmood',
-      location: 'MIS-SIC',
+      department: 'MIS',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'gmehmood@skm.org.pk',
       phone: '923025748598',
@@ -40,7 +40,7 @@ const Contact = () => {
     {
       id: 4,
       name: 'Waqas Ali',
-      location: 'MIS-QE',
+      department: 'MIS',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'waqasali@skm.org.pk',
       phone: '923214872551',
@@ -129,7 +129,7 @@ const Contact = () => {
                         <div className="users-list-body ">
                           <div>
                             <h5>{contact.name}</h5>
-                            <p><i className="bx bx-map me-1" />{contact.location}</p>
+                            <p><i className="bx bx-map me-1" />{contact.department}</p>
                           </div>
                         </div>
                       </Link>

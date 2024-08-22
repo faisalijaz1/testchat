@@ -40,7 +40,7 @@ import LanguageApp from "../admin/settings/languageApp.tsx";
 import LanguageTranslate from "../admin/settings/languageTranslate.tsx";
 import ProfileSettings from "../admin/settings/profileSettings.tsx";
 import PinnedChat from "../chat/pinned-chat.tsx";
-import ArchiveChat from "../chat/archive-chat.tsx";
+import ArchiveChat from "../chat/archive-chat1.tsx";
 import Index from "../chat/index.tsx";
 import EmailOtp from "../authentication/emailOtp.tsx";
 import ForgotPassword from "../authentication/forgotPassword.tsx";

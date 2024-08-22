@@ -5,13 +5,14 @@ import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath.tsx";
 import Scrollbars from "react-custom-scrollbars-2";
+import BroadcastDialog from './BroadcastDialog';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import HomeModals from "../../core/data/modals/homeModals.tsx";
 import Sidebar from "../../core/common/sidebar.tsx";
 import { all_routes } from "../router/all_routes.tsx";
-
+import { Dialog } from 'primereact/dialog';
 import AVATAR2 from '../../../../../../react/template/assets/img/avatar/avatar-17.png'
 import AVATAR1 from '../../../../../../react/template/assets/img/avatar/avatar-17.png'
 
@@ -25,7 +26,7 @@ import AVATAR8 from '../../../../../../react/template/assets/img/avatar/avatar-8
 import AVATAR6 from '../../../../../../react/template/assets/img/avatar/avatar-6.jpg'
 import IMG01 from '../../../../../../react/template/assets/img/empty-img-01.png'
 import IMG02 from '../../../../../../react/template/assets/img/empty-img-dark.png'
-
+import ContactSelection from './ContactSelection.jsx';
 
 import axios from 'axios';
 // import Stomp from 'stompjs';
@@ -34,11 +35,11 @@ import { Client } from '@stomp/stompjs';
 interface Message {
   id: string;
   text: string;
-  status:string;
+  status: string;
   isDelivered: boolean;
   isRead: boolean;
   fromClient: boolean; // New property to indicate if the message is from the client
-  timestamp:string
+  timestamp: string
 }
 const WebIndex = () => {
 
@@ -54,7 +55,7 @@ const WebIndex = () => {
   // const recipientPhoneNumber = ''; // Set the actual recipient's phone number
   const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
 
-
+  const [dlgvisible, setdlgVisible] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState(null);
 
   const location = useLocation();
@@ -139,27 +140,27 @@ const WebIndex = () => {
       }
     }
   };
-  const convertTimestampToGMTPlus5= (unixTimestamp) => {
+  const convertTimestampToGMTPlus5 = (unixTimestamp) => {
     // Convert the timestamp to milliseconds
     const date = new Date(unixTimestamp * 1000);
-  
+
     // Convert to GMT+5 by adding 5 hours (5 * 60 * 60 * 1000 milliseconds)
     const gmtPlus5Date = new Date(date.getTime() + 5 * 60 * 60 * 1000);
-  
+
     // Format the time to 12-hour format with AM/PM
     const formattedTime = date.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: true,
     });
-  
+
     return formattedTime.toString();
   }
-  
-  const handleSendMessage = async (event) => {
-    event.preventDefault();
 
-    if (inputText.trim()) {
+  const handleSendMessage = async (recipientPhoneNumber, messageText) => {
+    // event.preventDefault();
+
+    // if (inputText.trim()) {
       try {
         // const response = await axios.post('https://testchat-production.up.railway.app/api/whatsapp/send-template-message', {
         //   templateName: 'statement_available_2',
@@ -186,7 +187,7 @@ const WebIndex = () => {
               setMessages(prevMessages =>
                 prevMessages.map(msg =>
                   msg.id === status.messageId // Assuming status contains messageId
-                    ? { ...msg,status:status.status,timestamp:convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
+                    ? { ...msg, status: status.status, timestamp: convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
                     : msg
                 )
               );
@@ -200,7 +201,7 @@ const WebIndex = () => {
                 isDelivered: false,
                 isRead: false,
                 fromClient: true,
-                timestamp:convertTimestampToGMTPlus5(incomingMessage.timestamp)
+                timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
               };
               setMessages(prevMessages => [...prevMessages, newMessage]);
             });
@@ -217,10 +218,10 @@ const WebIndex = () => {
         stompClient.activate();
 
         // Get the current timestamp in milliseconds
-const currentTimestampInMilliseconds = Date.now();
+        const currentTimestampInMilliseconds = Date.now();
 
-// Convert to seconds (Unix timestamp)
-const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
+        // Convert to seconds (Unix timestamp)
+        const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
 
 
         // Construct the URL with query parameters
@@ -236,12 +237,12 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
 
           const newMessage: Message = {
             id: messageId, // Set messageId from response
-            text: inputText.trim(),
+            text: messageText.trim(),
             isDelivered: false,
             isRead: false,
-            status:"sent",
+            status: "sent",
             fromClient: false,
-            timestamp:convertTimestampToGMTPlus5(currentTimestampInSeconds)
+            timestamp: convertTimestampToGMTPlus5(currentTimestampInSeconds)
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
           setInputText(""); // Clear input field
@@ -251,7 +252,7 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
         console.error('Error sending message:', error);
         alert('Failed to send message.');
       }
-    }
+    // }
 
   };
 
@@ -268,7 +269,7 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
       setSelectedChatId(selectedContact.id);
       setselectedpinChat(selectedContact);
       loadMessages(selectedContact.phone);
-     
+
     }
 
     // Cleanup function to disconnect the WebSocket
@@ -324,32 +325,32 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
       if (response.status === 200) {
         // Assuming the response is an array of message objects
         const messagesData = response.data;
-  //  const messagesData=[
-  //   {
-  //       "id": 1,
-  //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAERgSNTQ2QzQwMzQ0ODBDODNEQTM0AA==",
-  //       "recipientPhoneNumber": "923008881409",
-  //       "status": "read",
-  //       "timestamp": "1724162235",
-  //       "sender": "15556082595",
-  //       "text": "hello are you there?"
-  //   },
-  //   {
-  //       "id": 2,
-  //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAEhgWM0VCMEI1NTIzRjdGMUZFQ0JGQ0JBMwA=",
-  //       "recipientPhoneNumber": "923008881409",
-  //       "status": "sent",
-  //       "timestamp": "1724162235",
-  //       "sender": "923008881409",
-  //       "text": "yes i am here"
-  //   }
-// ];
+        //  const messagesData=[
+        //   {
+        //       "id": 1,
+        //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAERgSNTQ2QzQwMzQ0ODBDODNEQTM0AA==",
+        //       "recipientPhoneNumber": "923008881409",
+        //       "status": "read",
+        //       "timestamp": "1724162235",
+        //       "sender": "15556082595",
+        //       "text": "hello are you there?"
+        //   },
+        //   {
+        //       "id": 2,
+        //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAEhgWM0VCMEI1NTIzRjdGMUZFQ0JGQ0JBMwA=",
+        //       "recipientPhoneNumber": "923008881409",
+        //       "status": "sent",
+        //       "timestamp": "1724162235",
+        //       "sender": "923008881409",
+        //       "text": "yes i am here"
+        //   }
+        // ];
         // Map the received messages to your state structure
         const newMessages = messagesData.map(message => ({
           id: message.messageId,
           text: message.text, // Extract the text from the message object
           isDelivered: message.status === 'delivered',
-          status:message.status,
+          status: message.status,
           isRead: message.status === 'read',
           fromClient: message.sender === callnumber, // Determine if the message is from the client
           timestamp: convertTimestampToGMTPlus5(message.timestamp)
@@ -385,6 +386,49 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
     //   document.getElementById('middle').scrollIntoView({ behavior: 'smooth' });
     // }
 
+  };
+  //   const sendBroadcastMessage = async (selectedProducts) => {
+  //     const messageContent = { 
+  //         recipients: selectedProducts.map(contact => contact.phone), 
+  //         message: "Your broadcast message here" 
+  //     };
+
+  //     try {
+  //         const response = await axios.post('/api/sendBroadcast', messageContent);
+  //         if (response.status === 200) {
+  //             handleSuccessfulMessageSending(response.data, selectedProducts);
+  //         }
+  //     } catch (error) {
+  //         console.error('Error sending broadcast message:', error);
+  //     }
+  // };
+  const sendBroadcastMessage = async (selectedContacts,textBody) => {
+    try {
+      for (const contact of selectedContacts) {
+        setrecipientPhoneNumber(contact.phone)
+        await handleSendMessage(contact.phone, textBody);
+      }
+      closeBroadcastDialog();
+      addRecipientsToChatList(selectedContacts);
+    } catch (error) {
+      console.error('Error sending broadcast message:', error);
+      alert('Failed to send broadcast message.');
+    }
+  };
+  const closeBroadcastDialog = () => {
+    setdlgVisible(false);
+  };
+
+  const handleSuccessfulMessageSending = (messageData, selectedProducts) => {
+    closeBroadcastDialog();
+
+    addRecipientsToChatList(selectedProducts);
+
+    // Perform any additional operations here, like updating the UI with message statuses
+  };
+
+  const addRecipientsToChatList = (recipients) => {
+    setChats(prevList => [...prevList, ...recipients]);
   };
   return (
     <>
@@ -467,13 +511,14 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
                                 <Link
                                   to="#"
                                   className="dropdown-item"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#new-group"
+                                  // data-bs-toggle="modal"
+                                  // data-bs-target="#new-group"
+                                  onClick={() => setdlgVisible(true)}
                                 >
                                   <span>
                                     <i className="bx bx-user-circle" />
                                   </span>
-                                  Create Group
+                                  New BroadCast
                                 </Link>
                                 <Link
                                   to="#"
@@ -527,41 +572,41 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
 
 
                   </div>
-                    {/* /Left Chat dynamic pinned chat start*/}
+                  {/* /Left Chat dynamic pinned chat start*/}
 
-                    {chats.map(pinchat => (
-                      <div key={pinchat.id}>
+                  {chats.map(pinchat => (
+                    <div key={pinchat.id}>
 
-                        <ul className="user-list space-chat">
-                          <li className="user-list-item chat-user-list">
-                            <Link to="#" className={`${selectedChatId === pinchat.id ? 'status-active' : ''}`} onClick={() => handleSelectpinChat(pinchat)}>
-                              <div className="avatar">
-                                <ImageWithBasePath src={pinchat.image} className="rounded-circle" alt={pinchat.name} />
+                      <ul className="user-list space-chat">
+                        <li className="user-list-item chat-user-list">
+                          <Link to="#" className={`${selectedChatId === pinchat.id ? 'status-active' : ''}`} onClick={() => handleSelectpinChat(pinchat)}>
+                            <div className="avatar">
+                              <ImageWithBasePath src={pinchat.image} className="rounded-circle" alt={pinchat.name} />
+                            </div>
+                            <div className="users-list-body">
+                              <div>
+                                <h5>{pinchat.name}</h5>
+                                <p>{pinchat.lastText}</p>
+                                {/* <p><i className="bx bx-map me-1" />{contact.location}</p> */}
                               </div>
-                              <div className="users-list-body">
-                                <div>
-                                  <h5>{pinchat.name}</h5>
-                                  <p>{pinchat.lastText}</p>
-                                  {/* <p><i className="bx bx-map me-1" />{contact.location}</p> */}
-                                </div>
-                                <div className="last-chat-time">
-                                  <small className="text-muted">{pinchat.lastTextTime}</small>
-                                  <div className="chat-pin">
-                                    <i className="bx bx-pin me-2" />
-                                    {/* <i className="bx bx-check-double" /> */}
-                                  </div>
+                              <div className="last-chat-time">
+                                <small className="text-muted">{pinchat.lastTextTime}</small>
+                                <div className="chat-pin">
+                                  <i className="bx bx-pin me-2" />
+                                  {/* <i className="bx bx-check-double" /> */}
                                 </div>
                               </div>
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                    ))}
+                            </div>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
 
 
 
-                  </div>
                 </div>
+              </div>
             </Scrollbars>
 
           </div>
@@ -757,16 +802,16 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
                         }}
                       >
                         {message.text}
-                                              {/* Show status below the message text if the message is from the client */}
-                                              {message.fromClient && (
-        <small className="text-muted" style={{ display: 'block', marginTop: '5px', textAlign: 'right' }}>
-         {message.timestamp}
-        </small>
-      )} 
+                        {/* Show status below the message text if the message is from the client */}
+                        {message.fromClient && (
+                          <small className="text-muted" style={{ display: 'block', marginTop: '5px', textAlign: 'right' }}>
+                            {message.timestamp}
+                          </small>
+                        )}
                       </div>
 
- 
-    
+
+
 
                       {/* Only show the check icon if the message is not from the client */}
                       {!message.fromClient && (
@@ -783,11 +828,11 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
                               color: message.isRead ? "blue" : "inherit",
                             }}
                           />
-                           <small style={{marginLeft: '10px'}} className="text-muted">{message.status} at {message.timestamp}</small>
+                          <small style={{ marginLeft: '10px' }} className="text-muted">{message.status} at {message.timestamp}</small>
                         </div>
                       )}
-                          {/* <small  className="text-muted"> delivered at 10:24 PM</small> */}
-                               
+                      {/* <small  className="text-muted"> delivered at 10:24 PM</small> */}
+
                     </div>
                   ))}
 
@@ -795,6 +840,8 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
                 </div>
               </div>
             </div>
+
+
             <div className="chat-footer">
               <form>
                 <div className="smile-foot">
@@ -999,11 +1046,7 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
                       <div className="message-content reply-content"></div>
                     </div>
                   </div>
-                  {/* <input
-        type="text" 
-        className="form-control chat_form"
-        placeholder="Type your message here..."
-      /> */}
+
                   <input
                     type="text" className="form-control chat_form"
                     value={inputText}
@@ -1013,7 +1056,8 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
                   />
                 </div>
                 <div className="form-buttons">
-                  <button type="button" ref={buttonRef} className="btn send-btn" onClick={handleSendMessage}>
+                  <button type="button" ref={buttonRef} className="btn send-btn"     onClick={() => handleSendMessage(recipientPhoneNumber, inputText.trim())}
+                  >
                     <i className="bx bx-paper-plane" />
                   </button>
                 </div>
@@ -1059,8 +1103,19 @@ const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 10
 
         {/* /Chat */}
 
+
+
         <HomeModals />
+
+        <Dialog header="BroadCast Message" visible={dlgvisible} maximizable style={{ width: '95%',left:'5px' }} onHide={() => { if (!dlgvisible) return; setdlgVisible(false); }}>
+          {/* <ContactSelection /> */}
+          <BroadcastDialog
+
+            onSendMessage={sendBroadcastMessage}
+          />
+        </Dialog>
       </div>
+
       {/* /Content */}
     </>
   );

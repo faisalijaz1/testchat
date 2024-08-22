@@ -20,7 +20,7 @@ export const all_routes = {
   statusOther:"/status-other",
   pinnedChat:"/chat/pinned-chat",
   allChat:"/chat/all-chat",
-  archiveChat: "/chat/archive-chat",
+  archiveChat: "/chat/archive-chat1",
 
   //admin
   profileSettings:"/admin/profile-settings",
