@@ -477,7 +477,7 @@ const WebIndex = () => {
                               className="dropdown-item"
                               to={routes.archiveChat}
                             >
-                              Archive Chat
+                              BroadCast Chat
                             </Link>
                           </li>
                           <li>

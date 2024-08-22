@@ -185,7 +185,14 @@ const BroadcastDialog = ({  onSendMessage }) => {
           setNewRecipient('');
         }
       }; 
-      
+      const representativesItemTemplate = (option) => {
+        return (
+            <div className="flex align-items-center gap-2">
+                <img  src="../../../../assets/img/avatar/avatar-17.png" width="32" />
+                <span>{option.name}</span>
+            </div>
+        );
+    };  
 
     const header = (
         <div className="flex justify-content-between">
@@ -518,7 +525,9 @@ const BroadcastDialog = ({  onSendMessage }) => {
                         className="p-datatable-custom"
                     >
                         <Column selectionMode="multiple" exportable={false}></Column>
-                        <Column field="name" header="Name" sortable style={{ minWidth: '12rem' }}></Column>
+                        {/* <Column field="name" header="Name" sortable style={{ minWidth: '12rem' }}></Column> */}
+                        <Column header="Name" sortable  style={{ minWidth: '14rem' }}
+                    body={representativesItemTemplate}  />     
                         {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
                         {/* <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column> */}
                         <Column field="department" header="Department" sortable style={{ minWidth: '10rem' }}></Column>

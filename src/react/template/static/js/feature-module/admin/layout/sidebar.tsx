@@ -99,11 +99,12 @@ const AdminSidebar = () => {
                         {/* Logo */}
                         <div className="header-left logo-light">
                             <Link to={routes.adminDashboard} className="logo">
-                                <ImageWithBasePath src="/admin/assets/img/logo.png" alt="Logo" />
+                                {/* <ImageWithBasePath src="/admin/assets/img/skm-transparent1.png" alt="Logo" /> */}
+                            <h5 style={{color:'white'}}>SKM ChatConnect </h5>
                             </Link>
                             <Link to={routes.adminDashboard} className="logo logo-small">
                                 <ImageWithBasePath
-                                    src="/admin/assets/img/logo-small.png"
+                                    src="/admin/assets/img/skm-transparent1.png"
                                     alt="Logo"
                                     width={30}
                                     height={30}

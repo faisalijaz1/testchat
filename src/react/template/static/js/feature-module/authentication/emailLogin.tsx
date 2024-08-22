@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import ImageWithBasePath from '../../core/data/img/ImageWithBasePath.tsx'
 import Scrollbars from 'react-custom-scrollbars-2'
@@ -6,9 +6,15 @@ import { all_routes } from '../router/all_routes.tsx'
 import Apple from './apple.svg'
 import google from './google.svg'
 import facebook from './facebook.svg'
+import { useNavigate } from 'react-router-dom';
+import { Message } from 'primereact/message';
 import loginlogo from '../../../../../../react/template/assets/img/skm-transparent1.png'
 const EmailLogin = () => {
     const routes = all_routes;
+    const [inputText, setInputText] = useState("");
+    const [inputText1, setInputText1] = useState("");
+    const [iserror, setiserror] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
       document.body.classList.add('login-form');
   
@@ -16,6 +22,32 @@ const EmailLogin = () => {
         document.body.classList.remove('login-form');
       };
     }, []);
+    const content = (
+      <div className="flex align-items-center">
+          {/* <img alt="logo" src="https://primefaces.org/cdn/primereact/images/logo.png" width="32" /> */}
+          <div className="ml-2">InValid Credentials</div>
+      </div>
+  );
+  const handleinputchange = ( e) => {
+    setiserror(false)
+    setInputText(e.target.value)
+  }
+  const handlepasswordchange = ( e) => {
+    setiserror(false)
+    setInputText1(e.target.value)
+  }
+
+    const handleSelectContact1 = ( e) => {
+      e.preventDefault(); // Prevents the default link behavior
+      if(inputText==="demo" && inputText1==="abc123"){
+        setiserror(false)
+        navigate(routes.WebIndex );
+      }
+       else{
+        setiserror(true)
+       }
+      // navigate(routes.index, { state: contact });
+    };
   return (
   <div className="container-fluid">
     <Scrollbars>
@@ -48,14 +80,26 @@ const EmailLogin = () => {
             </div>
           </div>
           <form>
+          <Message severity="error"
+                style={{
+                   
+                    display:`${iserror ? "inline-block":"none"}`
+                }}
+                className={`border-primary w-full justify-content-start `}  
+                text="InValid Credentials"
+                
+                
+            />
             <div className="form-group">
-              <label className="form-label">Email Address <span>*</span></label>
-              <input type="email" className="form-control" />
+              <label className="form-label">UserName <span>*</span></label>
+              <input value={inputText}
+                    onChange={handleinputchange} type="text" className="form-control" />
             </div>
             <div className="form-group">
               <label className="form-label">Password <span>*</span></label>
               <div className="pass-group">
-                <input type="password" className="form-control pass-input" />
+                <input value={inputText1}
+                    onChange={handlepasswordchange} type="password" className="form-control pass-input" />
                 <span className="fas fa-eye toggle-password" />
               </div>
             </div>
@@ -73,7 +117,7 @@ const EmailLogin = () => {
                 </Link>
               </span>
             </div>
-            <Link to={routes.index} className="btn btn-primary w-100 btn-size justify-content-center">Login</Link>
+            <Link  onClick={(e) => handleSelectContact1( e)} className="btn btn-primary w-100 btn-size justify-content-center">Login</Link>
             <div className="login-or">
               <span className="span-or-log">or Login With</span>
             </div>
