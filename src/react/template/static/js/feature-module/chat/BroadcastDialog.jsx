@@ -106,7 +106,7 @@ const RecipientTag = ({ recipient, onRemove }) => {
             backgroundColor: '#fff' 
         }}>
             {recipients.length === 0 ? (
-                <span style={{ color: '#999' }}>{placeholder}</span>
+                <span style={{ color: '#999',paddingLeft:'10px' }}>{placeholder}</span>
             ) : (
                 recipients.map(recipient => (
                     <div key={recipient} style={{ 
@@ -199,7 +199,7 @@ const BroadcastDialog = ({  onSendMessage }) => {
             <h4 className="m-0">Select Recepitents</h4>
             <span className="p-input-icon-left">
                 <i className="pi pi-search" style={{ paddingLeft: '10px' }} />
-                <InputText style={{ paddingLeft: '31px' }} type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search Keyword..." />
+                <InputText style={{ paddingLeft: '46px' }} type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search Keyword..." />
             </span>
         </div>
     );
