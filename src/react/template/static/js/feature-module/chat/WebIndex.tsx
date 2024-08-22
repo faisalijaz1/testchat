@@ -428,7 +428,17 @@ const WebIndex = () => {
   };
 
   const addRecipientsToChatList = (recipients) => {
-    setChats(prevList => [...prevList, ...recipients]);
+
+    setChats(prevList => {
+      // Create a Set of existing phone numbers in the chat list
+      const existingPhones = new Set(prevList.map(chat => chat.phone));
+
+      // Filter out recipients that already exist in the chat list
+      const newRecipients = recipients.filter(recipient => !existingPhones.has(recipient.phone));
+
+      // Add only the new recipients to the chat list
+      return [...prevList, ...newRecipients];
+  });
   };
   return (
     <>
