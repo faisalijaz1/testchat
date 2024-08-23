@@ -107,6 +107,16 @@ const WebIndex = () => {
       phone: '923214872551',
       address: 'skm.org.pk'
     },
+    {
+      id: 5,
+      name: 'Idress Khokar',
+      lastText: '',
+      lastTextTime: '',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'idresskhokar@skm.org.pk',
+      phone: '923004282884',
+      address: 'skm.org.pk'
+    },
     // Add more contacts as needed
     // your contacts data...
   ]);
