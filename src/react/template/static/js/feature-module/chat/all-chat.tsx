@@ -52,7 +52,7 @@ const AllChat = () => {
         // });
 
         // Construct the URL with query parameters
-        const url = `https://testchat-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=+923008881409&parameter=${encodeURIComponent(inputText.trim())}`;
+        const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=+923008881409&parameter=${encodeURIComponent(inputText.trim())}`;
 
         // Send the request with an empty body
         const response = await axios.post(url, {});
@@ -110,7 +110,7 @@ const AllChat = () => {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    const socket = new SockJS('https://testchat-production.up.railway.app/ws');
+    const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
     const stompClient = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {

@@ -177,7 +177,7 @@ const WebIndex = () => {
         //   recipientPhoneNumber: '+923008881409',
         //   parameter: inputText.trim(), // Single string parameter
         // });
-        const socket = new SockJS('https://testchat-production.up.railway.app/ws');
+        const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
         const stompClient = new Client({
           webSocketFactory: () => socket,
           debug: (str) => {
@@ -235,7 +235,7 @@ const WebIndex = () => {
 
 
         // Construct the URL with query parameters
-        const url = `https://testchat-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(messageText)}`;
+        const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(messageText)}`;
 
         // Send the request with an empty body
         const response = await axios.post(url, {});
@@ -327,7 +327,7 @@ const WebIndex = () => {
   const loadMessages = async (callnumber) => {
     try {
       // Construct the URL with the query parameter
-      const url = `https://testchat-production.up.railway.app/whatsapp/message-status?recipientPhoneNumber=${callnumber}`;
+      const url = `https://steadfast-benevolence-production.up.railway.app/whatsapp/message-status?recipientPhoneNumber=${callnumber}`;
 
       // Send the GET request to the API
       const response = await axios.get(url);
