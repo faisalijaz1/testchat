@@ -217,7 +217,14 @@ const WebIndex = () => {
                 fromClient: true,
                 timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
               };
-              setMessages(prevMessages => [...prevMessages, newMessage]);
+              // setMessages(prevMessages => [...prevMessages, newMessage]);
+              setMessages(prevMessages => {
+                // Check if the newMessage ID already exists in prevMessages
+                const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
+                
+                // If it exists, return prevMessages unchanged; otherwise, add newMessage
+                return messageExists ? prevMessages : [...prevMessages, newMessage];
+              });
             });
           },
           onDisconnect: () => {
