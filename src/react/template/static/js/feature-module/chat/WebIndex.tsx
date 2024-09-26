@@ -120,9 +120,7 @@ const WebIndex = () => {
     // Add more contacts as needed
     // your contacts data...
   ]);
-  let subscription;
-  let subscription1;
-  let stompClient;
+
   const [pinchats, setpinChats] = useState([
     {
       id: 1,
@@ -168,12 +166,70 @@ const WebIndex = () => {
 
     return formattedTime.toString();
   }
- 
+  let subscription;
+  let subscription1;
+  let stompClient;
   
   const handleSendMessage = async (recipientPhoneNumber, messageText) => {
     try {
       // Establish WebSocket connection only if it doesn't exist
-    
+      if (!stompClient) {
+        const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
+        stompClient = new Client({
+          webSocketFactory: () => socket,
+          debug: (str) => {
+            console.log(str);
+          },
+          reconnectDelay: 5000,
+          heartbeatIncoming: 4000,
+          heartbeatOutgoing: 4000,
+          onConnect: () => {
+            console.log('Connected to WebSocket');
+  
+            // Subscribe to delivery status
+            // if (subscription) {
+            //   subscription.unsubscribe();
+            // }
+            subscription = stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
+              const status = JSON.parse(message.body);
+              setDeliveryStatus(status);
+              console.log('Received status:', status);
+              setMessages(prevMessages =>
+                prevMessages.map(msg =>
+                  msg.id === status.messageId
+                    ? { ...msg, status: status.status, timestamp: convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
+                    : msg
+                )
+              );
+            });
+  
+            // Subscribe to incoming messages
+            // if (subscription1) {
+            //   subscription1.unsubscribe();
+            // }
+            subscription1 = stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+              const incomingMessage = JSON.parse(message.body);
+              const newMessage = {
+                id: incomingMessage.messageId,
+                text: incomingMessage.text,
+                isDelivered: false,
+                isRead: false,
+                fromClient: true,
+                timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
+              };
+              setMessages(prevMessages => [...prevMessages, newMessage]);
+            });
+          },
+          onDisconnect: () => {
+            console.log('Disconnected');
+          },
+          onStompError: (error) => {
+            console.error('STOMP Error:', error);
+          }
+        });
+        stompClient.activate();
+      }
+  
       // Send message logic
       const currentTimestampInMilliseconds = Date.now();
       const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
@@ -217,62 +273,6 @@ const WebIndex = () => {
       setselectedpinChat(selectedContact);
       loadMessages(selectedContact.phone);
 
-    }
-    if (!stompClient) {
-      const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
-      stompClient = new Client({
-        webSocketFactory: () => socket,
-        debug: (str) => {
-          console.log(str);
-        },
-        reconnectDelay: 5000,
-        heartbeatIncoming: 4000,
-        heartbeatOutgoing: 4000,
-        onConnect: () => {
-          console.log('Connected to WebSocket');
-
-          // Subscribe to delivery status
-          if (subscription) {
-            subscription.unsubscribe();
-          }
-          subscription = stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
-            const status = JSON.parse(message.body);
-            setDeliveryStatus(status);
-            console.log('Received status:', status);
-            setMessages(prevMessages =>
-              prevMessages.map(msg =>
-                msg.id === status.messageId
-                  ? { ...msg, status: status.status, timestamp: convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
-                  : msg
-              )
-            );
-          });
-
-          // Subscribe to incoming messages
-          if (subscription1) {
-            subscription1.unsubscribe();
-          }
-          subscription1 = stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
-            const incomingMessage = JSON.parse(message.body);
-            const newMessage = {
-              id: incomingMessage.messageId,
-              text: incomingMessage.text,
-              isDelivered: false,
-              isRead: false,
-              fromClient: true,
-              timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
-            };
-            setMessages(prevMessages => [...prevMessages, newMessage]);
-          });
-        },
-        onDisconnect: () => {
-          console.log('Disconnected');
-        },
-        onStompError: (error) => {
-          console.error('STOMP Error:', error);
-        }
-      });
-      stompClient.activate();
     }
 
     // Cleanup function to disconnect the WebSocket
