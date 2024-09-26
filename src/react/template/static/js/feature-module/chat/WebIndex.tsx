@@ -166,10 +166,18 @@ const WebIndex = () => {
 
     return formattedTime.toString();
   }
-
+// Create a subscription variable
+let subscription;
+let subscription1;
   const handleSendMessage = async (recipientPhoneNumber, messageText) => {
     // event.preventDefault();
-
+  // If already subscribed, unsubscribe first
+  if (subscription) {
+    subscription.unsubscribe();
+  }
+  if (subscription1) {
+    subscription1.unsubscribe();
+  }
     // if (inputText.trim()) {
       try {
         // const response = await axios.post('https://testchat-production.up.railway.app/api/whatsapp/send-template-message', {
@@ -189,7 +197,7 @@ const WebIndex = () => {
           onConnect: () => {
             console.log('Connected to WebSocket');
             // Replace '+recipientPhoneNumber' with the actual phone number or variable
-            stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
+            subscription =   stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
               const status = JSON.parse(message.body); // Assuming status is a JSON string
               setDeliveryStatus(status);
               console.log('Received status:', status);
@@ -203,7 +211,7 @@ const WebIndex = () => {
               );
             });
             // Subscribe to incoming messages
-            stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+            subscription1 =   stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
               const incomingMessage = JSON.parse(message.body);
               const newMessage = {
                 id: incomingMessage.messageId,
