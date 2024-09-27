@@ -296,10 +296,10 @@ const WebIndex = () => {
       setselectedpinChat(selectedContact);
       loadMessages(selectedContact.phone);
     // Using setTimeout to ensure the DOM updates before scrolling
+  
+    }
     const timeout = setTimeout(scrollToBottom, 100);
     return () => clearTimeout(timeout); // Clean up timeout on unmount
-    }
-
     // Cleanup function to disconnect the WebSocket
     return () => {
       window.removeEventListener("resize", handleResize);
