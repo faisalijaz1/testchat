@@ -169,7 +169,7 @@ const WebIndex = () => {
 
   // Scroll page to bottom
   const scrollToBottom = () => {
-    const messagesContainer = document.querySelector('.messages'); // Target the messages container
+    const messagesContainer = document.querySelector('.chat-body'); // Target the messages container
     if (messagesContainer) {
       messagesContainer.scrollTo({
         top: messagesContainer.scrollHeight,
