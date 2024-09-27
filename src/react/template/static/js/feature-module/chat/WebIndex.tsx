@@ -298,8 +298,8 @@ const WebIndex = () => {
     // Using setTimeout to ensure the DOM updates before scrolling
   
     }
-    const timeout = setTimeout(scrollToBottom, 100);
-    return () => clearTimeout(timeout); // Clean up timeout on unmount
+    // const timeout = setTimeout(scrollToBottom, 100);
+    // return () => clearTimeout(timeout); // Clean up timeout on unmount
     // Cleanup function to disconnect the WebSocket
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -308,7 +308,7 @@ const WebIndex = () => {
       //   stompClient.deactivate();
       // }
     };
-  }, [messages]);
+  }, []);
 
   const settings = {
     dots: false,
