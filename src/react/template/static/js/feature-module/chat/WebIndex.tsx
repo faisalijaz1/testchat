@@ -294,7 +294,7 @@ const WebIndex = () => {
       setSelectedChatId(selectedContact.id);
       setselectedpinChat(selectedContact);
       loadMessages(selectedContact.phone);
-
+      scrollToBottom();
     }
 
     // Cleanup function to disconnect the WebSocket
@@ -304,7 +304,7 @@ const WebIndex = () => {
       //   stompClient.deactivate();
       // }
     };
-  }, []);
+  }, [messages]);
 
   const settings = {
     dots: false,
