@@ -166,6 +166,15 @@ const WebIndex = () => {
 
     return formattedTime.toString();
   }
+
+  // Scroll page to bottom
+const scrollToBottom = () => {
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: 'smooth' // Optional: Smooth scrolling for better UX
+  });
+};
+
   let subscription;
   let subscription1;
   let stompClient;
@@ -225,6 +234,8 @@ const WebIndex = () => {
                 // If it exists, return prevMessages unchanged; otherwise, add newMessage
                 return messageExists ? prevMessages : [...prevMessages, newMessage];
               });
+              scrollToBottom();
+
             });
           },
           onDisconnect: () => {
@@ -368,6 +379,7 @@ const WebIndex = () => {
 
         // Update the state with the new messages
         setMessages(newMessages);
+        scrollToBottom();
         // setMessages(prevMessages => [...newMessages, ...prevMessages]);
       }
     } catch (error) {
