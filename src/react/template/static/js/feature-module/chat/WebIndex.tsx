@@ -169,11 +169,12 @@ const WebIndex = () => {
 
   // Scroll page to bottom
   const scrollToBottom = () => {
-    const messagesContainer = document.querySelector('.chat-body'); // Target the messages container
-    if (messagesContainer) {
-      messagesContainer.scrollTo({
-        top: messagesContainer.scrollHeight,
-        behavior: 'smooth' // Smooth scrolling for better UX
+    const chatBody = document.querySelector('.chat-body');
+    // console.log('Chat Body Scroll Height:', chatBody.scrollHeight); // Debug log
+    if (chatBody) {
+      chatBody.scrollTo({
+        top: chatBody.scrollHeight,
+        behavior: 'smooth'
       });
     }
   };
@@ -294,12 +295,15 @@ const WebIndex = () => {
       setSelectedChatId(selectedContact.id);
       setselectedpinChat(selectedContact);
       loadMessages(selectedContact.phone);
-      scrollToBottom();
+    // Using setTimeout to ensure the DOM updates before scrolling
+    const timeout = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timeout); // Clean up timeout on unmount
     }
 
     // Cleanup function to disconnect the WebSocket
     return () => {
       window.removeEventListener("resize", handleResize);
+    
       // if (stompClient) {
       //   stompClient.deactivate();
       // }
