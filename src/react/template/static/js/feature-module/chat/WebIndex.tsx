@@ -168,12 +168,16 @@ const WebIndex = () => {
   }
 
   // Scroll page to bottom
-const scrollToBottom = () => {
-  window.scrollTo({
-    top: document.body.scrollHeight,
-    behavior: 'smooth' // Optional: Smooth scrolling for better UX
-  });
-};
+  const scrollToBottom = () => {
+    const messagesContainer = document.querySelector('.messages'); // Target the messages container
+    if (messagesContainer) {
+      messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: 'smooth' // Smooth scrolling for better UX
+      });
+    }
+  };
+  
 
   let subscription;
   let subscription1;
