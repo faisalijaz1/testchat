@@ -172,77 +172,20 @@ const QueueReports = ({ }) => {
   const dt = useRef(null);
   const [showContent, setShowContent] = useState(false);
   useEffect(() => {
-    ProductService.getreports().then((data) => setProducts(data));
+    ProductService.getreports().then((data) => {
+      setProducts(data.data);
+    }
+    
+    );
+    
     // if (!visible) {
     //     setSelectedProducts([]);
     //     setRecipientsText('');
     // }
   }, []);
 
-  const handleAddRecipient = () => {
-    if (newRecipient.trim() && !recipients.includes(newRecipient)) {
-      setRecipients([...recipients, newRecipient.trim()]);
-      setNewRecipient('');
-    }
-  };
-  const representativesItemTemplate = (option) => {
-    return (
-      <div className="flex align-items-center gap-2">
-        <img src="../../../../assets/img/avatar/avatar-17.png" width="32" />
-        <span>{option.name}</span>
-      </div>
-    );
-  };
-
-  const header = (
-    <div className="flex justify-content-between">
-      <h4 className="m-0">Select Recepitents</h4>
-      <span className="p-input-icon-left">
-        <i className="pi pi-search" style={{ paddingLeft: '10px' }} />
-        <InputText style={{ paddingLeft: '46px' }} type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search Keyword..." />
-      </span>
-    </div>
-  );
-
-  const handleSelectionChange = (e) => {
-    const selectedItems = e.value; // Updated selection (after check/uncheck)
-    const newSelection = selectedItems.filter(item => !selectedProducts.includes(item)); // Items that were newly checked
-    const unselectedItems = selectedProducts.filter(item => !selectedItems.includes(item)); // Items that were unchecked
-
-    setSelectedProducts(selectedItems); // Update selected products in state
-
-    if (newSelection.length > 0) {
-      // Add newly selected items to recipients
-      updateRecipientsTextArea(newSelection);
-    }
-
-    if (unselectedItems.length > 0) {
-      // Remove unchecked items from recipients
-      const namesToRemove = unselectedItems.map(item => item.name);
-      setRecipients(recipients.filter(recipient => !namesToRemove.includes(recipient)));
-    }
-  };
-
-  const updateRecipientsTextArea = (selectedContacts) => {
-
-    const newRecipients = selectedContacts
-      .filter(contact => !recipients.includes(contact.name)) // Filter out already added recipients
-      .map(contact => contact.name); // Map to just names
-
-    // Update the recipients list by adding new recipients
-    setRecipients([...recipients, ...newRecipients]);
-  };
-
-
-
-  const handleEnterPress = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent default form submission behavior
-      if (buttonRef.current) {
-        buttonRef.current.click(); // Trigger button click event
-      }
-    }
-  };
+ 
+  
   const getSeverity = (value) => {
     switch (value) {
         case 'VERIFIED':
