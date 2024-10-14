@@ -234,9 +234,7 @@ const QueueReports = ({ }) => {
   };
 
 
-  const handleSendMessage = () => {
-    onSendMessage(selectedProducts, inputText);
-  };
+
   const handleEnterPress = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default form submission behavior
