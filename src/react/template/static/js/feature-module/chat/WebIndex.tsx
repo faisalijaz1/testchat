@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath.tsx";
 import Scrollbars from "react-custom-scrollbars-2";
 import BroadcastDialog from './BroadcastDialog';
+import QueueReports from './QueueReports';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -56,6 +57,7 @@ const WebIndex = () => {
   const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
 
   const [dlgvisible, setdlgVisible] = useState(false);
+  const [dlgqvisible, setdlgqVisible] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState(null);
 
   const location = useLocation();
@@ -448,7 +450,9 @@ const WebIndex = () => {
   const closeBroadcastDialog = () => {
     setdlgVisible(false);
   };
-
+  const closeqDialog = () => {
+    setdlgqVisible(false);
+  };
   const handleSuccessfulMessageSending = (messageData, selectedProducts) => {
     closeBroadcastDialog();
 
@@ -559,6 +563,18 @@ const WebIndex = () => {
                                     <i className="bx bx-user-circle" />
                                   </span>
                                   New BroadCast
+                                </Link>
+                                <Link
+                                  to="#"
+                                  className="dropdown-item"
+                                  // data-bs-toggle="modal"
+                                  // data-bs-target="#new-group"
+                                  onClick={() => setdlgqVisible(true)}
+                                >
+                                  <span>
+                                    <i className="bx bx-user-circle" />
+                                  </span>
+                                  Queue Reports
                                 </Link>
                                 <Link
                                   to="#"
@@ -1146,6 +1162,10 @@ const WebIndex = () => {
 
 
         <HomeModals />
+        <Dialog header="Queue Reports" visible={dlgqvisible} maximizable style={{ width: '95%',left:'5px' }} onHide={() => { if (!dlgqvisible) return; setdlgqVisible(false); }}>
+          {/* <ContactSelection /> */}
+          <QueueReports />
+        </Dialog>
 
         <Dialog header="BroadCast Message" visible={dlgvisible} maximizable style={{ width: '95%',left:'5px' }} onHide={() => { if (!dlgvisible) return; setdlgVisible(false); }}>
           {/* <ContactSelection /> */}

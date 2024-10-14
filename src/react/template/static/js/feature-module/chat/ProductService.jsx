@@ -1,4 +1,19 @@
+import axios from 'axios'
+
+
 export const ProductService = {
+
+
+    getreports() {
+        console.log('executed service')
+     
+        return axios.get(`https://steadfast-benevolence-production.up.railway.app/api/whatsapp/getreports`)
+      },
+      updatereports(recipientPhoneNumber,status) {
+        console.log('executed service')
+     
+        return axios.post(`https://steadfast-benevolence-production.up.railway.app/api/whatsapp/updatereports?status=${status}&recipientPhoneNumber=${recipientPhoneNumber}`)
+      },
     getProductsData() {
         return [
             {
