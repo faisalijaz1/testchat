@@ -855,7 +855,7 @@ const WebIndex = () => {
 
                       {/* Only show the check icon if the message is not from the client */}
                       {!message.fromClient && (
-                        <div className="check-icon">
+                        <div className="check-icon" style={{width:'320px'}}>
                           <i
                             className={`bx ${message.isRead
                               ? "bx-check-double check read"
