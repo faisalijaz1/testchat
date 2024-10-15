@@ -252,21 +252,23 @@ const WebIndex = () => {
     }
 
     const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
-    const stompClient = Stomp.over(socket);
-    setSocketClient(stompClient);
+    const stompClient = new Client({
+      webSocketFactory: () => socket,
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+    });
   
-    stompClient.connect({}, () => {
+    stompClient.onConnect = () => {
       console.log('Connected to WebSocket');
   
-      // Subscribe to delivery statuses and incoming messages for all contacts
       chats.forEach((chat) => {
-        // Delivery status subscription
         const subscription = stompClient.subscribe(`/topic/delivery-status/${chat.phone}`, (message) => {
           const status = JSON.parse(message.body);
           handleDeliveryStatusUpdate(status, chat.phone);
         });
   
-        // Incoming message subscription
         const subscription1 = stompClient.subscribe(`/topic/message-received/${chat.phone}`, (message) => {
           const incomingMessage = JSON.parse(message.body);
           const newMessage = {
@@ -276,7 +278,7 @@ const WebIndex = () => {
             isRead: false,
             fromClient: true,
             timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp),
-            recipientPhoneNumber: chat.phone, // Added recipientPhoneNumber to associate message
+            recipientPhoneNumber: chat.phone,
           };
   
           setMessages(prevMessages => {
@@ -284,14 +286,15 @@ const WebIndex = () => {
             return messageExists ? prevMessages : [...prevMessages, newMessage];
           });
   
-          scrollToBottom(); // Assuming this function handles scrolling
+          scrollToBottom();
         });
   
         subscriptions.current.push(subscription);
         subscriptions.current.push(subscription1);
       });
-    });
-
+    };
+  
+    stompClient.activate();
 
 
 
@@ -302,6 +305,7 @@ const WebIndex = () => {
       window.removeEventListener("resize", handleResize);
       subscriptions.current.forEach((sub) => sub.unsubscribe());
       subscriptions.current = [];
+      stompClient.deactivate();
       console.log('Unsubscribed from all contacts on cleanup');
       // if (stompClient) {
       //   stompClient.deactivate();

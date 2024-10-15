@@ -84,6 +84,7 @@
     "slick-carousel": "^1.8.1",
     "sockjs-client": "^1.6.1",
     "src": "^1.1.2",
+    "stompjs": "^2.3.3",
     "string-convert": "^0.2.1",
     "stylis": "^4.3.2",
     "tabbable": "^6.2.0",
