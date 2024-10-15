@@ -39,8 +39,9 @@ interface Message {
   status: string;
   isDelivered: boolean;
   isRead: boolean;
-  fromClient: boolean; // New property to indicate if the message is from the client
-  timestamp: string
+  fromClient: boolean;
+  timestamp: string;
+  recipientPhoneNumber: string; // Added to associate messages with the contact
 }
 const WebIndex = () => {
 
@@ -54,14 +55,26 @@ const WebIndex = () => {
   const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   const [socketClient, setSocketClient] = useState<any>(null);
   // const recipientPhoneNumber = ''; // Set the actual recipient's phone number
-  const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
+  // const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
 
   const [dlgvisible, setdlgVisible] = useState(false);
   const [dlgqvisible, setdlgqVisible] = useState(false);
-  const [selectedChatId, setSelectedChatId] = useState(null);
+  // const [selectedChatId, setSelectedChatId] = useState(null);
 
   const location = useLocation();
   const { selectedContact } = location.state || {};
+
+  
+
+
+  // const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
+  // const [socketClient, setSocketClient] = useState<any>(null);
+  const [recipientPhoneNumber, setRecipientPhoneNumber] = useState<string>('');
+  const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
+  const subscriptions = useRef<any[]>([]); // Track subscriptions for each contact
+
+  // const location = useLocation();
+  // const { selectedContact } = location.state || {};
 
 
 
@@ -188,72 +201,7 @@ const WebIndex = () => {
   
   const handleSendMessage = async (recipientPhoneNumber, messageText) => {
     try {
-      // Establish WebSocket connection only if it doesn't exist
-      if (!stompClient) {
-        const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
-        stompClient = new Client({
-          webSocketFactory: () => socket,
-          debug: (str) => {
-            console.log(str);
-          },
-          reconnectDelay: 5000,
-          heartbeatIncoming: 4000,
-          heartbeatOutgoing: 4000,
-          onConnect: () => {
-            console.log('Connected to WebSocket');
-  
-            // Subscribe to delivery status
-            // if (subscription) {
-            //   subscription.unsubscribe();
-            // }
-            subscription = stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
-              const status = JSON.parse(message.body);
-              setDeliveryStatus(status);
-              console.log('Received status:', status);
-              setMessages(prevMessages =>
-                prevMessages.map(msg =>
-                  msg.id === status.messageId
-                    ? { ...msg, status: status.status, timestamp: convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
-                    : msg
-                )
-              );
-            });
-  
-            // Subscribe to incoming messages
-            // if (subscription1) {
-            //   subscription1.unsubscribe();
-            // }
-            subscription1 = stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
-              const incomingMessage = JSON.parse(message.body);
-              const newMessage = {
-                id: incomingMessage.messageId,
-                text: incomingMessage.text,
-                isDelivered: false,
-                isRead: false,
-                fromClient: true,
-                timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
-              };
-              // setMessages(prevMessages => [...prevMessages, newMessage]);
-              setMessages(prevMessages => {
-                // Check if the newMessage ID already exists in prevMessages
-                const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
-                
-                // If it exists, return prevMessages unchanged; otherwise, add newMessage
-                return messageExists ? prevMessages : [...prevMessages, newMessage];
-              });
-              scrollToBottom();
-
-            });
-          },
-          onDisconnect: () => {
-            console.log('Disconnected');
-          },
-          onStompError: (error) => {
-            console.error('STOMP Error:', error);
-          }
-        });
-        stompClient.activate();
-      }
+    
   
       // Send message logic
       const currentTimestampInMilliseconds = Date.now();
@@ -272,7 +220,9 @@ const WebIndex = () => {
           isRead: false,
           status: "sent",
           fromClient: false,
-          timestamp: convertTimestampToGMTPlus5(currentTimestampInSeconds)
+          timestamp: convertTimestampToGMTPlus5(currentTimestampInSeconds),
+          recipientPhoneNumber: recipientPhoneNumber,  // Associate message with the contact
+
         };
         setMessages(prevMessages => [...prevMessages, newMessage]);
         setInputText(""); // Clear input field
@@ -301,72 +251,46 @@ const WebIndex = () => {
   
     }
 
-
-    if (!stompClient) {
-      const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
-      stompClient = new Client({
-        webSocketFactory: () => socket,
-        debug: (str) => {
-          console.log(str);
-        },
-        reconnectDelay: 5000,
-        heartbeatIncoming: 4000,
-        heartbeatOutgoing: 4000,
-        onConnect: () => {
-          console.log('Connected to WebSocket');
-
-          // Subscribe to delivery status
-          // if (subscription) {
-          //   subscription.unsubscribe();
-          // }
-          subscription = stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
-            const status = JSON.parse(message.body);
-            setDeliveryStatus(status);
-            console.log('Received status:', status);
-            setMessages(prevMessages =>
-              prevMessages.map(msg =>
-                msg.id === status.messageId
-                  ? { ...msg, status: status.status, timestamp: convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
-                  : msg
-              )
-            );
+    const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
+    const stompClient = Stomp.over(socket);
+    setSocketClient(stompClient);
+  
+    stompClient.connect({}, () => {
+      console.log('Connected to WebSocket');
+  
+      // Subscribe to delivery statuses and incoming messages for all contacts
+      chats.forEach((chat) => {
+        // Delivery status subscription
+        const subscription = stompClient.subscribe(`/topic/delivery-status/${chat.phone}`, (message) => {
+          const status = JSON.parse(message.body);
+          handleDeliveryStatusUpdate(status, chat.phone);
+        });
+  
+        // Incoming message subscription
+        const subscription1 = stompClient.subscribe(`/topic/message-received/${chat.phone}`, (message) => {
+          const incomingMessage = JSON.parse(message.body);
+          const newMessage = {
+            id: incomingMessage.messageId,
+            text: incomingMessage.text,
+            isDelivered: false,
+            isRead: false,
+            fromClient: true,
+            timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp),
+            recipientPhoneNumber: chat.phone, // Added recipientPhoneNumber to associate message
+          };
+  
+          setMessages(prevMessages => {
+            const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
+            return messageExists ? prevMessages : [...prevMessages, newMessage];
           });
-
-          // Subscribe to incoming messages
-          // if (subscription1) {
-          //   subscription1.unsubscribe();
-          // }
-          subscription1 = stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
-            const incomingMessage = JSON.parse(message.body);
-            const newMessage = {
-              id: incomingMessage.messageId,
-              text: incomingMessage.text,
-              isDelivered: false,
-              isRead: false,
-              fromClient: true,
-              timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
-            };
-            // setMessages(prevMessages => [...prevMessages, newMessage]);
-            setMessages(prevMessages => {
-              // Check if the newMessage ID already exists in prevMessages
-              const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
-              
-              // If it exists, return prevMessages unchanged; otherwise, add newMessage
-              return messageExists ? prevMessages : [...prevMessages, newMessage];
-            });
-            scrollToBottom();
-
-          });
-        },
-        onDisconnect: () => {
-          console.log('Disconnected');
-        },
-        onStompError: (error) => {
-          console.error('STOMP Error:', error);
-        }
+  
+          scrollToBottom(); // Assuming this function handles scrolling
+        });
+  
+        subscriptions.current.push(subscription);
+        subscriptions.current.push(subscription1);
       });
-      stompClient.activate();
-    }
+    });
 
 
 
@@ -376,12 +300,14 @@ const WebIndex = () => {
     // Cleanup function to disconnect the WebSocket
     return () => {
       window.removeEventListener("resize", handleResize);
-    
+      subscriptions.current.forEach((sub) => sub.unsubscribe());
+      subscriptions.current = [];
+      console.log('Unsubscribed from all contacts on cleanup');
       // if (stompClient) {
       //   stompClient.deactivate();
       // }
     };
-  }, []);
+  }, [chats]);
 
   const settings = {
     dots: false,
@@ -415,6 +341,23 @@ const WebIndex = () => {
         },
       },
     ],
+  };
+
+  // Handle incoming delivery status updates
+  const handleDeliveryStatusUpdate = (status, phone) => {
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) =>
+        msg.id === status.messageId && msg.recipientPhoneNumber === phone
+          ? {
+              ...msg,
+              status: status.status,
+              timestamp: convertTimestampToGMTPlus5(status.timestamp),
+              isDelivered: status.isDelivered,
+              isRead: status.isRead,
+            }
+          : msg
+      )
+    );
   };
   const loadMessages = async (callnumber) => {
     try {
@@ -468,7 +411,11 @@ const WebIndex = () => {
       alert('Failed to load messages.');
     }
   };
-
+  const handlechatrefresh = (phone) => {
+    if(phone!=null){
+    loadMessages(phone)
+    }
+  }
 
   const handleSelectpinChat = (pinchat) => {
     setrecipientPhoneNumber(pinchat.phone)
@@ -705,7 +652,10 @@ const WebIndex = () => {
                     <div key={pinchat.id}>
 
                       <ul className="user-list space-chat">
-                        <li className="user-list-item chat-user-list">
+                        <li className="user-list-item chat-user-list"
+                           // Click event on <li>
+   
+                        >
                           <Link to="#" className={`${selectedChatId === pinchat.id ? 'status-active' : ''}`} onClick={() => handleSelectpinChat(pinchat)}>
                             <div className="avatar">
                               <ImageWithBasePath src={pinchat.image} className="rounded-circle" alt={pinchat.name} />
@@ -774,6 +724,23 @@ const WebIndex = () => {
                 </div>
                 <div className="chat-options ">
                   <ul className="list-inline">
+                  <li className="list-inline-item">
+                      <Link
+                        to="#"
+                        onClick={() => handlechatrefresh(selectedpinChat.phone)}
+                        className="btn btn-outline-light chat-search-btn"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="Refresh"
+                      >
+                        <i className="bx bx-refresh" />
+                      </Link>
+                    </li>
+
+
+
+
+
                     <li className="list-inline-item">
                       <Link
                         to="#"
