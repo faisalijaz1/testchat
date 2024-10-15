@@ -300,6 +300,77 @@ const WebIndex = () => {
     // Using setTimeout to ensure the DOM updates before scrolling
   
     }
+
+
+    if (!stompClient) {
+      const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
+      stompClient = new Client({
+        webSocketFactory: () => socket,
+        debug: (str) => {
+          console.log(str);
+        },
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+        onConnect: () => {
+          console.log('Connected to WebSocket');
+
+          // Subscribe to delivery status
+          // if (subscription) {
+          //   subscription.unsubscribe();
+          // }
+          subscription = stompClient.subscribe(`/topic/delivery-status/${recipientPhoneNumber}`, (message) => {
+            const status = JSON.parse(message.body);
+            setDeliveryStatus(status);
+            console.log('Received status:', status);
+            setMessages(prevMessages =>
+              prevMessages.map(msg =>
+                msg.id === status.messageId
+                  ? { ...msg, status: status.status, timestamp: convertTimestampToGMTPlus5(status.timestamp), isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
+                  : msg
+              )
+            );
+          });
+
+          // Subscribe to incoming messages
+          // if (subscription1) {
+          //   subscription1.unsubscribe();
+          // }
+          subscription1 = stompClient.subscribe(`/topic/message-received/${recipientPhoneNumber}`, (message) => {
+            const incomingMessage = JSON.parse(message.body);
+            const newMessage = {
+              id: incomingMessage.messageId,
+              text: incomingMessage.text,
+              isDelivered: false,
+              isRead: false,
+              fromClient: true,
+              timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp)
+            };
+            // setMessages(prevMessages => [...prevMessages, newMessage]);
+            setMessages(prevMessages => {
+              // Check if the newMessage ID already exists in prevMessages
+              const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
+              
+              // If it exists, return prevMessages unchanged; otherwise, add newMessage
+              return messageExists ? prevMessages : [...prevMessages, newMessage];
+            });
+            scrollToBottom();
+
+          });
+        },
+        onDisconnect: () => {
+          console.log('Disconnected');
+        },
+        onStompError: (error) => {
+          console.error('STOMP Error:', error);
+        }
+      });
+      stompClient.activate();
+    }
+
+
+
+
     // const timeout = setTimeout(scrollToBottom, 100);
     // return () => clearTimeout(timeout); // Clean up timeout on unmount
     // Cleanup function to disconnect the WebSocket
