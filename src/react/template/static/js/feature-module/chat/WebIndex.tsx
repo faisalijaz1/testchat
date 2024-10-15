@@ -64,7 +64,7 @@ const WebIndex = () => {
   const location = useLocation();
   const { selectedContact } = location.state || {};
 
-  
+
 
 
   // const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
@@ -193,26 +193,26 @@ const WebIndex = () => {
       });
     }
   };
-  
+
 
   let subscription;
   let subscription1;
   let stompClient;
-  
+
   const handleSendMessage = async (recipientPhoneNumber, messageText) => {
     try {
-    
-  
+
+
       // Send message logic
       const currentTimestampInMilliseconds = Date.now();
       const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
       const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message?templateName=message_test&recipientPhoneNumber=${recipientPhoneNumber}&parameter=${encodeURIComponent(messageText)}`;
-  
+
       const response = await axios.post(url, {});
-      
+
       if (response.status === 200) {
         const messageId = response.data; // Get message ID from response
-  
+
         const newMessage = {
           id: messageId,
           text: messageText.trim(),
@@ -232,7 +232,7 @@ const WebIndex = () => {
       alert('Failed to send message.');
     }
   };
-  
+
 
 
   const handleResize = () => {
@@ -247,8 +247,8 @@ const WebIndex = () => {
       setSelectedChatId(selectedContact.id);
       setselectedpinChat(selectedContact);
       loadMessages(selectedContact.phone);
-    // Using setTimeout to ensure the DOM updates before scrolling
-  
+      // Using setTimeout to ensure the DOM updates before scrolling
+
     }
 
     const socket = new SockJS('https://steadfast-benevolence-production.up.railway.app/ws');
@@ -259,16 +259,16 @@ const WebIndex = () => {
       },
       reconnectDelay: 5000,
     });
-  
+
     stompClient.onConnect = () => {
       console.log('Connected to WebSocket');
-  
+
       chats.forEach((chat) => {
         const subscription = stompClient.subscribe(`/topic/delivery-status/${chat.phone}`, (message) => {
           const status = JSON.parse(message.body);
           handleDeliveryStatusUpdate(status, chat.phone);
         });
-  
+
         const subscription1 = stompClient.subscribe(`/topic/message-received/${chat.phone}`, (message) => {
           const incomingMessage = JSON.parse(message.body);
           const newMessage = {
@@ -278,22 +278,57 @@ const WebIndex = () => {
             isRead: false,
             fromClient: true,
             timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp),
-            recipientPhoneNumber: chat.phone,
+            recipientPhoneNumber: incomingMessage.from, // Ensure we use the correct sender's phone number
+
           };
-  
-          setMessages(prevMessages => {
-            const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
-            return messageExists ? prevMessages : [...prevMessages, newMessage];
-          });
-  
-          scrollToBottom();
+          // Find if the contact exists in the chat list
+          const contactExists = chats.find(chat => chat.phone === incomingMessage.from);
+
+          if (contactExists) {
+            // If contact exists, add the message to the chat
+            if (incomingMessage.from === chat.phone) {
+              setMessages(prevMessages => {
+                const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
+                return messageExists ? prevMessages : [...prevMessages, newMessage];
+              });
+              scrollToBottom();
+            }
+          } else {
+            // If contact doesn't exist, create a new chat entry
+            const newChat = {
+              id: Date.now(), // or generate an ID for the new chat
+              phone: incomingMessage.from,
+              name: `Unknown (${incomingMessage.from})`, // Default name, you can change this later
+              lastText: incomingMessage.text, // Set the message as the last text
+              lastTextTime: newMessage.timestamp,
+              image: '/assets/img/avatar/avatar-17.png', // Use a placeholder image or default avatar
+              address:'skm.org.pk',
+              email:'skm.org.pk'
+            };
+
+            // Add the new chat to the chat list
+            setChats(prevChats => [...prevChats, newChat]);
+
+            // Set the message for this new chat
+            setMessages(prevMessages => [...prevMessages, newMessage]);
+
+            console.log("New contact added and message rendered.");
+
+          }
+
+          // setMessages(prevMessages => {
+          //   const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
+          //   return messageExists ? prevMessages : [...prevMessages, newMessage];
+          // });
+
+          // scrollToBottom();
         });
-  
+
         subscriptions.current.push(subscription);
         subscriptions.current.push(subscription1);
       });
     };
-  
+
     stompClient.activate();
 
 
@@ -353,12 +388,12 @@ const WebIndex = () => {
       prevMessages.map((msg) =>
         msg.id === status.messageId && msg.recipientPhoneNumber === phone
           ? {
-              ...msg,
-              status: status.status,
-              timestamp: convertTimestampToGMTPlus5(status.timestamp),
-              isDelivered: status.isDelivered,
-              isRead: status.isRead,
-            }
+            ...msg,
+            status: status.status,
+            timestamp: convertTimestampToGMTPlus5(status.timestamp),
+            isDelivered: status.isDelivered,
+            isRead: status.isRead,
+          }
           : msg
       )
     );
@@ -416,8 +451,8 @@ const WebIndex = () => {
     }
   };
   const handlechatrefresh = (phone) => {
-    if(phone!=null){
-    loadMessages(phone)
+    if (phone != null) {
+      loadMessages(phone)
     }
   }
 
@@ -456,7 +491,7 @@ const WebIndex = () => {
   //         console.error('Error sending broadcast message:', error);
   //     }
   // };
-  const sendBroadcastMessage = async (selectedContacts,textBody) => {
+  const sendBroadcastMessage = async (selectedContacts, textBody) => {
     try {
       for (const contact of selectedContacts) {
         setrecipientPhoneNumber(contact.phone)
@@ -494,7 +529,7 @@ const WebIndex = () => {
 
       // Add only the new recipients to the chat list
       return [...prevList, ...newRecipients];
-  });
+    });
   };
   return (
     <>
@@ -657,8 +692,8 @@ const WebIndex = () => {
 
                       <ul className="user-list space-chat">
                         <li className="user-list-item chat-user-list"
-                           // Click event on <li>
-   
+                        // Click event on <li>
+
                         >
                           <Link to="#" className={`${selectedChatId === pinchat.id ? 'status-active' : ''}`} onClick={() => handleSelectpinChat(pinchat)}>
                             <div className="avatar">
@@ -728,7 +763,7 @@ const WebIndex = () => {
                 </div>
                 <div className="chat-options ">
                   <ul className="list-inline">
-                  <li className="list-inline-item">
+                    <li className="list-inline-item">
                       <Link
                         to="#"
                         onClick={() => handlechatrefresh(selectedpinChat.phone)}
@@ -913,7 +948,7 @@ const WebIndex = () => {
 
                       {/* Only show the check icon if the message is not from the client */}
                       {!message.fromClient && (
-                        <div className="check-icon" style={{width:'320px'}}>
+                        <div className="check-icon" style={{ width: '320px' }}>
                           <i
                             className={`bx ${message.isRead
                               ? "bx-check-double check read"
@@ -1154,7 +1189,7 @@ const WebIndex = () => {
                   />
                 </div>
                 <div className="form-buttons">
-                  <button type="button" ref={buttonRef} className="btn send-btn"     onClick={() => handleSendMessage(recipientPhoneNumber, inputText.trim())}
+                  <button type="button" ref={buttonRef} className="btn send-btn" onClick={() => handleSendMessage(recipientPhoneNumber, inputText.trim())}
                   >
                     <i className="bx bx-paper-plane" />
                   </button>
@@ -1204,12 +1239,12 @@ const WebIndex = () => {
 
 
         <HomeModals />
-        <Dialog header="Queue Reports" visible={dlgqvisible} maximizable style={{ width: '95%',left:'5px' }} onHide={() => { if (!dlgqvisible) return; setdlgqVisible(false); }}>
+        <Dialog header="Queue Reports" visible={dlgqvisible} maximizable style={{ width: '95%', left: '5px' }} onHide={() => { if (!dlgqvisible) return; setdlgqVisible(false); }}>
           {/* <ContactSelection /> */}
           <QueueReports />
         </Dialog>
 
-        <Dialog header="BroadCast Message" visible={dlgvisible} maximizable style={{ width: '95%',left:'5px' }} onHide={() => { if (!dlgvisible) return; setdlgVisible(false); }}>
+        <Dialog header="BroadCast Message" visible={dlgvisible} maximizable style={{ width: '95%', left: '5px' }} onHide={() => { if (!dlgvisible) return; setdlgVisible(false); }}>
           {/* <ContactSelection /> */}
           <BroadcastDialog
 
