@@ -55,7 +55,7 @@ const WebIndex = () => {
   const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   const [socketClient, setSocketClient] = useState<any>(null);
   // const recipientPhoneNumber = ''; // Set the actual recipient's phone number
-  // const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
+  const [recipientPhoneNumber, setrecipientPhoneNumber] = useState(''); // Unique ID for the message
 
   const [dlgvisible, setdlgVisible] = useState(false);
   const [dlgqvisible, setdlgqVisible] = useState(false);
@@ -69,7 +69,7 @@ const WebIndex = () => {
 
   // const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   // const [socketClient, setSocketClient] = useState<any>(null);
-  const [recipientPhoneNumber, setRecipientPhoneNumber] = useState<string>('');
+  // const [recipientPhoneNumber, setRecipientPhoneNumber] = useState<string>('');
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
   const subscriptions = useRef<any[]>([]); // Track subscriptions for each contact
 
