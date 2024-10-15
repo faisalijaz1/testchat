@@ -286,14 +286,14 @@ const WebIndex = () => {
 
           if (contactExists) {
             // If contact exists, add the message to the chat
-            if (incomingMessage.from === chat.phone) {
+            if (incomingMessage.from === chat.phone && incomingMessage.from===selectedpinChat.phone) {
               setMessages(prevMessages => {
                 const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
                 return messageExists ? prevMessages : [...prevMessages, newMessage];
               });
               scrollToBottom();
             }
-          } else {
+          } else if (!contactExists){
             // If contact doesn't exist, create a new chat entry
             const newChat = {
               id: Date.now(), // or generate an ID for the new chat
