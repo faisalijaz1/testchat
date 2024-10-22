@@ -22,6 +22,7 @@ const Contact = () => {
     {
       id: 3,
       name: 'Amir Mukhtar',
+      department: 'MIS',
       lastText: '',
       lastTextTime: '',
       image: '/assets/img/avatar/avatar-17.png',

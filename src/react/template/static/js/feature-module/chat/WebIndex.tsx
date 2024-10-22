@@ -104,7 +104,7 @@ const WebIndex = () => {
     {
       
       id: 2,
-      name: 'Faisal Ijaz',
+      name: 'Muhammad Faisal Ijaz',
       lastText: 'Have you called them?',
       lastTextTime: '10:20 PM',
       image: '/assets/img/avatar/avatar-17.png',

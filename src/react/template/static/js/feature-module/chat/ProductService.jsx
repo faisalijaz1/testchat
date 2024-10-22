@@ -17,12 +17,12 @@ export const ProductService = {
     getProductsData() {
         return [
             {
-                id: 3,
-                name: 'Ghulam Mehmood',
+                id: 2,
+                name: 'Muhammad Faisal Ijaz',
                 department: 'MIS',
                 image: '/assets/img/avatar/avatar-17.png',
-                email: 'gmehmood@skm.org.pk',
-                phone: '923025748598',
+                email: 'faiaalijaz@skm.org.pk',
+                phone: '923008881409',
                 address: 'skm.org.pk'
               },
               {
