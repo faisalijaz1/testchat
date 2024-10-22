@@ -82,6 +82,27 @@ const WebIndex = () => {
   const routes = all_routes;
   const [chats, setChats] = useState([
     {
+      id: 5,
+      name: 'Idress Khokar',
+      lastText: '',
+      lastTextTime: '',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'idresskhokar@skm.org.pk',
+      phone: '923004282884',
+      address: 'skm.org.pk'
+    },
+    {
+      id: 3,
+      name: 'Amir Mukhtar',
+      lastText: '',
+      lastTextTime: '',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'amir@skm.org.pk',
+      phone: '923009427354',
+      address: 'skm.org.pk'
+    },
+    {
+      
       id: 2,
       name: 'Faisal Ijaz',
       lastText: 'Have you called them?',
@@ -102,16 +123,7 @@ const WebIndex = () => {
       phone: '923234877174',
       address: 'skm.org.pk'
     },
-    {
-      id: 3,
-      name: 'Ghulam Mehmood',
-      lastText: '',
-      lastTextTime: '',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'gmehmood@skm.org.pk',
-      phone: '923025748598',
-      address: 'skm.org.pk'
-    },
+   
     {
       id: 4,
       name: 'Waqas Ali',
@@ -122,16 +134,7 @@ const WebIndex = () => {
       phone: '923214872551',
       address: 'skm.org.pk'
     },
-    {
-      id: 5,
-      name: 'Idress Khokar',
-      lastText: '',
-      lastTextTime: '',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'idresskhokar@skm.org.pk',
-      phone: '923004282884',
-      address: 'skm.org.pk'
-    },
+    
     // Add more contacts as needed
     // your contacts data...
   ]);

@@ -11,6 +11,25 @@ const Contact = () => {
 
   const [contacts, setContacts] = useState([
     {
+      id: 5,
+      name: 'Idress Khokar',
+      department: 'MIS',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'idresskhokar@skm.org.pk',
+      phone: '923004282884',
+      address: 'skm.org.pk'
+    },
+    {
+      id: 3,
+      name: 'Amir Mukhtar',
+      lastText: '',
+      lastTextTime: '',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'amir@skm.org.pk',
+      phone: '923009427354',
+      address: 'skm.org.pk'
+    },
+    {
       id: 1,
       name: 'Muhammad Nadeem',
       department: 'MIS',
@@ -28,15 +47,7 @@ const Contact = () => {
       phone: '923008881409',
      address: 'skm.org.pk'
     },
-    {
-      id: 3,
-      name: 'Ghulam Mehmood',
-      department: 'MIS',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'gmehmood@skm.org.pk',
-      phone: '923025748598',
-      address: 'skm.org.pk'
-    },
+   
     {
       id: 4,
       name: 'Waqas Ali',
@@ -46,15 +57,7 @@ const Contact = () => {
       phone: '923214872551',
       address: 'skm.org.pk'
     },
-    {
-      id: 5,
-      name: 'Idress Khokar',
-      department: 'MIS',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'idresskhokar@skm.org.pk',
-      phone: '923004282884',
-      address: 'skm.org.pk'
-    },
+   
     // Add more contacts as needed
     // your contacts data...
   ]);
