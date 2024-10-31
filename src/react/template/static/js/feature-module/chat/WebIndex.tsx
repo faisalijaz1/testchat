@@ -65,7 +65,8 @@ const WebIndex = () => {
   const { selectedContact } = location.state || {};
 
 
-
+  const [isProcessing, setIsProcessing] = useState(false); // State to prevent multiple submissions
+ 
 
   // const [deliveryStatus, setDeliveryStatus] = useState<string | null>(null);
   // const [socketClient, setSocketClient] = useState<any>(null);
@@ -161,11 +162,16 @@ const WebIndex = () => {
 
 
   const handleEnterPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !isProcessing) { // Check if not already processing
       event.preventDefault(); // Prevent default form submission behavior
+      setIsProcessing(true); // Set processing state to true
+
       if (buttonRef.current) {
         buttonRef.current.click(); // Trigger button click event
       }
+
+      // Optional: Add a small delay to reset `isProcessing` or reset after the button click completes
+      setTimeout(() => setIsProcessing(false), 500); // Adjust the delay as needed
     }
   };
   const convertTimestampToGMTPlus5 = (unixTimestamp) => {
@@ -213,7 +219,7 @@ const WebIndex = () => {
 
       const response = await axios.post(url, {});
 
-      if (response.status === 200) {
+      if (response.status === 200 && recipientPhoneNumber===selectedpinChat.phone) {
         const messageId = response.data; // Get message ID from response
 
         const newMessage = {
@@ -228,8 +234,9 @@ const WebIndex = () => {
 
         };
         setMessages(prevMessages => [...prevMessages, newMessage]);
-        setInputText(""); // Clear input field
+       
       }
+      setInputText(""); // Clear input field
     } catch (error) {
       console.error('Error sending message:', error);
       alert('Failed to send message.');
@@ -527,11 +534,11 @@ const WebIndex = () => {
 
     setChats(prevList => {
       // Create a Set of existing phone numbers in the chat list
-      const existingPhones = new Set(prevList.map(chat => chat.phone));
-
+      // const existingPhones = new Set(prevList.map(chat => chat.phone));
+      const existingPhones = new Set(prevList.map(chat => String(chat.phone)));
       // Filter out recipients that already exist in the chat list
-      const newRecipients = recipients.filter(recipient => !existingPhones.has(recipient.phone));
-
+      // const newRecipients = recipients.filter(recipient => !existingPhones.has(recipient.phone));
+      const newRecipients = recipients.filter(recipient => !existingPhones.has(String(recipient.phone)));
       // Add only the new recipients to the chat list
       return [...prevList, ...newRecipients];
     });

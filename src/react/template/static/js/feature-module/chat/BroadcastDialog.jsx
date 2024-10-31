@@ -142,7 +142,8 @@ const BroadcastDialog = ({  onSendMessage }) => {
     const [selectedProducts, setSelectedProducts] = useState([]);
     const buttonRef = useRef(null);
     const [recipientsText, setRecipientsText] = useState('');
-
+    const [isProcessing, setIsProcessing] = useState(false); // State to prevent multiple submissions
+ 
     const [recipients, setRecipients] = useState([
       
       ]);
@@ -365,12 +366,17 @@ const convertCSVToJSON = (file) => {
         onSendMessage(selectedProducts,inputText);
     };
     const handleEnterPress = (event) => {
-        if (event.key === 'Enter') {
-          event.preventDefault(); // Prevent default form submission behavior
-          if (buttonRef.current) {
-            buttonRef.current.click(); // Trigger button click event
-          }
+      if (event.key === 'Enter' && !isProcessing) { // Check if not already processing
+        event.preventDefault(); // Prevent default form submission behavior
+        setIsProcessing(true); // Set processing state to true
+  
+        if (buttonRef.current) {
+          buttonRef.current.click(); // Trigger button click event
         }
+  
+        // Optional: Add a small delay to reset `isProcessing` or reset after the button click completes
+        setTimeout(() => setIsProcessing(false), 500); // Adjust the delay as needed
+      }
       };
 
      
