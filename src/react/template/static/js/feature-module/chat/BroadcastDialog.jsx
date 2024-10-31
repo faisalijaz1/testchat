@@ -12,11 +12,10 @@ import { Toolbar } from 'primereact/toolbar';
 import { Tag } from 'primereact/tag';
 import { Link } from "react-router-dom";
 import ImageWithBasePath from "../../core/data/img/ImageWithBasePath.tsx";
+import Papa from "papaparse";
 
-// import './index.css'; 
-// import './flags.css'; 
 import 'primereact/resources/primereact.min.css';
-
+import * as XLSX from 'xlsx';
 // import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/themes/saga-blue/theme.css'; // Choose your preferred theme
 
@@ -171,6 +170,18 @@ const BroadcastDialog = ({  onSendMessage }) => {
     const toast = useRef(null);
     const dt = useRef(null);
     const [showContent, setShowContent] = useState(false);
+
+
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [jsonData, setJsonData] = useState([]);
+   
+    const [displayColumnWise, setDisplayColumnWise] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [fileType, setFileType] = useState("");
+
+
+
+
     useEffect(() => {
         ProductService.getProducts().then((data) => setProducts(data));
         // if (!visible) {
@@ -178,6 +189,100 @@ const BroadcastDialog = ({  onSendMessage }) => {
         //     setRecipientsText('');
         // }
     }, []);
+
+// ------------------------------------------------------------------------------
+
+const handleFileSelect = (event) => {
+  const file = event.target.files[0];
+  setSelectedFile(file);
+  setJsonData([]);
+  
+  const fileType = getFileType(file);
+  setFileType(fileType);
+
+  if (fileType === 'xlsx') {
+    convertExcelToJSON(file);
+  } else if (fileType === 'csv') {
+    convertCSVToJSON(file);
+  } else {
+    console.error('Unsupported file type');
+    setErrorMessage("Unsupported file type");
+  }
+};
+// ========
+const getFileType = (file) => {
+  const extension = file.name.split('.').pop().toLowerCase();
+  return extension === "xlsx" ? "xlsx" : extension === "csv" ? "csv" : "";
+};
+
+// ========
+const formatImportedData = (data) => {
+  // Extract headers from the first row
+  const headers = data[0];
+
+  // Map each remaining row to an object using headers as keys
+  return data.slice(1).map((row) => {
+    const rowData = {};
+    headers.forEach((header, index) => {
+      rowData[header] = row[index];
+    });
+    return rowData;
+  });
+};
+const convertExcelToJSON = (file) => {
+  const fileReader = new FileReader();
+  fileReader.onload = (event) => {
+    const arrayBuffer = event.target.result;
+    try {
+      const workbook = XLSX.read(arrayBuffer, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+const formattedData = formatImportedData(json);
+
+      console.log(formattedData);
+      // alert(JSON.stringify(json));
+      // setJsonData(formattedData);
+      setProducts(formattedData);
+      setErrorMessage(null);
+    } catch (error) {
+      console.error("Error reading file:", error);
+      setErrorMessage("Invalid or damaged file. Please upload a valid file.");
+      setJsonData([]);
+    }
+  };
+
+  fileReader.readAsArrayBuffer(file);
+};
+
+
+// =========
+const convertCSVToJSON = (file) => {
+  const fileReader = new FileReader();
+  fileReader.onload = (event) => {
+    const csvData = event.target.result;
+
+    Papa.parse(csvData, {
+      complete: function (results) {
+        // `results.data` contains the parsed CSV data as an array
+        setJsonData(results.data);
+        setErrorMessage(null);
+      },
+      error: function (error) {
+        console.error("Error parsing CSV:", error.message);
+        setErrorMessage("Error parsing CSV. Please check the file format.");
+        setJsonData([]);
+        // setDownloadData([]);
+        // setDownloadMode("");
+      },
+    });
+  };
+
+  fileReader.readAsText(file);
+};
+
+// ------------------------------------------------------------------------------
+
 
     const handleAddRecipient = () => {
         if (newRecipient.trim() && !recipients.includes(newRecipient)) {
@@ -196,9 +301,31 @@ const BroadcastDialog = ({  onSendMessage }) => {
 
     const header = (
         <div className="flex justify-content-between">
+
             <h4 className="m-0">Select Recepitents</h4>
+            {/* <InputText  type="file" onChange={handleFileSelect} />
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
+<div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+  <i className="pi pi-file-excel" style={{ fontSize: '1.5rem', color: 'green' }}></i>
+  <InputText
+    type="file"
+    onChange={handleFileSelect}
+    style={{
+      padding: '0.5rem',
+      border: '1px solid #ced4da',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      color: '#495057',
+      backgroundColor: '#fff',
+      width: '100%',
+    }}
+  />
+</div>
+{errorMessage && <p style={{ color: 'red', marginTop: '5px' }}>{errorMessage}</p>}
+
             <span className="p-input-icon-left">
                 <i className="pi pi-search" style={{ paddingLeft: '10px' }} />
+
                 <InputText style={{ paddingLeft: '46px' }} type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search Keyword..." />
             </span>
         </div>
@@ -251,14 +378,24 @@ const BroadcastDialog = ({  onSendMessage }) => {
 
     return (
         // visible && (
-            <div >
-               
+            <div >              
+    
                 <Toast ref={toast} />
                 {/* <div className="card"> */}
                     {/* <Toolbar className="mb-4"  /> */}
                     <div className=" chat">
            <div className="chat-footerdlg">
               <form>
+      
+
+              {/* <input type="file"  onChange={handleFileSelect} /> */}
+              {/* <input type="file" onChange={handleFileSelect} />
+      
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
+    
+      {/* --------------------------------------------- */}
+     
+
                 <div className="smile-foot">
                   <div className="chat-action-btns">
                     <div className="chat-action-col">
@@ -488,25 +625,7 @@ const BroadcastDialog = ({  onSendMessage }) => {
     placeholder="No recipients selected yet"
  />
  </div> 
-       {/* <div style={{ marginTop: '10px' }}>
-        <input 
-          type="text" 
-          value={newRecipient}
-          onChange={(e) => setNewRecipient(e.target.value)} 
-          placeholder="Add a recipient" 
-          style={styles.input}
-        />
-        <button onClick={handleAddRecipient} style={styles.addButton}>
-          Add Recipient
-        </button>
-      </div>
-
-      <textarea 
-        placeholder="Type your message here" 
-        style={styles.textarea} 
-        rows="4" 
-      />
-    </div> */}
+       
      
                     <DataTable
                         ref={dt}
@@ -528,20 +647,15 @@ const BroadcastDialog = ({  onSendMessage }) => {
                         {/* <Column field="name" header="Name" sortable style={{ minWidth: '12rem' }}></Column> */}
                         <Column header="Name" sortable  style={{ minWidth: '14rem' }}
                     body={representativesItemTemplate}  />     
-                        {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
-                        {/* <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column> */}
+                       
                         <Column field="department" header="Department" sortable style={{ minWidth: '10rem' }}></Column>
                         <Column field="email" header="Email" sortable style={{ minWidth: '10rem' }}></Column>
                         <Column field="phone" header="Contact No#" sortable style={{ minWidth: '10rem' }}></Column>
                        
-                       
-                        {/* <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable style={{ minWidth: '10rem' }}></Column> */}
-                        {/* <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable style={{ minWidth: '10rem' }}></Column> */}
-                        {/* <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column> */}
+                      
                     </DataTable>
              
-                {/* <button onClick={handleSendMessage} className="btn btn-primary">Send Broadcast</button>
-                <button onClick={onClose} className="btn btn-secondary">Close</button> */}
+               
             </div>
         // )
     );
