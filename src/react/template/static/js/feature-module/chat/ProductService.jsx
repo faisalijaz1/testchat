@@ -9,17 +9,17 @@ export const ProductService = {
      
         return axios.get(`https://steadfast-benevolence-production.up.railway.app/api/whatsapp/getreports`)
       },
-      updatereports(recipientPhoneNumber,status) {
+      updatereports(recipientPhoneNumber,status,googleDrivePath,reportName,id) {
         console.log('executed service')
      
-        return axios.post(`https://steadfast-benevolence-production.up.railway.app/api/whatsapp/updatereports?status=${status}&recipientPhoneNumber=${recipientPhoneNumber}`)
+        return axios.post(`https://steadfast-benevolence-production.up.railway.app/api/whatsapp/updatereports?status=${status}&recipientPhoneNumber=${recipientPhoneNumber}&googleDrivePath=${googleDrivePath}&reportName=${reportName}&id=${id}`)
       },
     getProductsData() {
         return [
             {
                 id: 2,
                 name: 'Muhammad Faisal Ijaz',
-                department: 'MIS',
+                department: 'SIC',
                 image: '/assets/img/avatar/avatar-17.png',
                 email: 'faiaalijaz@skm.org.pk',
                 phone: '923008881409',
@@ -28,7 +28,7 @@ export const ProductService = {
               {
                 id: 4,
                 name: 'Waqas Ali',
-                department: 'MIS',
+                department: 'SIC',
                 image: '/assets/img/avatar/avatar-17.png',
                 email: 'waqasali@skm.org.pk',
                 phone: '923214872551',

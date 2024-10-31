@@ -129,7 +129,7 @@ const AllChat = () => {
           // Update message status based on the delivery status
           setMessages(prevMessages =>
             prevMessages.map(msg =>
-              msg.id === status.messageId // Assuming status contains messageId
+              msg.id === status.messageId // Assumimessageng status contains messageId
                 ? { ...msg, isDelivered: status.isDelivered, isRead: status.isRead, fromClient: false }
                 : msg
             )
@@ -429,7 +429,7 @@ const AllChat = () => {
                                 <span>
                                   <i className="bx bx-user-circle" />
                                 </span>
-                                Create Group
+                                Create Group(In-Progress)
                               </Link>
                               <Link
                                 to="#"
@@ -440,7 +440,7 @@ const AllChat = () => {
                                 <span>
                                   <i className="bx bx-user-plus" />
                                 </span>
-                                Invite Others
+                                Invite Others(In-Progress)
                               </Link>
                             </div>
                           </div>
@@ -561,7 +561,7 @@ const AllChat = () => {
                     <div className="fav-title pin-chat">
                       <h6>
                         <i className="bx bx-pin me-1" />
-                        Pinned Chat
+                        Pinned Chat(In-Progress)
                       </h6>
                     </div>
                   </div>
@@ -582,7 +582,7 @@ const AllChat = () => {
                             {/* <p>Have you called them?</p> */}
                           </div>
                           <div className="last-chat-time">
-                            <small className="text-muted">10:20 PM</small>
+                            {/* <small className="text-muted">10:20 PM</small> */}
                             {/* <div className="chat-pin">
                               <i className="bx bx-pin me-2" />
                               <i className="bx bx-check-double" />
@@ -817,7 +817,7 @@ const AllChat = () => {
                     <div className="fav-title pin-chat">
                       <h6>
                         <i className="bx bx-message-square-dots me-1" />
-                        Recent Chat
+                        Recent Chat(In-Progress)
                       </h6>
                     </div>
                   </div>
@@ -837,12 +837,12 @@ const AllChat = () => {
                         <div className="users-list-body">
                           <div>
                             <h5>Muhammad Nadeem</h5>
-                            <p>Have you called them?</p>
+                            {/* <p>Have you called them?</p> */}
                           </div>
                           <div className="last-chat-time">
-                            <small className="text-muted">Just Now</small>
+                            {/* <small className="text-muted">Just Now</small> */}
                             <div className="chat-pin">
-                              <span className="count-message">5</span>
+                              {/* <span className="count-message">5</span> */}
                             </div>
                           </div>
                         </div>
@@ -857,7 +857,7 @@ const AllChat = () => {
                               <span>
                                 <i className="bx bx-archive-in" />
                               </span>
-                              Archive Chat{" "}
+                              Archive Chat{" "}(In-Progress)
                             </span>
                             <span
                               className="dropdown-item"
@@ -867,7 +867,7 @@ const AllChat = () => {
                               <span>
                                 <i className="bx bx-volume-mute" />
                               </span>
-                              Mute Notification
+                              Mute Notification(In-Progress)
                             </span>
                             <span
                               className="dropdown-item"
@@ -877,19 +877,19 @@ const AllChat = () => {
                               <span>
                                 <i className="bx bx-trash" />
                               </span>
-                              Delete Chat
+                              Delete Chat(In-Progress)
                             </span>
                             <span className="dropdown-item">
                               <span>
                                 <i className="bx bx-pin" />
                               </span>
-                              Pin Chat
+                              Pin Chat(In-Progress)
                             </span>
                             <span className="dropdown-item">
                               <span>
                                 <i className="bx bx-check-square" />
                               </span>
-                              Mark as Read
+                              Mark as Read(In-Progress)
                             </span>
                             <span
                               className="dropdown-item"
@@ -899,7 +899,7 @@ const AllChat = () => {
                               <span>
                                 <i className="bx bx-block" />
                               </span>
-                              Block
+                              Block(In-Progress)
                             </span>
                           </div>
                         </div>
@@ -1530,7 +1530,7 @@ const AllChat = () => {
                 </figure>
                 <div className="mt-1">
                   <h5>Muhammad Faisal Ijaz</h5>
-                  <small className="last-seen">Last Seen at 07:15 PM</small>
+                  {/* <small className="last-seen">Last Seen at 07:15 PM</small> */}
                 </div>
               </div>
               <div className="chat-options ">
@@ -1600,7 +1600,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-x" />
                         </span>
-                        Close Chat{" "}
+                        Close Chat{" "}(In-Progress)
                       </Link>
                       <Link
                         to="#"
@@ -1611,7 +1611,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-volume-mute" />
                         </span>
-                        Mute Notification
+                        Mute Notification(In-Progress)
                       </Link>
                       <Link
                         to="#"
@@ -1622,7 +1622,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-time-five" />
                         </span>
-                        Disappearing Message
+                        Disappearing Message(In-Progress)
                       </Link>
                       <Link
                         to="#"
@@ -1633,7 +1633,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-brush-alt" />
                         </span>
-                        Clear Message
+                        Clear Message(In-Progress)
                       </Link>
                       <Link
                         to="#"
@@ -1644,7 +1644,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-trash" />
                         </span>
-                        Delete Chat
+                        Delete Chat(In-Progress)
                       </Link>
                       <Link
                         to="#"
@@ -1655,7 +1655,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-dislike" />
                         </span>
-                        Report
+                        Report(In-Progress)
                       </Link>
                       <Link
                         to="#"
@@ -1666,7 +1666,7 @@ const AllChat = () => {
                         <span>
                           <i className="bx bx-block" />
                         </span>
-                        Block
+                        Block(In-Progress)
                       </Link>
                     </div>
                   </li>

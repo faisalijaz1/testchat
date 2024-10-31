@@ -105,8 +105,8 @@ const WebIndex = () => {
       
       id: 2,
       name: 'Muhammad Faisal Ijaz',
-      lastText: 'Have you called them?',
-      lastTextTime: '10:20 PM',
+      lastText: '',
+      lastTextTime: '',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'faiaalijaz@skm.org.pk',
       phone: '923008881409',
@@ -143,8 +143,8 @@ const WebIndex = () => {
     {
       id: 1,
       name: 'Faisal Ijaz',
-      lastText: 'Have you called them?',
-      lastTextTime: '10:20 PM',
+      lastText: '',
+      lastTextTime: '',
       image: '/assets/img/avatar/avatar-17.png',
       email: 'nadeem@skm.org.pk',
       phone: '+923234877174',
@@ -289,6 +289,8 @@ const WebIndex = () => {
 
           if (contactExists) {
             // If contact exists, add the message to the chat
+            console.log(selectedpinChat)
+            console.log(selectedChat)
             if (incomingMessage.from === chat.phone && incomingMessage.from===selectedpinChat.phone) {
               setMessages(prevMessages => {
                 const messageExists = prevMessages.some(msg => msg.id === newMessage.id);
@@ -349,7 +351,7 @@ const WebIndex = () => {
       //   stompClient.deactivate();
       // }
     };
-  }, [chats]);
+  }, [selectedpinChat,chats]);
 
   const settings = {
     dots: false,
@@ -563,20 +565,20 @@ const WebIndex = () => {
                         <ul className="dropdown-menu">
                           <li>
                             <Link className="dropdown-item" to={routes.allChat}>
-                              All Chat
+                              All Chat{" "}(In-Progress)
                             </Link>
                           </li>
-                          <li>
+                          {/* <li>
                             <Link
                               className="dropdown-item"
                               to={routes.archiveChat}
                             >
-                              BroadCast Chat
+                              BroadCast Chat(In-Progress)
                             </Link>
-                          </li>
+                          </li> */}
                           <li>
                             <Link className="dropdown-item" to={routes.pinnedChat}>
-                              Pinned Chat
+                              Pinned Chat{" "}(In-Progress)
                             </Link>
                           </li>
                         </ul>
@@ -610,7 +612,7 @@ const WebIndex = () => {
                                   <span>
                                     <i className="bx bx-message-rounded-add" />
                                   </span>
-                                  New Chat{" "}
+                                  New Chat{" "}(In-Progress)
                                 </Link>
                                 <Link
                                   to="#"
@@ -645,7 +647,7 @@ const WebIndex = () => {
                                   <span>
                                     <i className="bx bx-user-plus" />
                                   </span>
-                                  Invite Others
+                                  Invite Others{" "}(In-Progress)
                                 </Link>
                               </div>
                             </div>
@@ -819,7 +821,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-x" />
                           </span>
-                          Close Chat{" "}
+                          Close Chat{" "}(In-Progress)
                         </Link>
                         <Link
                           to="#"
@@ -830,7 +832,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-volume-mute" />
                           </span>
-                          Mute Notification
+                          Mute Notification{" "}(In-Progress)
                         </Link>
                         <Link
                           to="#"
@@ -841,7 +843,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-time-five" />
                           </span>
-                          Disappearing Message
+                          Disappearing Message{" "}(In-Progress)
                         </Link>
                         <Link
                           to="#"
@@ -852,7 +854,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-brush-alt" />
                           </span>
-                          Clear Message
+                          Clear Message{" "}(In-Progress)
                         </Link>
                         <Link
                           to="#"
@@ -863,7 +865,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-trash" />
                           </span>
-                          Delete Chat
+                          Delete Chat{" "}(In-Progress)
                         </Link>
                         <Link
                           to="#"
@@ -874,7 +876,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-dislike" />
                           </span>
-                          Report
+                          Report{" "}(In-Progress)
                         </Link>
                         <Link
                           to="#"
@@ -885,7 +887,7 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-block" />
                           </span>
-                          Block
+                          Block{" "}(In-Progress)
                         </Link>
                       </div>
                     </li>
@@ -995,37 +997,37 @@ const WebIndex = () => {
                           <span>
                             <i className="bx bx-file" />
                           </span>
-                          Document
+                          Document{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-camera" />
                           </span>
-                          Camera
+                          Camera{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-image" />
                           </span>
-                          Gallery
+                          Gallery{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-volume-full" />
                           </span>
-                          Audio
+                          Audio{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-map" />
                           </span>
-                          Location
+                          Location{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-user-pin" />
                           </span>
-                          Contact
+                          Contact{" "}(In-Progress)
                         </Link>
                       </div>
                     </div>
@@ -1107,7 +1109,7 @@ const WebIndex = () => {
                     <div className="chat-content">
                       <div className="chat-profile-name">
                         <h6>
-                          Mark Villiams<span>8:16 PM</span>
+                          {/* Mark Villiams<span>8:16 PM</span> */}
                         </h6>
                         <div className="chat-action-btns ms-2">
                           <div className="chat-action-col">

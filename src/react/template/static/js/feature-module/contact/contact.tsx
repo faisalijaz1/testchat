@@ -167,7 +167,7 @@ const Contact = () => {
                   </figure>
                   <div className="mt-1">
                     <h5>{selectedContact.name}</h5>
-                    <small className="last-seen">Last Seen at 07:15 PM</small>
+                    <small className="last-seen"></small>
                   </div>
                 </div>
                 {/* ---------------------------------------------------------------- */}
@@ -195,10 +195,10 @@ const Contact = () => {
                         <i className="bx bx-dots-vertical-rounded" />
                       </Link>
                       <div className="dropdown-menu dropdown-menu-end contact-menus">
-                        <Link to={routes.index} className="dropdown-item "><span><i className="bx bx-share-alt" /></span>Share</Link>
-                        <Link to="#" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit-contact"><span><i className="bx bx-pencil" /></span>Edit</Link>
-                        <Link to="#" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#block-user"><span><i className="bx bx-block" /></span>Block</Link>
-                        <Link to="#" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-chat"><span><i className="bx bx-trash" /></span>Delete</Link>
+                        <Link to={routes.index} className="dropdown-item "><span><i className="bx bx-share-alt" /></span>Share{" "}(In-Progress)</Link>
+                        <Link to="#" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit-contact"><span><i className="bx bx-pencil" /></span>Edit{" "}(In-Progress)</Link>
+                        <Link to="#" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#block-user"><span><i className="bx bx-block" /></span>Block{" "}(In-Progress)</Link>
+                        <Link to="#" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-chat"><span><i className="bx bx-trash" /></span>Delete{" "}(In-Progress)</Link>
                       </div>
                     </li>
                   </ul>

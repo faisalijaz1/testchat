@@ -206,14 +206,19 @@ const onRowEditComplete = (e) => {
     let { newData, index } = e;
 
     _products[index] = newData;
-    ProductService.updatereports(newData.recipientPhoneNumber,newData.status).then(() => console.log("success"));
+    ProductService.updatereports(newData.recipientPhoneNumber,newData.status,newData.googleDrivePath,newData.reportName,newData.id).then(() => console.log("success"));
     setProducts(_products);
 };
 
 const textEditor = (options) => {
     return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)} />;
 };
-
+const googledriveEditor = (options) => {
+  return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)} />;
+};
+const testnameEditor = (options) => {
+  return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)} />;
+};
 const statusEditor = (options) => {
     return (
         <Dropdown
@@ -248,9 +253,9 @@ const statusBodyTemplate = (rowData) => {
 
       <DataTable value={products} editMode="row" dataKey="id" onRowEditComplete={onRowEditComplete} tableStyle={{ minWidth: '50rem' }}>
                 <Column field="id" header="id"  style={{ width: '0%',display:'none' }}></Column>
-                <Column field="reportName" header="Test Name"  style={{ width: '20%' }}></Column>
+                <Column field="reportName" header="Test Name" editor={(options) => testnameEditor(options)}  style={{ width: '20%' }}></Column>
                 <Column field="recipientPhoneNumber" header="Contact Number" editor={(options) => textEditor(options)} style={{ width: '20%' }}></Column>
-                <Column field="googleDrivePath" header="Drive File ID"  style={{ width: '20%' }}></Column>
+                <Column field="googleDrivePath" header="Drive File ID" editor={(options) => googledriveEditor(options)}  style={{ width: '20%' }}></Column>
                
                 <Column field="status" header="Status" body={statusBodyTemplate} editor={(options) => statusEditor(options)} style={{ width: '20%' }}></Column>
                 {/* <Column field="price" header="Price" body={priceBodyTemplate} editor={(options) => priceEditor(options)} style={{ width: '20%' }}></Column> */}

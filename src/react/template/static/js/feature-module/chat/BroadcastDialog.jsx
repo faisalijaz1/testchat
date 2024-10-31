@@ -411,37 +411,37 @@ const convertCSVToJSON = (file) => {
                           <span>
                             <i className="bx bx-file" />
                           </span>
-                          Document
+                          Document{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-camera" />
                           </span>
-                          Camera
+                          Camera{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-image" />
                           </span>
-                          Gallery
+                          Gallery{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-volume-full" />
                           </span>
-                          Audio
+                          Audio{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-map" />
                           </span>
-                          Location
+                          Location{" "}(In-Progress)
                         </Link>
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-user-pin" />
                           </span>
-                          Contact
+                          Contact{" "}(In-Progress)
                         </Link>
                       </div>
                     </div>
@@ -523,7 +523,7 @@ const convertCSVToJSON = (file) => {
                     <div className="chat-content">
                       <div className="chat-profile-name">
                         <h6>
-                          Mark Villiams<span>8:16 PM</span>
+                          {/* Mark Villiams<span>8:16 PM</span> */}
                         </h6>
                         <div className="chat-action-btns ms-2">
                           <div className="chat-action-col">
@@ -644,9 +644,11 @@ const convertCSVToJSON = (file) => {
                         className="p-datatable-custom"
                     >
                         <Column selectionMode="multiple" exportable={false}></Column>
-                        {/* <Column field="name" header="Name" sortable style={{ minWidth: '12rem' }}></Column> */}
-                        <Column header="Name" sortable  style={{ minWidth: '14rem' }}
-                    body={representativesItemTemplate}  />     
+                        <Column field="id" header="ID"  style={{ width: '0px',display:'none' }}></Column>
+                        
+                        <Column field="name" header="Name" sortable style={{ minWidth: '12rem' }}></Column>
+                        {/* <Column header="Name" sortable  style={{ minWidth: '14rem' }}
+                    body={representativesItemTemplate}  />      */}
                        
                         <Column field="department" header="Department" sortable style={{ minWidth: '10rem' }}></Column>
                         <Column field="email" header="Email" sortable style={{ minWidth: '10rem' }}></Column>

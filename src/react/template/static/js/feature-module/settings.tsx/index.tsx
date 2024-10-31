@@ -144,7 +144,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-globe" />
-                            <span>Social Profiles</span>
+                            <span>Social Profiles{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -157,7 +157,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-lock-alt" />
-                            <span>Password &amp; Security</span>
+                            <span>Password &amp; Security{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -170,7 +170,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-check-shield" />
-                            <span>Privacy</span>
+                            <span>Privacy{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -183,7 +183,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-message-square-dots" />
-                            <span>Chat</span>
+                            <span>Chat{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -196,7 +196,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-bell" />
-                            <span>Notifications</span>
+                            <span>Notifications{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -209,7 +209,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-globe" />
-                            <span>Languages</span>
+                            <span>Languages{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -222,7 +222,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-laptop" />
-                            <span>Manage Devices</span>
+                            <span>Manage Devices{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -231,7 +231,7 @@ const Settings = () => {
                         <Link to="#">
                           <div className="setting-card-list">
                             <i className="bx bx-file" />
-                            <span>Terms &amp; Conditions</span>
+                            <span>Terms &amp; Conditions{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -240,7 +240,7 @@ const Settings = () => {
                         <Link to="#">
                           <div className="setting-card-list">
                             <i className="bx bx-shield-alt-2" />
-                            <span>Privacy Policy</span>
+                            <span>Privacy Policy{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -253,7 +253,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-block" />
-                            <span>Blocked User</span>
+                            <span>Blocked User{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -266,7 +266,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-volume-mute" />
-                            <span>Mute User</span>
+                            <span>Mute User{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -279,7 +279,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-trash" />
-                            <span>Delete Account</span>
+                            <span>Delete Account{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>
@@ -292,7 +292,7 @@ const Settings = () => {
                         >
                           <div className="setting-card-list">
                             <i className="bx bx-lock-alt" />
-                            <span>Logout</span>
+                            <span>Logout{" "}(In-Progress)</span>
                           </div>
                           <i className="bx bx-chevron-right" />
                         </Link>

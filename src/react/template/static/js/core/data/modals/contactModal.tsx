@@ -23,7 +23,7 @@ const ContactModal = () => {
       <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title">
-            Add Contact
+            Add Contact{" "}(In-Progress)
           </h5>
           <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close">
             <span className="material-icons">close</span>
@@ -63,22 +63,21 @@ const ContactModal = () => {
       
                 </div>
               </div>
-              <div className="col-sm-12">
+              {/* <div className="col-sm-12">
                 <div className="form-group">
                   <label className="form-control-label">Date of Birth <span>*</span></label>
                   <div className="cal-icon">
                     <span><ImageWithBasePath src="/assets/img/icon/calendar.svg" alt="Icon" /></span>
-                    {/* <input type="text" className="form-control datetimepicker" placeholder="Select Date" /> */}
-                    <DatePicker className="form-control datetimepicker"/>
+                   <DatePicker className="form-control datetimepicker"/>
                   </div>
                 </div>
-              </div>
-              <div className="col-sm-12">
+              </div> */}
+              {/* <div className="col-sm-12">
                 <div className="pass-login">
                   <label className="form-label">Website Address  <span>*</span></label>
                   <input type="email" className="form-control" />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="mute-chat-btn">
               <button type="submit" className="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
@@ -101,7 +100,7 @@ const ContactModal = () => {
       <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title">
-            Edit Contact
+            Edit Contact{" "}(In-Progress)
           </h5>
           <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close">
             <span className="material-icons">close</span>
@@ -113,13 +112,13 @@ const ContactModal = () => {
               <div className="col-sm-6">
                 <div className="pass-login ">
                   <label className="form-label">First Name <span>*</span></label>
-                  <input type="text" className="form-control" defaultValue="Mark" />
+                  <input type="text" className="form-control" defaultValue="" />
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="pass-login">
                   <label className="form-label">Last Name <span>*</span></label>
-                  <input type="text" className="form-control" defaultValue="Villiams" />
+                  <input type="text" className="form-control" defaultValue="" />
                 </div>
               </div>
               <div className="col-sm-12">
@@ -141,22 +140,21 @@ const ContactModal = () => {
       />
                 </div>
               </div>
-              <div className="col-sm-12">
+              {/* <div className="col-sm-12">
                 <div className="form-group">
                   <label className="form-control-label">Date of Birth <span>*</span></label>
                   <div className="cal-icon">
                     <span><ImageWithBasePath src="/assets/img/icon/calendar.svg" alt="Icon" /></span>
-                    {/* <input type="text" className="form-control datetimepicker" placeholder="19-09-2023" /> */}
-                    <DatePicker />
+                   <DatePicker />
                   </div>
                 </div>
-              </div>
-              <div className="col-sm-12">
+              </div> */}
+              {/* <div className="col-sm-12">
                 <div className="pass-login">
                   <label className="form-label">Website Address  <span>*</span></label>
                   <input type="email" className="form-control" />
                 </div>
-              </div>
+              </div> */}
             </div>
           </form>
           {/* Card */}
