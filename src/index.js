@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import { BrowserRouter } from 'react-router-dom';
+
 // import Feature from '../src/react/template/static/js/feature-module/feature'; // This import might not be used, you can remove if unnecessary
 import { base_path } from '../src/react/template/static/js/environment.tsx'; // This import might not be used, you can remove if unnecessary
 import '../src/react/template/static/css/style/css/feather.css';
