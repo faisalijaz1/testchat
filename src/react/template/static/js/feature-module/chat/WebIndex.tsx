@@ -82,16 +82,7 @@ const WebIndex = () => {
 
   const routes = all_routes;
   const [chats, setChats] = useState([
-    {
-      id: 5,
-      name: 'Idress Khokar',
-      lastText: '',
-      lastTextTime: '',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'idresskhokar@skm.org.pk',
-      phone: '923004282884',
-      address: 'skm.org.pk'
-    },
+ 
     {
       id: 3,
       name: 'Amir Mukhtar',
@@ -100,6 +91,26 @@ const WebIndex = () => {
       image: '/assets/img/avatar/avatar-17.png',
       email: 'amir@skm.org.pk',
       phone: '923009427354',
+      address: 'skm.org.pk'
+    },
+    {
+      id: 5,
+      name: 'Waqas Bashir',
+      lastText: '',
+      lastTextTime: '',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'waqasbashir@skm.org.pk',
+      phone: '923037562472',
+      address: 'skm.org.pk'
+    },
+    {
+      id: 1,
+      name: 'Muhammad Nadeem',
+      lastText: '',
+      lastTextTime: '',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'nadeem@skm.org.pk',
+      phone: '923234877174',
       address: 'skm.org.pk'
     },
     {
@@ -114,16 +125,7 @@ const WebIndex = () => {
       address: 'skm.org.pk'
     },
 
-    {
-      id: 1,
-      name: 'Muhammad Nadeem',
-      lastText: '',
-      lastTextTime: '',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'nadeem@skm.org.pk',
-      phone: '923234877174',
-      address: 'skm.org.pk'
-    },
+   
    
     {
       id: 4,
@@ -421,26 +423,7 @@ const WebIndex = () => {
       if (response.status === 200) {
         // Assuming the response is an array of message objects
         const messagesData = response.data;
-        //  const messagesData=[
-        //   {
-        //       "id": 1,
-        //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAERgSNTQ2QzQwMzQ0ODBDODNEQTM0AA==",
-        //       "recipientPhoneNumber": "923008881409",
-        //       "status": "read",
-        //       "timestamp": "1724162235",
-        //       "sender": "15556082595",
-        //       "text": "hello are you there?"
-        //   },
-        //   {
-        //       "id": 2,
-        //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAEhgWM0VCMEI1NTIzRjdGMUZFQ0JGQ0JBMwA=",
-        //       "recipientPhoneNumber": "923008881409",
-        //       "status": "sent",
-        //       "timestamp": "1724162235",
-        //       "sender": "923008881409",
-        //       "text": "yes i am here"
-        //   }
-        // ];
+       
         // Map the received messages to your state structure
         const newMessages = messagesData.map(message => ({
           id: message.messageId,

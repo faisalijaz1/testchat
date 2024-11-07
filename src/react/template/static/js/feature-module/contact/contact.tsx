@@ -10,15 +10,7 @@ const Contact = () => {
   const routes = all_routes;
 
   const [contacts, setContacts] = useState([
-    {
-      id: 5,
-      name: 'Idress Khokar',
-      department: 'MIS',
-      image: '/assets/img/avatar/avatar-17.png',
-      email: 'idresskhokar@skm.org.pk',
-      phone: '923004282884',
-      address: 'skm.org.pk'
-    },
+   
     {
       id: 3,
       name: 'Amir Mukhtar',
@@ -28,6 +20,15 @@ const Contact = () => {
       image: '/assets/img/avatar/avatar-17.png',
       email: 'amir@skm.org.pk',
       phone: '923009427354',
+      address: 'skm.org.pk'
+    },
+    {
+      id: 5,
+      name: 'Waqas Bashir',
+      department: 'Marketing',
+      image: '/assets/img/avatar/avatar-17.png',
+      email: 'waqasbashir@skm.org.pk',
+      phone: '923037562472',
       address: 'skm.org.pk'
     },
     {
