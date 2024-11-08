@@ -6,7 +6,7 @@ const ImageComponent = ({ mediaId }) => {
     useEffect(() => {
         // Fetch the Base64-encoded media data from the backend
         axios.get(`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${mediaId}`)
-            .then((response) => response.json())
+            // .then((response) => response.json())
             .then((data) => {
                 // Set imageSrc to include the media type and Base64 data
                 setImageSrc(`data:${data.mediaType};base64,${data.mediaData}`);
