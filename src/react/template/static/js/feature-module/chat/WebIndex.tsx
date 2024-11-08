@@ -7,6 +7,7 @@ import ImageWithBasePath from "../../core/data/img/ImageWithBasePath.tsx";
 import Scrollbars from "react-custom-scrollbars-2";
 import BroadcastDialog from './BroadcastDialog';
 import QueueReports from './QueueReports';
+import ImageComponent from './ImageComponent.js'
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -1037,7 +1038,8 @@ const fileInputRef = useRef(null);
                         }}
                       >
                        {message.mediaId ? (
-                <img src={`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${message.mediaId}`} alt="Media message" />
+                          <ImageComponent mediaId={message.mediaId} />
+                // <img src={`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${message.mediaId}`} alt="Media message" />
               ) : (
                 <span>{message.text}</span>
               )}
