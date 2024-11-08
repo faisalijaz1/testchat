@@ -9,7 +9,7 @@ const ImageComponent = ({ mediaId }) => {
             // .then((response) => response.json())
             .then((data) => {
                 // Set imageSrc to include the media type and Base64 data
-                setImageSrc(`data:${data.mediaType};base64,${data.mediaData}`);
+                setImageSrc(`data:${data.data.mediaType};base64,${data.data.mediaData}`);
             })
             .catch((error) => {
                 console.error('Error fetching media:', error);
