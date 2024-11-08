@@ -69,7 +69,7 @@ const WebIndex = () => {
   const { selectedContact } = location.state || {};
   const [mediaId, setMediaId] = useState<string | null>(null);
   const [mediaFile, setMediaFile] = useState<File | null>(null);
-
+  const [mediaType, setMediaType] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false); // State to prevent multiple submissions
  
 
@@ -227,9 +227,10 @@ const WebIndex = () => {
         });
   
         const mediaId1 = response.data.mediaId; // Assuming the backend returns mediaId
-        const mediaType = file.type;
+        const mediaType1 = file.type;
         setMediaId(mediaId1)
-        // Send media message using mediaId
+        setMediaType(mediaType1)
+        // Send mediTypea message using mediaId
         // handleSendMessage(selectedContactPhone, '', mediaId, mediaType);
   
       } catch (error) {
@@ -263,41 +264,23 @@ const WebIndex = () => {
 
 const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
   try {
-    // const url = `YOUR_SEND_MESSAGE_API_URL`;
-  
-     // Send message logic
-     const currentTimestampInMilliseconds = Date.now();
-     const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
-    //  let mediaId = null;
-
-     // If there is a media file, upload it and obtain media ID
-    //  if (mediaFile) {
-    //    mediaId = await uploadMedia();
-    //  }
-     const payload = {
+    const payload = {
       templateName: 'message_test',
       recipientPhoneNumber,
       parameter: mediaId ? mediaId : encodeURIComponent(messageText) // Use media ID if available
-  
-      // parameter: encodeURIComponent(messageText),
-      // mediaId
-      
     };
-   
-     const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message`;
+    
+    const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message`;
 
     const response = await axios.post(url, payload);
-    if (response.status === 200 && recipientPhoneNumber===selectedpinChat.phone) {
-  
-      // Handle message response
-      // Similar to the existing logic, but now includes media properties if applicable
-      const messageId = response.data; // Get message ID from response
+    if (response.status === 200 && recipientPhoneNumber === selectedpinChat.phone) {
+      const messageId = response.data; // Extract message ID from response
       const newMessage = {
         id: messageId,
         text: messageText.trim(),
-        mediaUrl: '',       // Optional URL for accessing the media file
-        mediaType: '',     // Type of media (e.g., "image", "document", etc.)
-        mediaId: mediaId,         // Optional ID for the media file
+        mediaUrl: mediaId ? `${url}/media/${mediaId}` : '', // Set URL if media is present
+        mediaType,               // Media type (e.g., "image", "document")
+        mediaId,                 // Media ID for tracking
         isDelivered: false,
         isRead: false,
         status: "sent",
@@ -306,12 +289,12 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
         recipientPhoneNumber
       };
       setMessages(prevMessages => [...prevMessages, newMessage]);
-       
     }
-    setInputText(""); // Clear input field
-    setMediaFile(null);  // Clear media file after sending
-  setMediaId("")
-    
+
+    setInputText("");      // Clear input field
+    setMediaFile(null);     // Clear media file
+    setMediaId("");         // Clear media ID
+    setMediaType("");       // Clear media type
   } catch (error) {
     console.error('Error sending message:', error);
   }
