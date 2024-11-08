@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
+import axios from 'axios';
 const ImageComponent = ({ mediaId }) => {
     const [imageSrc, setImageSrc] = useState(null);
 
     useEffect(() => {
         // Fetch the Base64-encoded media data from the backend
-        fetch(`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${mediaId}`)
+        axios.get(`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${mediaId}`)
             .then((response) => response.json())
             .then((data) => {
                 // Set imageSrc to include the media type and Base64 data
