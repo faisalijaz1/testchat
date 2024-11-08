@@ -41,8 +41,12 @@ interface Message {
   isRead: boolean;
   fromClient: boolean;
   timestamp: string;
-  recipientPhoneNumber: string; // Added to associate messages with the contact
+  recipientPhoneNumber: string;
+  mediaUrl?: string;  // URL for the media file, if applicable
+  mediaType?: string; // Type of media (e.g., "image", "document", etc.)
+  mediaId?: string;   // ID for identifying media files in the backend
 }
+
 const WebIndex = () => {
 
   const [showContent, setShowContent] = useState(false);
@@ -63,7 +67,8 @@ const WebIndex = () => {
 
   const location = useLocation();
   const { selectedContact } = location.state || {};
-
+  const [mediaId, setMediaId] = useState<string | null>(null);
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
 
   const [isProcessing, setIsProcessing] = useState(false); // State to prevent multiple submissions
  
@@ -208,6 +213,118 @@ const WebIndex = () => {
   let subscription1;
   let stompClient;
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        // Upload media file to the backend to get media ID
+        const formData = new FormData();
+        formData.append('file', file);
+        const url = `https://steadfast-benevolence-production.up.railway.app/whatsapp/upload-media`;
+
+        const response = await axios.post(url, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+  
+        const mediaId1 = response.data.mediaId; // Assuming the backend returns mediaId
+        const mediaType = file.type;
+        setMediaId(mediaId1)
+        // Send media message using mediaId
+        // handleSendMessage(selectedContactPhone, '', mediaId, mediaType);
+  
+      } catch (error) {
+        console.error('Error uploading media:', error);
+      }
+    }
+  };
+
+  // File upload handler function
+ // Function to upload media to WhatsApp and obtain a media ID
+ const uploadMedia = async () => {
+  if (!mediaFile) return null;
+
+  const formData = new FormData();
+  formData.append('file', mediaFile);
+  formData.append('messaging_product', 'whatsapp');
+
+  try {
+    const response = await axios.post('/api/upload-media', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response.data.mediaId;
+  } catch (error) {
+    console.error('Error uploading media:', error);
+    alert('Failed to upload media.');
+    return null;
+  }
+};
+
+const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
+  try {
+    // const url = `YOUR_SEND_MESSAGE_API_URL`;
+  
+     // Send message logic
+     const currentTimestampInMilliseconds = Date.now();
+     const currentTimestampInSeconds = Math.floor(currentTimestampInMilliseconds / 1000);
+    //  let mediaId = null;
+
+     // If there is a media file, upload it and obtain media ID
+    //  if (mediaFile) {
+    //    mediaId = await uploadMedia();
+    //  }
+     const payload = {
+      templateName: 'message_test',
+      recipientPhoneNumber,
+      parameter: mediaId ? mediaId : encodeURIComponent(messageText) // Use media ID if available
+  
+      // parameter: encodeURIComponent(messageText),
+      // mediaId
+      
+    };
+   
+     const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message`;
+
+    const response = await axios.post(url, payload);
+    if (response.status === 200 && recipientPhoneNumber===selectedpinChat.phone) {
+  
+      // Handle message response
+      // Similar to the existing logic, but now includes media properties if applicable
+      const messageId = response.data; // Get message ID from response
+      const newMessage = {
+        id: messageId,
+        text: messageText.trim(),
+        mediaUrl: '',       // Optional URL for accessing the media file
+        mediaType: '',     // Type of media (e.g., "image", "document", etc.)
+        mediaId: mediaId,         // Optional ID for the media file
+        isDelivered: false,
+        isRead: false,
+        status: "sent",
+        fromClient: false,
+        timestamp: convertTimestampToGMTPlus5(Date.now() / 1000),
+        recipientPhoneNumber
+      };
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+       
+    }
+    setInputText(""); // Clear input field
+    setMediaFile(null);  // Clear media file after sending
+  setMediaId("")
+    
+  } catch (error) {
+    console.error('Error sending message:', error);
+  }
+};
+ // File input change handler for selecting media
+ const handleFileChange = (e) => {
+  if (e.target.files && e.target.files[0]) {
+    setMediaFile(e.target.files[0]);
+  }
+};
+// Ref for file input
+const fileInputRef = useRef(null);
+
   const handleSendMessage = async (recipientPhoneNumber, messageText) => {
     try {
 
@@ -281,16 +398,20 @@ const WebIndex = () => {
 
         const subscription1 = stompClient.subscribe(`/topic/message-received/${chat.phone}`, (message) => {
           const incomingMessage = JSON.parse(message.body);
-          const newMessage = {
-            id: incomingMessage.messageId,
-            text: incomingMessage.text,
-            isDelivered: false,
-            isRead: false,
-            fromClient: true,
-            timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp),
-            recipientPhoneNumber: incomingMessage.from, // Ensure we use the correct sender's phone number
-
-          };
+          // Create a new message object, including multimedia fields
+  const newMessage = {
+    id: incomingMessage.messageId,
+    text: incomingMessage.text,
+    mediaUrl: incomingMessage.mediaUrl,       // URL for media if it's a multimedia message
+    mediaType: incomingMessage.mediaType,     // Type of media (e.g., image, document)
+    mediaId: incomingMessage.mediaId,         // Media ID if applicable
+    isDelivered: false,
+    isRead: false,
+    status: "sent",
+    fromClient: true,
+    timestamp: convertTimestampToGMTPlus5(incomingMessage.timestamp),
+    recipientPhoneNumber: incomingMessage.from
+  };
           // Find if the contact exists in the chat list
           const contactExists = chats.find(chat => chat.phone === incomingMessage.from);
 
@@ -421,36 +542,22 @@ const WebIndex = () => {
       if (response.status === 200) {
         // Assuming the response is an array of message objects
         const messagesData = response.data;
-        //  const messagesData=[
-        //   {
-        //       "id": 1,
-        //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAERgSNTQ2QzQwMzQ0ODBDODNEQTM0AA==",
-        //       "recipientPhoneNumber": "923008881409",
-        //       "status": "read",
-        //       "timestamp": "1724162235",
-        //       "sender": "15556082595",
-        //       "text": "hello are you there?"
-        //   },
-        //   {
-        //       "id": 2,
-        //       "messageId": "wamid.HBgMOTIzMDA4ODgxNDA5FQIAEhgWM0VCMEI1NTIzRjdGMUZFQ0JGQ0JBMwA=",
-        //       "recipientPhoneNumber": "923008881409",
-        //       "status": "sent",
-        //       "timestamp": "1724162235",
-        //       "sender": "923008881409",
-        //       "text": "yes i am here"
-        //   }
-        // ];
+     
         // Map the received messages to your state structure
-        const newMessages = messagesData.map(message => ({
-          id: message.messageId,
-          text: message.text, // Extract the text from the message object
-          isDelivered: message.status === 'delivered',
-          status: message.status,
-          isRead: message.status === 'read',
-          fromClient: message.sender === callnumber, // Determine if the message is from the client
-          timestamp: convertTimestampToGMTPlus5(message.timestamp)
-        }));
+        // Map the received messages to your state structure, including multimedia fields
+      const newMessages = messagesData.map(message => ({
+        id: message.messageId,
+        text: message.text,
+        mediaUrl: message.mediaUrl,          // Optional URL for accessing media
+        mediaType: message.mediaType,        // Type of media (e.g., image, document)
+        mediaId: message.mediaId,            // Media ID for backend reference
+        isDelivered: message.status === 'delivered',
+        status: message.status,
+        isRead: message.status === 'read',
+        fromClient: message.sender === callnumber,
+        timestamp: convertTimestampToGMTPlus5(message.timestamp),
+        recipientPhoneNumber: message.recipientPhoneNumber
+      }));
 
         // Update the state with the new messages
         setMessages(newMessages);
@@ -946,13 +1053,16 @@ const WebIndex = () => {
                           padding: '15px',
                         }}
                       >
-                        {message.text}
-                        {/* Show status below the message text if the message is from the client */}
-                        {message.fromClient && (
-                          <small className="text-muted" style={{ display: 'block', marginTop: '5px', textAlign: 'right' }}>
-                            {message.timestamp}
-                          </small>
-                        )}
+                       {message.mediaId ? (
+                <img src={`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${message.mediaId}`} alt="Media message" />
+              ) : (
+                <span>{message.text}</span>
+              )}
+              {message.fromClient && (
+                <small className="text-muted" style={{ display: 'block', marginTop: '5px', textAlign: 'right' }}>
+                  {message.timestamp}
+                </small>
+              )}
                       </div>
 
 
@@ -1012,12 +1122,19 @@ const WebIndex = () => {
                           </span>
                           Camera{" "}(In-Progress)
                         </Link>
-                        <Link to="#" className="dropdown-item">
-                          <span>
-                            <i className="bx bx-image" />
-                          </span>
-                          Gallery{" "}(In-Progress)
-                        </Link>
+                        <Link to="#" className="dropdown-item" onClick={() => fileInputRef.current.click()}>
+          <span>
+            <i className="bx bx-image" />
+          </span>
+          Gallery
+        </Link>
+        {/* Hidden file input */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileUpload}
+        />
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-volume-full" />
@@ -1201,7 +1318,7 @@ const WebIndex = () => {
                   />
                 </div>
                 <div className="form-buttons">
-                  <button type="button" ref={buttonRef} className="btn send-btn" onClick={() => handleSendMessage(recipientPhoneNumber, inputText.trim())}
+                  <button type="button" ref={buttonRef} className="btn send-btn" onClick={() => handleSendmediaMessage(recipientPhoneNumber, inputText.trim())}
                   >
                     <i className="bx bx-paper-plane" />
                   </button>
