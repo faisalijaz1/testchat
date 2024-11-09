@@ -12,12 +12,13 @@ const ImageComponent = ({ mediaId }) => {
                 const decodedData = atob(response.data.mediaData);
 
                 // Check if there's a direct URL or a media data field
-                if (decodedData.url) {
-                    // If there's a URL, use it as the image source
-                    setImageSrc(decodedData.url);
-                } else if (decodedData.mediaData) {
+                // if (decodedData.url) {
+                //     // If there's a URL, use it as the image source
+                //     setImageSrc(decodedData.url);
+                // } else 
+                if (decodedData) {
                     // If there's Base64 media data, use it with the media type
-                    setImageSrc(`data:${response.data.mediaType};base64,${decodedData.mediaData}`);
+                    setImageSrc(`data:${response.data.mediaType};base64,${decodedData}`);
                 }
             })
             .catch((error) => {
