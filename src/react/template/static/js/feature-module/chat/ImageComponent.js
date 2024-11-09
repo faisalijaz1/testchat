@@ -9,7 +9,7 @@ const ImageComponent = ({ mediaId }) => {
         axios.get(`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${mediaId}`)
             .then((response) => {
                 // Decode the nested JSON from the Base64 string
-                const decodedData = JSON.parse(atob(response.data.mediaData));
+                const decodedData = atob(response.data.mediaData);
 
                 // Check if there's a direct URL or a media data field
                 if (decodedData.url) {
