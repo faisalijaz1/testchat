@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
+
 const ImageComponent = ({ mediaId }) => {
     const [imageSrc, setImageSrc] = useState(null);
 
@@ -15,7 +18,17 @@ const ImageComponent = ({ mediaId }) => {
             });
     }, [mediaId]);
 
-    return imageSrc ? <img src={imageSrc} alt="Media message" /> : null;
+    return (
+        imageSrc ? (
+            <Zoom zoomMargin={40}>
+                <img
+                    style={{ width: '300px', cursor: 'pointer' }}
+                    src={imageSrc}
+                    alt="Media message"
+                />
+            </Zoom>
+        ) : null
+    );
 };
 
 export default ImageComponent;
