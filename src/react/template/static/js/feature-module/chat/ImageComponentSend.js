@@ -27,17 +27,17 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                 // Upload media file to the backend to get media ID
                 const formData = new FormData();
                 formData.append('file', file);
-                // const url = `https://steadfast-benevolence-production.up.railway.app/whatsapp/upload-media`;
+                const url = `https://steadfast-benevolence-production.up.railway.app/whatsapp/upload-media`;
 
-                // const response = await axios.post(url, formData, {
-                //     headers: { 'Content-Type': 'multipart/form-data' },
-                // });
+                const response = await axios.post(url, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
 
-                // const mediaId1 = response.data.mediaId; // Assuming backend returns mediaId
-                // const mediaType1 = file.type;
+                const mediaId1 = response.data.mediaId; // Assuming backend returns mediaId
+                const mediaType1 = file.type;
 
-                // setMediaId(mediaId1);
-                // setMediaType(mediaType1);
+                setMediaId(mediaId1);
+                setMediaType(mediaType1);
 
                 // Preview image in modal
                 const reader = new FileReader();
@@ -73,7 +73,10 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
             const payload = {
                 templateName: 'message_test',
                 recipientPhoneNumber: recipientPhoneNumber,
-                parameter: mediaId ? mediaId : encodeURIComponent(caption), // Use media ID if available
+                // parameter: mediaId ? mediaId : encodeURIComponent(caption), // Use media ID if available
+                 parameter:'',
+                mediaId: mediaId , // Use media ID if available
+             
                 mediaType,
                 caption,
             };
