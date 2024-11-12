@@ -71,7 +71,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
     const handleSendmediaMessage = async () => {
         try {
             const payload = {
-                templateName: 'message_test',
+                templateName: 'media_message',
                 recipientPhoneNumber: recipientPhoneNumber,
                 // parameter: mediaId ? mediaId : encodeURIComponent(caption), // Use media ID if available
                  parameter:'',
