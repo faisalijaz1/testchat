@@ -81,7 +81,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                 caption,
             };
 
-            const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-message`;
+            const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-mediamessage`;
             const response = await axios.post(url, payload);
 
             if (response.status === 200 && recipientPhoneNumber) {
@@ -184,7 +184,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                     },
                 }}
             > */}
-                            <h2>Media Preview</h2>
+                            {/* <h2>Media Preview</h2> */}
                             {selectedImage && <img src={selectedImage} alt="Selected" style={{ width: '100%', marginBottom: '1rem' }} />}
                             <div className=" chat">
             <div className="chat-footerdlg">
