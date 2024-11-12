@@ -36,7 +36,7 @@ const ImageComponent = ({ mediaId }) => {
                 />
             </Zoom>
         )}
-        {caption && <p style={{ marginTop: '5px', color: '#555' }}>{caption}</p>}
+        {caption && <p style={{ marginTop: '5px', color: '#555',textAlign:'left' }}>{caption}</p>}
     </div>
     );
 };

@@ -8,6 +8,7 @@ import Scrollbars from "react-custom-scrollbars-2";
 import BroadcastDialog from './BroadcastDialog';
 import QueueReports from './QueueReports';
 import ImageComponent from './ImageComponent.js'
+import ImageComponentSend from './ImageComponentSend.js'
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -84,7 +85,8 @@ const WebIndex = () => {
   // const { selectedContact } = location.state || {};
 
 
-
+// Ref for file input
+const fileInputRef = useRef(null);
 
   const routes = all_routes;
   const [chats, setChats] = useState([
@@ -306,8 +308,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
     setMediaFile(e.target.files[0]);
   }
 };
-// Ref for file input
-const fileInputRef = useRef(null);
+
 
   const handleSendMessage = async (recipientPhoneNumber, messageText) => {
     try {
@@ -1107,19 +1108,27 @@ const fileInputRef = useRef(null);
                           </span>
                           Camera{" "}(In-Progress)
                         </Link>
-                        <Link to="#" className="dropdown-item" onClick={() => fileInputRef.current.click()}>
+                        {/* <Link to="#" className="dropdown-item"  onClick={() => {
+                    if (fileInputRef.current) {
+                        fileInputRef.current.click();
+                    }
+                }}>
           <span>
             <i className="bx bx-image" />
           </span>
           Gallery
-        </Link>
+        </Link> */}
         {/* Hidden file input */}
-        <input
+        {/* <input
           type="file"
           ref={fileInputRef}
           style={{ display: 'none' }}
           onChange={handleFileUpload}
-        />
+        /> */}
+        <ImageComponentSend
+                   setMessages={setMessages} 
+                    recipientPhoneNumber={recipientPhoneNumber}
+               />
                         <Link to="#" className="dropdown-item">
                           <span>
                             <i className="bx bx-volume-full" />
