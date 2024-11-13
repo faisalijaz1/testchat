@@ -18,15 +18,19 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
     const [mediaId, setMediaId] = useState('');
     const [mediaType, setMediaType] = useState('');
     // const [selectedContactPhone, setSelectedContactPhone] = useState(''); // Replace with actual contact data
-
+    const [fileName, setFileName] = useState('');
     // Open modal on file selection
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
         if (file) {
             try {
                 // Upload media file to the backend to get media ID
+                const fileName = file.name; // Get the file name here
+                console.log("File name:", fileName);
                 const formData = new FormData();
                 formData.append('file', file);
+                // formData.append('fileName', fileName); // Add filename as a separate parameter
+                
                 const url = `https://steadfast-benevolence-production.up.railway.app/whatsapp/upload-media`;
 
                 const response = await axios.post(url, formData, {
@@ -38,7 +42,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
 
                 setMediaId(mediaId1);
                 setMediaType(mediaType1);
-
+                setFileName(fileName)
                 // Preview image in modal
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -79,6 +83,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
 
                 mediaType,
                 caption,
+                fileName
             };
 
             const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-mediamessage`;
