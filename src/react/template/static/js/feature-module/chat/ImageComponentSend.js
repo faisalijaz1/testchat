@@ -7,7 +7,7 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // Choose your preferr
 
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-
+import Zoom from 'react-medium-image-zoom';
 Modal.setAppElement('#root'); // For accessibility when using Modal
 
 const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
@@ -112,11 +112,43 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
             setCaption('');         // Clear caption input
             setMediaId('');         // Clear media ID
             setMediaType('');       // Clear media type
-
+            setFileName('')
         } catch (error) {
             console.error('Error sending media message:', error);
         }
     };
+    const renderMedia = () => {
+        if (mediaType.startsWith('image/')) {
+          // Image handling
+          return (
+            <Zoom zoomMargin={40}>
+              <img
+                style={{ width: '100%', marginBottom: '1rem', cursor: 'pointer' }}
+                src={selectedImage}
+                alt="Media message"
+              />
+            </Zoom>
+          );
+        } else if (mediaType === 'application/pdf') {
+          // PDF handling
+          return (
+            <iframe
+              src={selectedImage}
+              type="application/pdf"
+              title="PDF Document"
+              style={{ width: '100%', marginBottom: '1rem', border: 'none', cursor: 'pointer' }}
+            />
+          );
+        } else {
+          // For unsupported types, display filename and size
+          return (
+            <div>
+              <p>{fileName} ({mediaType})</p>
+              {/* <p>Size: {fileSize}</p> */}
+            </div>
+          );
+        }
+      };
     const footerContent = (
         <div className=" chat">
                     <div className="chat-footerdlg">
@@ -220,8 +252,8 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                 }}
             > */}
                 {/* <h2>Media Preview</h2> */}
-                {selectedImage && <img src={selectedImage} alt="Selected" style={{ width: '100%', marginBottom: '1rem' }} />}
-              
+                {/* {selectedImage && <img src={selectedImage} alt="Selected" style={{ width: '100%', marginBottom: '1rem' }} />} */}
+                {selectedImage ? renderMedia() : <p>Loading media...</p>}            
 
             </Dialog>
 

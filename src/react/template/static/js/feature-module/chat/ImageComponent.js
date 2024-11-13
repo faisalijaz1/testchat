@@ -80,7 +80,7 @@ const renderMedia = () => {
         <div style={{ textAlign: 'center', marginBottom: '10px' }}>
 
 {imageSrc ? renderMedia() : <p>Loading media...</p>}
-{caption && <p>{caption}</p>}
+{caption && <p style={{ marginTop: '5px', color: '#555',textAlign:'left' }}>{caption}</p>}
 
 
         {/* {imageSrc && (
