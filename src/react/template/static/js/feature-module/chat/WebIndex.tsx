@@ -1056,7 +1056,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
 
                       {/* Only show the check icon if the message is not from the client */}
                       {!message.fromClient && (
-                        <div className="check-icon" style={{ width: '320px' }}>
+                        <div className="check-icon" style={{ width: '320px',display:'inline-flex',alignItems:'end' }}>
                           <i
                             className={`bx ${message.isRead
                               ? "bx-check-double check read"
