@@ -66,13 +66,23 @@ const renderMedia = () => {
         />
       );
     } else {
-      // For unsupported types, display filename and size
+
+         // For documents and other unsupported types, display a download link
       return (
-        <div>
-          <p>{fileName} ({mediaType})</p>
-          {/* <p>Size: {fileSize}</p> */}
-        </div>
+        <a href={imageSrc} download={fileName} target="_blank" rel="noopener noreferrer">
+          Download {fileName || 'file'}
+        </a>
       );
+      // For unsupported types, display filename and size
+    //   return (
+    //     <div>
+    //           <p>{fileName} </p>
+          {/* <p>{fileName} ({mediaType})</p> */}
+          {/* <p>Size: {fileSize}</p> */}
+
+
+    //     </div>
+    //   );
     }
   };
 
