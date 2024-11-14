@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
+import { FaFileWord, FaFilePdf, FaFileImage, FaFileAlt } from 'react-icons/fa'; // Example icons for file types
 
 const ImageComponent = ({ mediaId }) => {
     const [imageSrc, setImageSrc] = useState(null);
@@ -43,6 +44,24 @@ const ImageComponent = ({ mediaId }) => {
 //     return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`;
 //   };
 
+    // Determine the icon based on the file type
+    const getFileIcon = (fileName) => {
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        switch (fileExtension) {
+            case 'pdf':
+                return <FaFilePdf style={{ color: '#d9534f', marginRight: '5px' }} />;
+            case 'doc':
+            case 'docx':
+                return <FaFileWord style={{ color: '#337ab7', marginRight: '5px' }} />;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'gif':
+                return <FaFileImage style={{ color: '#5bc0de', marginRight: '5px' }} />;
+            default:
+                return <FaFileAlt style={{ color: '#5a5a5a', marginRight: '5px' }} />;
+            }
+        };
 const renderMedia = () => {
     if (mediaType.startsWith('image/')) {
       // Image handling
@@ -69,9 +88,18 @@ const renderMedia = () => {
 
          // For documents and other unsupported types, display a download link
       return (
-        <a href={imageSrc} download={fileName} target="_blank" rel="noopener noreferrer">
-          Download {fileName || 'file'}
-        </a>
+        <a
+        href={imageSrc}
+        download={fileName}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: 'none', color: '#337ab7', display: 'flex', alignItems: 'center' }}
+    >
+        {getFileIcon(fileName)}
+        <span style={{ textDecoration: 'underline', color: '#337ab7' }}>
+            {fileName || 'Download file'}
+        </span>
+    </a>
       );
       // For unsupported types, display filename and size
     //   return (
