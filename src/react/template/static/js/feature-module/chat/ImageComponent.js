@@ -3,6 +3,8 @@ import axios from 'axios';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import { FaFileWord, FaFilePdf, FaFileImage, FaFileAlt } from 'react-icons/fa'; // Example icons for file types
+// import { FaFilePdf } from 'react-icons/fa';
+
 
 const ImageComponent = ({ mediaId }) => {
     const [imageSrc, setImageSrc] = useState(null);
@@ -76,13 +78,34 @@ const renderMedia = () => {
       );
     } else if (mediaType === 'application/pdf') {
       // PDF handling
+    //   return (
+    //     <iframe
+    //       src={imageSrc}
+    //       type="application/pdf"
+    //       title="PDF Document"
+    //       style={{ width: '300px', height: '400px', border: 'none' }}
+    //     />
+    //   );
+
+      // Render the PDF icon, file name, and Open button
       return (
-        <iframe
-          src={imageSrc}
-          type="application/pdf"
-          title="PDF Document"
-          style={{ width: '300px', height: '400px', border: 'none' }}
-        />
+        <div style={{ textAlign: 'center', padding: '10px', border: '1px solid #ccc', borderRadius: '8px', width: '300px' }}>
+          <FaFilePdf size={50} color="#D9534F" /> {/* PDF Icon */}
+          <p style={{ color: 'blue', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
+          <button
+            style={{
+              backgroundColor: '#007BFF',
+              color: '#fff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}
+            onClick={() => window.open(imageSrc, '_blank')}
+          >
+            Open
+          </button>
+        </div>
       );
     } else {
 
