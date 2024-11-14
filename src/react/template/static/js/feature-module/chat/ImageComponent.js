@@ -96,7 +96,7 @@ const ImageComponent = ({ mediaId }) => {
         } else if (mediaType === 'application/pdf') {
             return (
                 <div>
-                <div style={{ textAlign: 'center', padding: '10px', border: '1px solid whitesmoke', borderRadius: '8px' }}>
+                <div style={{ textAlign: 'center', padding: '8px', border: '1px solid whitesmoke', borderRadius: '8px',maxHeight:'200px',overflow:'hidden' }}>
                     {thumbnail ? (
                         <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px',maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                     ) : (
@@ -111,7 +111,7 @@ const ImageComponent = ({ mediaId }) => {
                
                     <p style={{ color: 'black', margin: '10px 0' }}>{fileName || 'Document.pdf'}</p>
                     </div>
-                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px'}} severity="secondary" text raised onClick={handleOpenDialog}>
+                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px',background:'#F8F8F8',width:'100px',marginLeft:'40%'}} severity="secondary" text raised onClick={handleOpenDialog}>
                         
                     </Button>
                     </div>
@@ -146,10 +146,10 @@ const ImageComponent = ({ mediaId }) => {
 
     return (
         // <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-        <div style={{ maxHeight: '200px', overflow: 'hidden', justifyContent: 'center' }}>
+        <div style={{  justifyContent: 'center', marginBottom: '10px' }}>
    
             {imageSrc ? renderMedia() : <p>Loading media...</p>}
-            {caption && <p style={{ marginTop: '5px', color: '#555', textAlign: 'left' }}>{caption}</p>}
+            {caption && <p style={{ marginTop: '9px', color: '#555', textAlign: 'left' }}>{caption}</p>}
         </div>
     );
 };
