@@ -9,7 +9,7 @@ import { Button } from 'primereact/button';
 import { pdfjs } from 'react-pdf';
 
 // Set the worker path globally for pdfjs (this should be done outside the component)
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
 
 // pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
