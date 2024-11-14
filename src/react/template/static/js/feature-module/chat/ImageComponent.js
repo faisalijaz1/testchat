@@ -88,23 +88,41 @@ const renderMedia = () => {
     //   );
 
       // Render the PDF icon, file name, and Open button
-      return (
+    //   return (
+    //     <div style={{ textAlign: 'center', padding: '10px', border: '1px solid #ccc', borderRadius: '8px', width: '300px' }}>
+    //       <FaFilePdf size={50} color="#D9534F" /> {/* PDF Icon */}
+    //       <p style={{ color: 'blue', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
+    //       <button
+    //         style={{
+    //           backgroundColor: '#007BFF',
+    //           color: '#fff',
+    //           border: 'none',
+    //           padding: '8px 16px',
+    //           borderRadius: '5px',
+    //           cursor: 'pointer'
+    //         }}
+    //         onClick={() => window.open(imageSrc, '_blank')}
+    //       >
+    //         Open
+    //       </button>
+    //     </div>
+    //   );
+
+
+     // Render the PDF content in a Zoomable iframe
+     return (
         <div style={{ textAlign: 'center', padding: '10px', border: '1px solid #ccc', borderRadius: '8px', width: '300px' }}>
           <FaFilePdf size={50} color="#D9534F" /> {/* PDF Icon */}
-          <p style={{ color: 'blue', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
-          <button
-            style={{
-              backgroundColor: '#007BFF',
-              color: '#fff',
-              border: 'none',
-              padding: '8px 16px',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
-            onClick={() => window.open(imageSrc, '_blank')}
-          >
-            Open
-          </button>
+          <p style={{ color: '#337ab7', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
+  
+          <Zoom zoomMargin={40}>
+            <iframe
+              src={imageSrc}
+              type="application/pdf"
+              title="PDF Document"
+              style={{ width: '100%', height: '400px', border: 'none', borderRadius: '5px' }}
+            />
+          </Zoom>
         </div>
       );
     } else {
@@ -119,7 +137,7 @@ const renderMedia = () => {
         style={{ textDecoration: 'none', color: '#337ab7', display: 'flex', alignItems: 'center' }}
     >
         {getFileIcon(fileName)}
-        <span style={{ textDecoration: 'underline', color: '#337ab7' }}>
+        <span style={{ textDecoration: 'underline', color: '#337ab7', fontWeight: 'bold' }}>
             {fileName || 'Download file'}
         </span>
     </a>
