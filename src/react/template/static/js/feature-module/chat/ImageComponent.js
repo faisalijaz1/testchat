@@ -87,6 +87,7 @@ const ImageComponent = ({ mediaId }) => {
                 <Zoom zoomMargin={40}>
                     <img
                         style={{ width: '300px', cursor: 'pointer' }}
+
                         src={imageSrc}
                         alt="Media message"
                     />
@@ -95,9 +96,9 @@ const ImageComponent = ({ mediaId }) => {
         } else if (mediaType === 'application/pdf') {
             return (
                 <div>
-                <div style={{ textAlign: 'center', padding: '10px', border: '1px solid whitesmoke', borderRadius: '8px', width: '300px' }}>
+                <div style={{ textAlign: 'center', padding: '10px', border: '1px solid whitesmoke', borderRadius: '8px' }}>
                     {thumbnail ? (
-                        <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px' }} />
+                        <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px',maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                     ) : (
                         <FaFilePdf size={50} color="#D9534F" />
                     )}
@@ -108,9 +109,9 @@ const ImageComponent = ({ mediaId }) => {
                     
                        {getFileIcon(fileName)}
                
-                    <p style={{ color: 'black', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
+                    <p style={{ color: 'black', margin: '10px 0' }}>{fileName || 'Document.pdf'}</p>
                     </div>
-                    <Button label="Open" severity="secondary" text raised onClick={handleOpenDialog}>
+                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px'}} severity="secondary" text raised onClick={handleOpenDialog}>
                         
                     </Button>
                     </div>
@@ -144,7 +145,9 @@ const ImageComponent = ({ mediaId }) => {
     };
 
     return (
-        <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        // <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        <div style={{ maxHeight: '200px', overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+   
             {imageSrc ? renderMedia() : <p>Loading media...</p>}
             {caption && <p style={{ marginTop: '5px', color: '#555', textAlign: 'left' }}>{caption}</p>}
         </div>
