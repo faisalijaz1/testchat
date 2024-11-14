@@ -94,19 +94,24 @@ const ImageComponent = ({ mediaId }) => {
             );
         } else if (mediaType === 'application/pdf') {
             return (
+                <div>
                 <div style={{ textAlign: 'center', padding: '10px', border: '1px solid #ccc', borderRadius: '8px', width: '300px' }}>
                     {thumbnail ? (
                         <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px' }} />
                     ) : (
                         <FaFilePdf size={50} color="#D9534F" />
                     )}
+                    </div>
+                       <div style={{  padding: '10px' }}>
+                       {getFileIcon(fileName)}
+               
                     <p style={{ color: '#337ab7', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
                     
-                    <Button variant="contained" color="primary" onClick={handleOpenDialog}>
-                        Open
+                    <Button label="Open" severity="info" text raised onClick={handleOpenDialog}>
+                        
                     </Button>
 
-                    <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+                    <Dialog visible={dialogOpen} style={{ width: '50vw', left: '5px' }} onHide={handleCloseDialog}  maximizable>
                         <iframe
                             src={imageSrc}
                             type="application/pdf"
@@ -114,6 +119,7 @@ const ImageComponent = ({ mediaId }) => {
                             style={{ width: '100%', height: '500px', border: 'none' }}
                         />
                     </Dialog>
+                </div>
                 </div>
             );
         } else {
