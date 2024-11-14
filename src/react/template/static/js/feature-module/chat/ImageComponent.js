@@ -134,10 +134,10 @@ const ImageComponent = ({ mediaId }) => {
                     download={fileName}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ textDecoration: 'none', color: '#337ab7', display: 'flex', alignItems: 'center' }}
+                    style={{ textDecoration: 'none', color: 'rgb(66, 66, 66)', display: 'flex', alignItems: 'center' }}
                 >
                     {getFileIcon(fileName)}
-                    <span style={{ textDecoration: 'underline', color: '#337ab7', fontWeight: 'bold' }}>
+                    <span style={{ textDecoration: 'underline', color: 'rgb(66, 66, 66)' }}>
                         {fileName || 'Download file'}
                     </span>
                 </a>
