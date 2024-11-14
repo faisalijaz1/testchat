@@ -30,7 +30,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                 const formData = new FormData();
                 formData.append('file', file);
                 // formData.append('fileName', fileName); // Add filename as a separate parameter
-                
+
                 const url = `https://steadfast-benevolence-production.up.railway.app/whatsapp/upload-media`;
 
                 const response = await axios.post(url, formData, {
@@ -74,8 +74,15 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
     // Send media message with caption
     const handleSendmediaMessage = async () => {
         try {
+            const templateNameForImage = 'media_message'; // Template name for image media
+            const templateNameForDocument = 'document_message_template'; // Template name for document media
+
+            // Set template name based on mediaType
+            const selectedTemplateName = mediaType.startsWith('image/')
+                ? templateNameForImage
+                : templateNameForDocument;
             const payload = {
-                templateName: 'media_message',
+                templateName: selectedTemplateName,
                 recipientPhoneNumber: recipientPhoneNumber,
                 // parameter: mediaId ? mediaId : encodeURIComponent(caption), // Use media ID if available
                 parameter: '',
@@ -119,66 +126,66 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
     };
     const renderMedia = () => {
         if (mediaType.startsWith('image/')) {
-          // Image handling
-          return (
-            <Zoom zoomMargin={40}>
-              <img
-                style={{ width: '100%', marginBottom: '1rem', cursor: 'pointer' }}
-                src={selectedImage}
-                alt="Media message"
-              />
-            </Zoom>
-          );
+            // Image handling
+            return (
+                <Zoom zoomMargin={40}>
+                    <img
+                        style={{ width: '100%', marginBottom: '1rem', cursor: 'pointer' }}
+                        src={selectedImage}
+                        alt="Media message"
+                    />
+                </Zoom>
+            );
         } else if (mediaType === 'application/pdf') {
-          // PDF handling
-          return (
-            <iframe
-              src={selectedImage}
-              type="application/pdf"
-              title="PDF Document"
-              style={{ width: '100%', marginBottom: '1rem', border: 'none', cursor: 'pointer' }}
-            />
-          );
+            // PDF handling
+            return (
+                <iframe
+                    src={selectedImage}
+                    type="application/pdf"
+                    title="PDF Document"
+                    style={{ width: '100%', height: '500px', border: 'none', cursor: 'pointer' }}
+                />
+            );
         } else {
-          // For unsupported types, display filename and size
-          return (
-            <div>
-              <p>{fileName} ({mediaType})</p>
-              {/* <p>Size: {fileSize}</p> */}
-            </div>
-          );
+            // For unsupported types, display filename and size
+            return (
+                <div>
+                    <p>{fileName} ({mediaType})</p>
+                    {/* <p>Size: {fileSize}</p> */}
+                </div>
+            );
         }
-      };
+    };
     const footerContent = (
         <div className=" chat">
-                    <div className="chat-footerdlg">
-                        <form>
+            <div className="chat-footerdlg">
+                <form>
 
-                            <div className="replay-forms">
-                                <input
-                                    type="text" className="form-control chat_form"
-                                    value={caption}
-                                    onChange={(e) => setCaption(e.target.value)}
-                                    // onKeyDown={handleEnterPress}
-                                    placeholder="Add a caption (optional)"
-                                />
-                                {/* <textarea
+                    <div className="replay-forms">
+                        <input
+                            type="text" className="form-control chat_form"
+                            value={caption}
+                            onChange={(e) => setCaption(e.target.value)}
+                            // onKeyDown={handleEnterPress}
+                            placeholder="Add a caption (optional)"
+                        />
+                        {/* <textarea
                     value={caption}
                     onChange={(e) => setCaption(e.target.value)}
                     placeholder="Add a caption (optional)"
                     style={{ width: '100%', marginBottom: '1rem', padding: '0.5rem', resize: 'none' }}
                    /> */}
-                            </div>
-                            {/* <button onClick={handleSendmediaMessage} style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>Send</button>
-                            <button onClick={() => setIsModalOpen(false)} style={{ padding: '0.5rem 1rem', cursor: 'pointer', marginLeft: '1rem' }}>Cancel</button> */}
-                            <div className="form-buttons">
-                                <button type="button" className="btn send-btn" onClick={handleSendmediaMessage}>
-                                    <i className="bx bx-paper-plane" />
-                                </button>
-                            </div>
-                        </form>
                     </div>
-                </div>
+                    {/* <button onClick={handleSendmediaMessage} style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>Send</button>
+                            <button onClick={() => setIsModalOpen(false)} style={{ padding: '0.5rem 1rem', cursor: 'pointer', marginLeft: '1rem' }}>Cancel</button> */}
+                    <div className="form-buttons">
+                        <button type="button" className="btn send-btn" onClick={handleSendmediaMessage}>
+                            <i className="bx bx-paper-plane" />
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
     return (
 
@@ -199,7 +206,11 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                 type="file"
                 ref={fileInputRef}
                 style={{ display: 'none' }}
-                onChange={handleFileUpload}
+                onChange={(event) => {
+                    handleFileUpload(event);
+                    // Reset the input value to allow the same file to be uploaded consecutively
+                    event.target.value = null;
+                }}
             />
 
 
@@ -253,7 +264,7 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
             > */}
                 {/* <h2>Media Preview</h2> */}
                 {/* {selectedImage && <img src={selectedImage} alt="Selected" style={{ width: '100%', marginBottom: '1rem' }} />} */}
-                {selectedImage ? renderMedia() : <p>Loading media...</p>}            
+                {selectedImage ? renderMedia() : <p>Loading media...</p>}
 
             </Dialog>
 
