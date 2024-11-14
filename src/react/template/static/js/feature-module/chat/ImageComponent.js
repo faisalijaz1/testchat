@@ -5,13 +5,10 @@ import 'react-medium-image-zoom/dist/styles.css';
 import { FaFileWord, FaFilePdf, FaFileImage, FaFileAlt } from 'react-icons/fa'; 
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import * as pdfjsLib from 'pdfjs-dist/build/pdf';
+// Import pdfjs from react-pdf
 import { pdfjs } from 'react-pdf';
-// import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
-// pdfjs.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker.min.js');
-// import { pdfjs } from 'react-pdf';
 
-// Set the worker path using the CDN
+// Set the worker path globally for pdfjs (this should be done outside the component)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 
@@ -44,21 +41,25 @@ const ImageComponent = ({ mediaId }) => {
     }, [mediaId]);
 
     const generatePdfThumbnail = async (pdfDataUrl) => {
-        const pdf = await pdfjsLib.getDocument(pdfDataUrl).promise;
-        const page = await pdf.getPage(1);
-        const scale = 0.5;
-        const viewport = page.getViewport({ scale });
+        try {
+            // Ensure the worker is set before accessing pdfjs
+            const pdf = await pdfjs.getDocument(pdfDataUrl).promise;
+            const page = await pdf.getPage(1);
+            const scale = 0.5;
+            const viewport = page.getViewport({ scale });
 
-        const canvas = document.createElement('canvas');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
 
-        const context = canvas.getContext('2d');
-        await page.render({ canvasContext: context, viewport }).promise;
+            const context = canvas.getContext('2d');
+            await page.render({ canvasContext: context, viewport }).promise;
 
-        setThumbnail(canvas.toDataURL());
+            setThumbnail(canvas.toDataURL());
+        } catch (error) {
+            console.error('Error generating PDF thumbnail:', error);
+        }
     };
-
     const getFileIcon = (fileName) => {
         const fileExtension = fileName.split('.').pop().toLowerCase();
         switch (fileExtension) {
