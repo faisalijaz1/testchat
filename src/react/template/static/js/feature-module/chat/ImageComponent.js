@@ -102,15 +102,18 @@ const ImageComponent = ({ mediaId }) => {
                         <FaFilePdf size={50} color="#D9534F" />
                     )}
                     </div>
+                       <div style={{  background:'#F5F5F5' }}>
                        <div style={{  padding: '10px',background:'#F5F5F5', display: 'flex', alignItems: 'center' }}>
+                    
+                    
                        {getFileIcon(fileName)}
                
                     <p style={{ color: 'black', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
-                    
+                    </div>
                     <Button label="Open" severity="secondary" text raised onClick={handleOpenDialog}>
                         
                     </Button>
-
+                    </div>
                     <Dialog visible={dialogOpen} style={{ width: '50vw', left: '5px' }} onHide={handleCloseDialog}  maximizable>
                         <iframe
                             src={imageSrc}
@@ -119,7 +122,7 @@ const ImageComponent = ({ mediaId }) => {
                             style={{ width: '100%', height: '500px', border: 'none' }}
                         />
                     </Dialog>
-                </div>
+             
                 </div>
             );
         } else {
