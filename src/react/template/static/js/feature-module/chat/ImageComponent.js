@@ -146,7 +146,7 @@ const ImageComponent = ({ mediaId }) => {
 
     return (
         // <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-        <div style={{ maxHeight: '200px', overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ maxHeight: '200px', overflow: 'hidden', justifyContent: 'center' }}>
    
             {imageSrc ? renderMedia() : <p>Loading media...</p>}
             {caption && <p style={{ marginTop: '5px', color: '#555', textAlign: 'left' }}>{caption}</p>}
