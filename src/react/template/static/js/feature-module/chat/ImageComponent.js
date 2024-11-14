@@ -95,19 +95,19 @@ const ImageComponent = ({ mediaId }) => {
         } else if (mediaType === 'application/pdf') {
             return (
                 <div>
-                <div style={{ textAlign: 'center', padding: '10px', border: '1px solid #ccc', borderRadius: '8px', width: '300px' }}>
+                <div style={{ textAlign: 'center', padding: '10px', border: '1px solid whitesmoke', borderRadius: '8px', width: '300px' }}>
                     {thumbnail ? (
                         <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px' }} />
                     ) : (
                         <FaFilePdf size={50} color="#D9534F" />
                     )}
                     </div>
-                       <div style={{  padding: '10px' }}>
+                       <div style={{  padding: '10px',background:'#F5F5F5', display: 'flex', alignItems: 'center' }}>
                        {getFileIcon(fileName)}
                
-                    <p style={{ color: '#337ab7', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
+                    <p style={{ color: 'black', margin: '10px 0', fontWeight: 'bold' }}>{fileName || 'Document.pdf'}</p>
                     
-                    <Button label="Open" severity="info" text raised onClick={handleOpenDialog}>
+                    <Button label="Open" severity="secondary" text raised onClick={handleOpenDialog}>
                         
                     </Button>
 
