@@ -3,6 +3,7 @@ import axios from 'axios';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import { FaFileWord, FaFilePdf, FaFileImage, FaFileAlt } from 'react-icons/fa'; 
+import { BsFileEarmarkPdf } from "react-icons/bs";
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 // Import pdfjs from react-pdf
@@ -100,7 +101,7 @@ const ImageComponent = ({ mediaId }) => {
                     {thumbnail ? (
                         <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px',maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                     ) : (
-                        <FaFilePdf size={50} color="#D9534F" />
+                        <BsFileEarmarkPdf size={80} color="#D9534F" />
                     )}
                     </div>
                        <div style={{  background:'#F5F5F5' }}>
