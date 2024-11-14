@@ -1028,7 +1028,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                           backgroundColor: '#f8ecff',
                           borderRadius: '15px 0 15px 15px',
                           color: '#232323',
-                          height:'300px',
+                         
                           padding: '15px',
                           textAlign: 'right',
                         } : {
@@ -1036,7 +1036,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                           borderRadius: '20px 20px 20px 0',
                           border: '2px solid whitesmoke',
                           color: '#424242',
-                          height:'300px',
+                        
                           padding: '15px',
                         }}
                       >
