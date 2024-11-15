@@ -2621,7 +2621,7 @@ input[type=password]::-ms-clear {
 
 .chat .chat-body {
     flex: 1;
-    padding: 24px;
+    padding: 0px;
 }
 
 .chat .chat-body:not(.no-message) {
