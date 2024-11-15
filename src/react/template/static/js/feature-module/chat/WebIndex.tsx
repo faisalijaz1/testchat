@@ -1041,7 +1041,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                         }}
                       >
                        {message.mediaId ? (
-                          <ImageComponent mediaId={message.mediaId} />
+                          <ImageComponent mediaId={message.mediaId} isClient={message.fromClient} />
                 // <img src={`https://steadfast-benevolence-production.up.railway.app/whatsapp/media/${message.mediaId}`} alt="Media message" />
               ) : (
                 <span>{message.text}</span>

@@ -15,7 +15,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pd
 
 // pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-const ImageComponent = ({ mediaId }) => {
+const ImageComponent = ({ mediaId,isClient }) => {
     const [imageSrc, setImageSrc] = useState(null);
     const [caption, setCaption] = useState('');
     const [mediaType, setMediaType] = useState('');
@@ -97,22 +97,32 @@ const ImageComponent = ({ mediaId }) => {
         } else if (mediaType === 'application/pdf') {
             return (
                 <div>
-                <div style={{ textAlign: 'center', padding: '8px', border: '1px solid whitesmoke', borderRadius: '8px',maxHeight:'200px',overflow:'hidden' }}>
+                <div  style={{ textAlign: 'center', padding: '2px', border: isClient ? '4px solid #FDF9FF' : '4px solid whitesmoke', borderRadius: '8px',maxHeight:'200px',overflow:'hidden' }}>
                     {thumbnail ? (
                         <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px',maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                     ) : (
                         <BsFileEarmarkPdf size={80} color="#D9534F" />
                     )}
                     </div>
-                       <div style={{  background:'#F5F5F5' }}>
-                       <div style={{  padding: '10px',background:'#F5F5F5', display: 'flex', alignItems: 'center' }}>
+                       <div  style={isClient ? {
+                          backgroundColor: '#FDF9FF'
+                       
+                         
+                        
+                        } : {
+                          backgroundColor: '#F5F5F5'
+                         
+                        }}
+                        //  style={{  background:'#F5F5F5' }}
+                         >
+                       <div style={{  padding: '10px', display: 'flex', alignItems: 'center' }}>
                     
                     
                        {getFileIcon(fileName)}
                
                     <p style={{ color: 'black', margin: '10px 0' }}>{fileName || 'Document.pdf'}</p>
                     </div>
-                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px',background:'#F8F8F8',width:'100px',marginLeft:'40%'}} severity="secondary" text raised onClick={handleOpenDialog}>
+                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px',background:'white',height:'30px',width:'100px',marginLeft: isClient ? '30%' : '30%'}} severity="secondary" text raised onClick={handleOpenDialog}>
                         
                     </Button>
                     </div>
