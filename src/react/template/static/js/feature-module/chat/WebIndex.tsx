@@ -1038,7 +1038,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                       <div
                         className="chat-content"
                         style={message.fromClient ? {
-                          backgroundColor: '#f8ecff',
+                          backgroundColor: '#DCF8C6',
                           borderRadius: '15px 0 15px 15px',
                           color: '#232323',
                          

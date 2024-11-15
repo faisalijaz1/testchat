@@ -97,7 +97,7 @@ const ImageComponent = ({ mediaId,isClient }) => {
         } else if (mediaType === 'application/pdf') {
             return (
                 <div>
-                <div  style={{ textAlign: 'center', padding: '2px', border: isClient ? '4px solid #FDF9FF' : '4px solid whitesmoke', borderRadius: '8px',maxHeight:'200px',overflow:'hidden' }}>
+                <div  style={{ textAlign: 'center', padding: '2px', border: isClient ? '4px solid #DCF8C6' : '4px solid whitesmoke', borderRadius: '8px',maxHeight:'200px',overflow:'hidden' }}>
                     {thumbnail ? (
                         <img src={thumbnail} alt="PDF thumbnail" style={{ width: '100%', borderRadius: '5px',maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                     ) : (
@@ -105,7 +105,7 @@ const ImageComponent = ({ mediaId,isClient }) => {
                     )}
                     </div>
                        <div  style={isClient ? {
-                          backgroundColor: '#FBF3FF'
+                          backgroundColor: '#d1f4cc'
                        
                          
                         

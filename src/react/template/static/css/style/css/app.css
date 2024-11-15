@@ -734,7 +734,7 @@ ul.list-inline .list-inline-item {
     left: 0;
     top: 0;
     width: 72px;
-    background-color: #fff;
+    background-color: whitesmoke;
     z-index: 999;
     padding: 15px;
     border-right: 1px solid rgba(224, 224, 224, 1)
@@ -2417,7 +2417,7 @@ input[type=password]::-ms-clear {
     -webkit-justify-content: space-between !important;
     padding: 13px 24px;
     align-items: center;
-    background: #FFFFFF;
+    background: whitesmoke;
     border-bottom: 1px solid #E0E0E0;
     position: relative;
 }
@@ -2643,6 +2643,10 @@ input[type=password]::-ms-clear {
     -webkit-flex-direction: column;
     align-items: flex-start;
     -webkit-align-items: flex-start;
+    background: #EFEAE2;
+    padding-top: 69px;
+    padding-left: 72px;
+    padding-right: 60px;
 }
 .contactdetail{
     flex-shrink: 0 !important;
@@ -7611,8 +7615,10 @@ a.vert-icon:hover {
 
 .sidebar .user-list li a.status-active,
 .sidebar .user-list li .list-user-blk.status-active {
-    background-color: #F8ECFF;
-    border-left: 2px solid #680A83;
+    /* background-color: #F8ECFF;
+    border-left: 2px solid #680A83; */
+    background-color: whitesmoke;
+    border-left: 4px solid #C4A484;
 }
 
 .user-stories-box {
