@@ -93,6 +93,8 @@ const ImageComponentSend = ({ setMessages, recipientPhoneNumber }) => {
                 fileName
             };
 
+            
+
             const url = `https://steadfast-benevolence-production.up.railway.app/api/whatsapp/send-template-mediamessage`;
             const response = await axios.post(url, payload);
 
