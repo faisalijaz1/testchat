@@ -2648,7 +2648,8 @@ input[type=password]::-ms-clear {
     padding-left: 72px;
     padding-right: 60px;
     padding-bottom: 30px;
-    height:100%;
+    flex-grow: 1;
+    min-height:100%;
 }
 .contactdetail{
     flex-shrink: 0 !important;
