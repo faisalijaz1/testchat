@@ -1016,14 +1016,17 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                 {/* /Chat Search */}
               </div>
               <div className="chat-body chat-page-group slimscroll">
-                <div className="messages" style={{
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundRepeat: 'repeat',  // Or 'no-repeat' if you don't want it tiled
-    backgroundSize: 'cover',      // Adjust based on your needs ('contain' for full fit, 'cover' for filling)
-    backgroundPosition: 'center',
-    height:'100%',
-    padding: '15px'               // Optional: Add padding so messages don’t touch edges
-  }}>
+                <div className="messages"
+  //                style={{
+  //   backgroundImage: `url(${backgroundImage})`,
+  //   backgroundRepeat: 'repeat',  
+
+  //   backgroundSize: 'cover',      
+  //   backgroundPosition: 'center',
+  //   height:'100%',
+  //   padding: '15px'               
+  // }}
+  >
 
 
 
