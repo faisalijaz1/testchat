@@ -35,6 +35,9 @@ import axios from 'axios';
 // import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
+import backgroundImage from '../../../media/whatsappbackground.png';
+
+
 interface Message {
   id: string;
   text: string;
@@ -1013,7 +1016,14 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                 {/* /Chat Search */}
               </div>
               <div className="chat-body chat-page-group slimscroll">
-                <div className="messages">
+                <div className="messages" style={{
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundRepeat: 'repeat',  // Or 'no-repeat' if you don't want it tiled
+    backgroundSize: 'cover',      // Adjust based on your needs ('contain' for full fit, 'cover' for filling)
+    backgroundPosition: 'center',
+    height:'100%',
+    padding: '15px'               // Optional: Add padding so messages don’t touch edges
+  }}>
 
 
 
