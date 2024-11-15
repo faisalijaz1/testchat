@@ -122,7 +122,7 @@ const ImageComponent = ({ mediaId,isClient }) => {
                
                     <p style={{ color: 'black', margin: '10px 0' }}>{fileName || 'Document.pdf'}</p>
                     </div>
-                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px',background:'white',height:'30px',width:'100px',marginLeft: isClient ? '30%' : '30%'}} severity="secondary" text raised onClick={handleOpenDialog}>
+                    <Button label="Open" style={{color:'black',marginBottom:'18px',borderRadius:'7px',background:'white',height:'30px',width:'100px',marginLeft: isClient ? '0px' : '30%',marginRight: isClient ? '30%' : '0px'}} severity="secondary" text raised onClick={handleOpenDialog}>
                         
                     </Button>
                     </div>
