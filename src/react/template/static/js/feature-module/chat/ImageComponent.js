@@ -105,7 +105,7 @@ const ImageComponent = ({ mediaId,isClient }) => {
                     )}
                     </div>
                        <div  style={isClient ? {
-                          backgroundColor: '#d1f4cc'
+                          backgroundColor: '#EFFFE8'
                        
                          
                         
