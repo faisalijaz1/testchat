@@ -1327,7 +1327,7 @@ const handleSendmediaMessage = async (recipientPhoneNumber, messageText) => {
                   />
                 </div>
                 <div className="form-buttons">
-                  <button type="button" ref={buttonRef} className="btn send-btn" onClick={() => handleSendmediaMessage(recipientPhoneNumber, inputText.trim())}
+                  <button type="button" ref={buttonRef} className="btn send-btn" onClick={() => handleSendMessage(recipientPhoneNumber, inputText.trim())}
                   >
                     <i className="bx bx-paper-plane" />
                   </button>
